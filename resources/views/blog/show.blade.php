@@ -92,7 +92,29 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ $post->title }}
             </h2>
+
+            {{-- DEBUG: Check if auth works at all --}}
+            <div class="bg-red-100 p-4 rounded mb-4 text-xs">
+                <p><strong>PRE-AUTH DEBUG:</strong></p>
+                <p>Auth Check: {{ Auth::check() ? 'LOGGED IN' : 'NOT LOGGED IN' }}</p>
+                @if(Auth::check())
+                    <p>User ID: {{ Auth::id() }}</p>
+                    <p>User Email: {{ Auth::user()->email }}</p>
+                    <p>User Role: {{ Auth::user()->role }}</p>
+                @endif
+            </div>
+
             @auth
+                {{-- DEBUG INFO --}}
+                <div class="bg-yellow-100 p-4 rounded mb-4 text-xs">
+                    <p><strong>Debug Info:</strong></p>
+                    <p>Auth ID: {{ auth()->id() }}</p>
+                    <p>Post User ID: {{ $post->user_id }}</p>
+                    <p>Is Admin: {{ auth()->user()->isAdmin() ? 'YES' : 'NO' }}</p>
+                    <p>Auth Email: {{ auth()->user()->email }}</p>
+                    <p>Should Show Buttons: {{ (auth()->id() === $post->user_id || auth()->user()->isAdmin()) ? 'YES' : 'NO' }}</p>
+                </div>
+
                 @if (auth()->id() === $post->user_id || auth()->user()->isAdmin())
                     <div class="flex space-x-3">
                         <a href="{{ route('blog.edit', $post) }}"
