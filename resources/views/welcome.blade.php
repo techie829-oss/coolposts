@@ -1,20 +1,18 @@
 <x-app-layout>
-    <x-slot name="title">CoolPosts - Link Monetization Platform | Shorten Links & Earn Money</x-slot>
+    <x-slot name="title">CoolPosts – AI-Powered Blogging Platform for Modern Creators</x-slot>
 
     <x-slot name="head">
         <meta name="description"
-            content="Transform your links into revenue streams with CoolPosts. Shorten URLs, create monetized links, and earn money from every click. Start monetizing your traffic today!">
-        <meta name="keywords"
-            content="link monetization, URL shortener, earn money online, link shortening, monetize traffic, affiliate marketing, link management, revenue generation">
+            content="Create, optimize, and publish high-quality blog posts with AI assistance. CoolPosts helps creators grow their audience and prepare for future monetization.">
         <meta name="robots" content="index, follow">
         <link rel="canonical" href="{{ url('/') }}">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url('/') }}">
-        <meta property="og:title" content="CoolPosts - Link Monetization Platform | Shorten Links & Earn Money">
+        <meta property="og:title" content="CoolPosts – Publish Smarter. Grow Faster.">
         <meta property="og:description"
-            content="Transform your links into revenue streams with CoolPosts. Shorten URLs, create monetized links, and earn money from every click. Start monetizing your traffic today!">
+            content="AI-powered blogging platform for creators to write, optimize, and grow content — monetization coming soon.">
         <meta property="og:image" content="{{ asset('images/og-welcome.jpg') }}">
         <meta property="og:site_name" content="CoolPosts">
         <meta property="og:locale" content="en_US">
@@ -23,9 +21,9 @@
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ url('/') }}">
         <meta property="twitter:title"
-            content="CoolPosts Posts - Link Monetization Platform | Shorten Links & Earn Money">
+            content="CoolPosts – Publish Smarter. Grow Faster.">
         <meta property="twitter:description"
-            content="Transform your links into revenue streams with CoolPosts Posts. Shorten URLs, create monetized links, and earn money from every click. Start monetizing your traffic today!">
+            content="AI-powered blogging platform for creators to write, optimize, and grow content — monetization coming soon.">
         <meta property="twitter:image" content="{{ asset('images/og-welcome.jpg') }}">
     </x-slot>
 
@@ -263,8 +261,7 @@
                 <div class="text-center mb-16">
                     <h2 class="text-4xl font-bold text-gray-900 mb-4">Latest from Our Blog</h2>
                     <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Discover tips, insights, and strategies for bloggers to maximize their content monetization
-                        earnings.
+                        Discover tips, insights, and strategies for bloggers to grow their content, audience, and long-term monetization potential.
                     </p>
                 </div>
 
@@ -351,7 +348,7 @@
                 <div class="text-center mb-16">
                     <h2 class="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
                     <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Get started in just 3 simple steps and start earning from your links immediately.
+                        Get started in just 3 simple steps to publish content, grow your audience, and enable monetization when it launches.
                     </p>
                 </div>
 

@@ -175,7 +175,7 @@ Route::middleware('auth')->group(function () {
 
         // Ad Network Management
         Route::get('/admin/ad-networks', [\App\Http\Controllers\Admin\AdNetworkController::class, 'index'])->name('admin.ad-networks.index');
-Route::post('/admin/ad-networks/account-settings', [\App\Http\Controllers\Admin\AdNetworkController::class, 'updateAccountSettings'])->name('admin.ad-networks.account-settings');
+        Route::post('/admin/ad-networks/account-settings', [\App\Http\Controllers\Admin\AdNetworkController::class, 'updateAccountSettings'])->name('admin.ad-networks.account-settings');
         Route::patch('/admin/ad-networks/settings', [\App\Http\Controllers\Admin\AdNetworkController::class, 'updateSettings'])->name('admin.ad-networks.update-settings');
         Route::post('/admin/ad-networks/test-connections', [\App\Http\Controllers\Admin\AdNetworkController::class, 'testConnections'])->name('admin.ad-networks.test-connections');
         Route::get('/admin/ad-networks/real-time-earnings', [\App\Http\Controllers\Admin\AdNetworkController::class, 'getRealTimeEarnings'])->name('admin.ad-networks.real-time-earnings');
@@ -187,123 +187,124 @@ Route::post('/admin/ad-networks/account-settings', [\App\Http\Controllers\Admin\
         Route::get('/admin/ad-networks/configuration-guide', [\App\Http\Controllers\Admin\AdNetworkController::class, 'getConfigurationGuide'])->name('admin.ad-networks.configuration-guide');
     });
 
-// Performance Management
-Route::get('/admin/performance', [\App\Http\Controllers\Admin\PerformanceController::class, 'index'])->name('admin.performance');
-Route::post('/admin/performance/optimize-database', [\App\Http\Controllers\Admin\PerformanceController::class, 'optimizeDatabase'])->name('admin.performance.optimize-database');
-Route::post('/admin/performance/optimize-application', [\App\Http\Controllers\Admin\PerformanceController::class, 'optimizeApplication'])->name('admin.performance.optimize-application');
-Route::get('/admin/performance/cache-stats', [\App\Http\Controllers\Admin\PerformanceController::class, 'getCacheStats'])->name('admin.performance.cache-stats');
-Route::post('/admin/performance/clear-cache', [\App\Http\Controllers\Admin\PerformanceController::class, 'clearCache'])->name('admin.performance.clear-cache');
-Route::post('/admin/performance/optimize-cache', [\App\Http\Controllers\Admin\PerformanceController::class, 'optimizeCache'])->name('admin.performance.optimize-cache');
-Route::get('/admin/performance/metrics', [\App\Http\Controllers\Admin\PerformanceController::class, 'getMetrics'])->name('admin.performance.metrics');
-Route::get('/admin/performance/recommendations', [\App\Http\Controllers\Admin\PerformanceController::class, 'getRecommendations'])->name('admin.performance.recommendations');
-Route::post('/admin/performance/full-optimization', [\App\Http\Controllers\Admin\PerformanceController::class, 'runFullOptimization'])->name('admin.performance.full-optimization');
-Route::get('/admin/performance/system-health', [\App\Http\Controllers\Admin\PerformanceController::class, 'getSystemHealth'])->name('admin.performance.system-health');
-Route::get('/admin/performance/report', [\App\Http\Controllers\Admin\PerformanceController::class, 'getPerformanceReport'])->name('admin.performance.report');
-Route::get('/admin/performance/export', [\App\Http\Controllers\Admin\PerformanceController::class, 'exportPerformanceData'])->name('admin.performance.export');
+    // Performance Management
+    Route::get('/admin/performance', [\App\Http\Controllers\Admin\PerformanceController::class, 'index'])->name('admin.performance');
+    Route::post('/admin/performance/optimize-database', [\App\Http\Controllers\Admin\PerformanceController::class, 'optimizeDatabase'])->name('admin.performance.optimize-database');
+    Route::post('/admin/performance/optimize-application', [\App\Http\Controllers\Admin\PerformanceController::class, 'optimizeApplication'])->name('admin.performance.optimize-application');
+    Route::get('/admin/performance/cache-stats', [\App\Http\Controllers\Admin\PerformanceController::class, 'getCacheStats'])->name('admin.performance.cache-stats');
+    Route::post('/admin/performance/clear-cache', [\App\Http\Controllers\Admin\PerformanceController::class, 'clearCache'])->name('admin.performance.clear-cache');
+    Route::post('/admin/performance/optimize-cache', [\App\Http\Controllers\Admin\PerformanceController::class, 'optimizeCache'])->name('admin.performance.optimize-cache');
+    Route::get('/admin/performance/metrics', [\App\Http\Controllers\Admin\PerformanceController::class, 'getMetrics'])->name('admin.performance.metrics');
+    Route::get('/admin/performance/recommendations', [\App\Http\Controllers\Admin\PerformanceController::class, 'getRecommendations'])->name('admin.performance.recommendations');
+    Route::post('/admin/performance/full-optimization', [\App\Http\Controllers\Admin\PerformanceController::class, 'runFullOptimization'])->name('admin.performance.full-optimization');
+    Route::get('/admin/performance/system-health', [\App\Http\Controllers\Admin\PerformanceController::class, 'getSystemHealth'])->name('admin.performance.system-health');
+    Route::get('/admin/performance/report', [\App\Http\Controllers\Admin\PerformanceController::class, 'getPerformanceReport'])->name('admin.performance.report');
+    Route::get('/admin/performance/export', [\App\Http\Controllers\Admin\PerformanceController::class, 'exportPerformanceData'])->name('admin.performance.export');
 
-// Fraud Detection Routes
-Route::get('/admin/fraud-detection', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'index'])->name('admin.fraud-detection');
-Route::get('/admin/fraud-detection/settings', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'settings'])->name('admin.fraud-detection.settings');
-Route::post('/admin/fraud-detection/settings', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'updateSettings'])->name('admin.fraud-detection.update-settings');
-Route::get('/admin/fraud-detection/logs', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'logs'])->name('admin.fraud-detection.logs');
-Route::get('/admin/fraud-detection/ip-reputation', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'ipReputation'])->name('admin.fraud-detection.ip-reputation');
-Route::post('/admin/fraud-detection/block-ip', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'blockIP'])->name('admin.fraud-detection.block-ip');
-Route::post('/admin/fraud-detection/whitelist-ip', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'whitelistIP'])->name('admin.fraud-detection.whitelist-ip');
-Route::post('/admin/fraud-detection/unblock-ip', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'unblockIP'])->name('admin.fraud-detection.unblock-ip');
-Route::post('/admin/fraud-detection/remove-whitelist-ip', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'removeWhitelistIP'])->name('admin.fraud-detection.remove-whitelist-ip');
-Route::get('/admin/fraud-detection/export', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'export'])->name('admin.fraud-detection.export');
+    // Fraud Detection Routes
+    Route::get('/admin/fraud-detection', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'index'])->name('admin.fraud-detection');
+    Route::get('/admin/fraud-detection/settings', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'settings'])->name('admin.fraud-detection.settings');
+    Route::post('/admin/fraud-detection/settings', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'updateSettings'])->name('admin.fraud-detection.update-settings');
+    Route::get('/admin/fraud-detection/logs', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'logs'])->name('admin.fraud-detection.logs');
+    Route::get('/admin/fraud-detection/ip-reputation', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'ipReputation'])->name('admin.fraud-detection.ip-reputation');
+    Route::post('/admin/fraud-detection/block-ip', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'blockIP'])->name('admin.fraud-detection.block-ip');
+    Route::post('/admin/fraud-detection/whitelist-ip', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'whitelistIP'])->name('admin.fraud-detection.whitelist-ip');
+    Route::post('/admin/fraud-detection/unblock-ip', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'unblockIP'])->name('admin.fraud-detection.unblock-ip');
+    Route::post('/admin/fraud-detection/remove-whitelist-ip', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'removeWhitelistIP'])->name('admin.fraud-detection.remove-whitelist-ip');
+    Route::get('/admin/fraud-detection/export', [\App\Http\Controllers\Admin\FraudDetectionController::class, 'export'])->name('admin.fraud-detection.export');
 
-// PWA Routes
-Route::get('/manifest.json', [\App\Http\Controllers\PWAController::class, 'manifest'])->name('pwa.manifest');
-Route::get('/sw.js', [\App\Http\Controllers\PWAController::class, 'serviceWorker'])->name('pwa.service-worker');
-Route::post('/pwa/install', [\App\Http\Controllers\PWAController::class, 'trackInstallation'])->name('pwa.install');
-Route::get('/pwa/stats', [\App\Http\Controllers\PWAController::class, 'getInstallationStats'])->name('pwa.stats');
-Route::get('/pwa/offline-data', [\App\Http\Controllers\PWAController::class, 'getOfflineData'])->name('pwa.offline-data');
-Route::post('/pwa/cache', [\App\Http\Controllers\PWAController::class, 'cacheForOffline'])->name('pwa.cache');
-Route::post('/pwa/share-target', [\App\Http\Controllers\PWAController::class, 'shareTarget'])->name('pwa.share-target');
-Route::get('/pwa/metrics', [\App\Http\Controllers\PWAController::class, 'getPerformanceMetrics'])->name('pwa.metrics');
-Route::get('/pwa/check-installation', [\App\Http\Controllers\PWAController::class, 'checkInstallation'])->name('pwa.check-installation');
-Route::get('/pwa/config', [\App\Http\Controllers\PWAController::class, 'getConfig'])->name('pwa.config');
-Route::post('/pwa/config', [\App\Http\Controllers\PWAController::class, 'updateConfig'])->name('pwa.update-config');
-Route::post('/pwa/generate-icons', [\App\Http\Controllers\PWAController::class, 'generateIcons'])->name('pwa.generate-icons');
-Route::get('/pwa/status', [\App\Http\Controllers\PWAController::class, 'getStatus'])->name('pwa.status');
-Route::post('/pwa/sync', [\App\Http\Controllers\PWAController::class, 'syncOfflineData'])->name('pwa.sync');
-Route::get('/pwa/install-guide', [\App\Http\Controllers\PWAController::class, 'getInstallationGuide'])->name('pwa.install-guide');
-Route::get('/pwa/check-updates', [\App\Http\Controllers\PWAController::class, 'checkForUpdates'])->name('pwa.check-updates');
+    // PWA Routes
+    Route::get('/manifest.json', [\App\Http\Controllers\PWAController::class, 'manifest'])->name('pwa.manifest');
+    Route::get('/sw.js', [\App\Http\Controllers\PWAController::class, 'serviceWorker'])->name('pwa.service-worker');
+    Route::post('/pwa/install', [\App\Http\Controllers\PWAController::class, 'trackInstallation'])->name('pwa.install');
+    Route::get('/pwa/stats', [\App\Http\Controllers\PWAController::class, 'getInstallationStats'])->name('pwa.stats');
+    Route::get('/pwa/offline-data', [\App\Http\Controllers\PWAController::class, 'getOfflineData'])->name('pwa.offline-data');
+    Route::post('/pwa/cache', [\App\Http\Controllers\PWAController::class, 'cacheForOffline'])->name('pwa.cache');
+    Route::post('/pwa/share-target', [\App\Http\Controllers\PWAController::class, 'shareTarget'])->name('pwa.share-target');
+    Route::get('/pwa/metrics', [\App\Http\Controllers\PWAController::class, 'getPerformanceMetrics'])->name('pwa.metrics');
+    Route::get('/pwa/check-installation', [\App\Http\Controllers\PWAController::class, 'checkInstallation'])->name('pwa.check-installation');
+    Route::get('/pwa/config', [\App\Http\Controllers\PWAController::class, 'getConfig'])->name('pwa.config');
+    Route::post('/pwa/config', [\App\Http\Controllers\PWAController::class, 'updateConfig'])->name('pwa.update-config');
+    Route::post('/pwa/generate-icons', [\App\Http\Controllers\PWAController::class, 'generateIcons'])->name('pwa.generate-icons');
+    Route::get('/pwa/status', [\App\Http\Controllers\PWAController::class, 'getStatus'])->name('pwa.status');
+    Route::post('/pwa/sync', [\App\Http\Controllers\PWAController::class, 'syncOfflineData'])->name('pwa.sync');
+    Route::get('/pwa/install-guide', [\App\Http\Controllers\PWAController::class, 'getInstallationGuide'])->name('pwa.install-guide');
+    Route::get('/pwa/check-updates', [\App\Http\Controllers\PWAController::class, 'checkForUpdates'])->name('pwa.check-updates');
 
-// Real-Time Analytics Routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/realtime/dashboard', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getUserDashboard'])->name('realtime.dashboard');
-    Route::get('/realtime/global-stats', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getGlobalStatistics'])->name('realtime.global-stats');
-    Route::get('/realtime/link-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getLinkAnalytics'])->name('realtime.link-analytics');
-    Route::get('/realtime/blog-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getBlogAnalytics'])->name('realtime.blog-analytics');
-    Route::get('/realtime/live-visitors', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getLiveVisitorCount'])->name('realtime.live-visitors');
-    Route::get('/realtime/earnings-summary', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getEarningsSummary'])->name('realtime.earnings-summary');
-    Route::get('/realtime/notifications', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getUserNotifications'])->name('realtime.notifications');
-    Route::get('/realtime/service-status', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getServiceStatus'])->name('realtime.service-status');
-    Route::get('/realtime/analytics-summary', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getAnalyticsSummary'])->name('realtime.analytics-summary');
-    Route::get('/realtime/mobile-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getMobileAnalytics'])->name('realtime.mobile-analytics');
-    Route::get('/realtime/widget-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getWidgetAnalytics'])->name('realtime.widget-analytics');
-    Route::get('/realtime/api-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getApiAnalytics'])->name('realtime.api-analytics');
-});
+    // Real-Time Analytics Routes
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/realtime/dashboard', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getUserDashboard'])->name('realtime.dashboard');
+        Route::get('/realtime/global-stats', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getGlobalStatistics'])->name('realtime.global-stats');
+        Route::get('/realtime/link-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getLinkAnalytics'])->name('realtime.link-analytics');
+        Route::get('/realtime/blog-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getBlogAnalytics'])->name('realtime.blog-analytics');
+        Route::get('/realtime/live-visitors', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getLiveVisitorCount'])->name('realtime.live-visitors');
+        Route::get('/realtime/earnings-summary', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getEarningsSummary'])->name('realtime.earnings-summary');
+        Route::get('/realtime/notifications', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getUserNotifications'])->name('realtime.notifications');
+        Route::get('/realtime/service-status', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getServiceStatus'])->name('realtime.service-status');
+        Route::get('/realtime/analytics-summary', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getAnalyticsSummary'])->name('realtime.analytics-summary');
+        Route::get('/realtime/mobile-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getMobileAnalytics'])->name('realtime.mobile-analytics');
+        Route::get('/realtime/widget-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getWidgetAnalytics'])->name('realtime.widget-analytics');
+        Route::get('/realtime/api-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getApiAnalytics'])->name('realtime.api-analytics');
+    });
 
-// Public real-time analytics
-Route::get('/realtime/public-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getPublicAnalytics'])->name('realtime.public-analytics');
+    // Public real-time analytics
+    Route::get('/realtime/public-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getPublicAnalytics'])->name('realtime.public-analytics');
 
-// Admin real-time analytics
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/realtime/analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getAdminAnalytics'])->name('admin.realtime.analytics');
-    Route::get('/admin/realtime/user-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getUserAnalytics'])->name('admin.realtime.user-analytics');
-    Route::get('/admin/realtime/link-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getLinkAnalyticsAdmin'])->name('admin.realtime.link-analytics');
-    Route::get('/admin/realtime/blog-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getBlogAnalyticsAdmin'])->name('admin.realtime.blog-analytics');
-});
+    // Admin real-time analytics
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/admin/realtime/analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getAdminAnalytics'])->name('admin.realtime.analytics');
+        Route::get('/admin/realtime/user-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getUserAnalytics'])->name('admin.realtime.user-analytics');
+        Route::get('/admin/realtime/link-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getLinkAnalyticsAdmin'])->name('admin.realtime.link-analytics');
+        Route::get('/admin/realtime/blog-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getBlogAnalyticsAdmin'])->name('admin.realtime.blog-analytics');
+    });
 
-// Real-Time Analytics Dashboard
-Route::get('/analytics/realtime', function () {
-    return view('analytics.realtime');
-})->name('analytics.realtime')->middleware('auth');
+    // Real-Time Analytics Dashboard
+    Route::get('/analytics/realtime', function () {
+        return view('analytics.realtime');
+    })->name('analytics.realtime')->middleware('auth');
 
-// Test real-time analytics (for development)
-Route::get('/test/realtime', function () {
-    return response()->json([
-        'message' => 'Real-time analytics system is working!',
-        'timestamp' => now()->toISOString(),
-        'status' => 'active'
-    ]);
-})->name('test.realtime');
-
-// API Documentation Routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/api/docs', function () {
-        return view('api.documentation');
-    })->name('api.docs');
-
-    Route::get('/api/docs/json', function () {
+    // Test real-time analytics (for development)
+    Route::get('/test/realtime', function () {
         return response()->json([
-            'openapi' => '3.0.0',
-            'info' => [
-                'title' => 'Link Sharing App API',
-                'version' => '1.0.0',
-                'description' => 'Comprehensive REST API for external integrations'
-            ],
-            'servers' => [
-                ['url' => url('/api')]
-            ],
-            'paths' => [
-                '/status' => [
-                    'get' => [
-                        'summary' => 'Get API status',
-                        'responses' => [
-                            '200' => [
-                                'description' => 'Success',
-                                'content' => [
-                                    'application/json' => [
-                                        'schema' => [
-                                            'type' => 'object',
-                                            'properties' => [
-                                                'status' => ['type' => 'string'],
-                                                'message' => ['type' => 'string'],
-                                                'version' => ['type' => 'string']
+            'message' => 'Real-time analytics system is working!',
+            'timestamp' => now()->toISOString(),
+            'status' => 'active'
+        ]);
+    })->name('test.realtime');
+
+    // API Documentation Routes
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/api/docs', function () {
+            return view('api.documentation');
+        })->name('api.docs');
+
+        Route::get('/api/docs/json', function () {
+            return response()->json([
+                'openapi' => '3.0.0',
+                'info' => [
+                    'title' => 'Link Sharing App API',
+                    'version' => '1.0.0',
+                    'description' => 'Comprehensive REST API for external integrations'
+                ],
+                'servers' => [
+                    ['url' => url('/api')]
+                ],
+                'paths' => [
+                    '/status' => [
+                        'get' => [
+                            'summary' => 'Get API status',
+                            'responses' => [
+                                '200' => [
+                                    'description' => 'Success',
+                                    'content' => [
+                                        'application/json' => [
+                                            'schema' => [
+                                                'type' => 'object',
+                                                'properties' => [
+                                                    'status' => ['type' => 'string'],
+                                                    'message' => ['type' => 'string'],
+                                                    'version' => ['type' => 'string']
+                                                ]
                                             ]
                                         ]
                                     ]
@@ -312,34 +313,33 @@ Route::middleware(['auth'])->group(function () {
                         ]
                     ]
                 ]
-            ]
-        ]);
-    })->name('api.docs.json');
+            ]);
+        })->name('api.docs.json');
 
-    Route::get('/api/docs/postman', function () {
-        return response()->json([
-            'info' => [
-                'name' => 'Link Sharing App API',
-                'description' => 'Postman collection for Link Sharing App API',
-                'version' => '1.0.0'
-            ],
-            'item' => [
-                [
-                    'name' => 'Get API Status',
-                    'request' => [
-                        'method' => 'GET',
-                        'url' => [
-                            'raw' => url('/api/status'),
-                            'protocol' => 'https',
-                            'host' => [parse_url(url('/api/status'), PHP_URL_HOST)],
-                            'path' => ['api', 'status']
+        Route::get('/api/docs/postman', function () {
+            return response()->json([
+                'info' => [
+                    'name' => 'Link Sharing App API',
+                    'description' => 'Postman collection for Link Sharing App API',
+                    'version' => '1.0.0'
+                ],
+                'item' => [
+                    [
+                        'name' => 'Get API Status',
+                        'request' => [
+                            'method' => 'GET',
+                            'url' => [
+                                'raw' => url('/api/status'),
+                                'protocol' => 'https',
+                                'host' => [parse_url(url('/api/status'), PHP_URL_HOST)],
+                                'path' => ['api', 'status']
+                            ]
                         ]
                     ]
                 ]
-            ]
-        ]);
-    })->name('api.docs.postman');
-});
+            ]);
+        })->name('api.docs.postman');
+    });
 
 });
 
@@ -376,6 +376,9 @@ Route::get('/sitemap.xml', [LegalController::class, 'sitemap'])->name('legal.sit
 Route::get('/robots.txt', [LegalController::class, 'robots'])->name('legal.robots');
 
 // Blog routes (Public)
+// Redirect /blog to /blog-posts for SEO consolidation
+Route::redirect('/blog', '/blog-posts', 301);
+
 Route::get('/blog-posts', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog-posts/templates', [BlogController::class, 'templates'])->name('blog.templates');
 Route::get('/how-we-work', [BlogController::class, 'howWeWork'])->name('blog.how-we-work');

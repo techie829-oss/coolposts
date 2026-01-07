@@ -204,6 +204,14 @@ class BlogPost extends Model
     }
 
     /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    /**
      * Get the full URL to the blog post
      */
     public function getUrlAttribute(): string
@@ -355,8 +363,8 @@ class BlogPost extends Model
     public function scopePublished($query)
     {
         return $query->where('status', 'published')
-                    ->whereNotNull('published_at')
-                    ->where('published_at', '<=', now());
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
     }
 
     /**
@@ -400,7 +408,7 @@ class BlogPost extends Model
             ->where('id', '!=', $this->id)
             ->where(function ($query) {
                 $query->where('category', $this->category)
-                      ->orWhere('type', $this->type);
+                    ->orWhere('type', $this->type);
 
                 // Handle tags query safely for SQLite
                 if (!empty($this->tags) && is_array($this->tags)) {

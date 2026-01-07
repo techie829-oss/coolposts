@@ -45,8 +45,8 @@ class BrandingSetting extends Model
             'gradient_start' => '#8b5cf6',
             'gradient_end' => '#ec4899',
             'gradient_third' => '#ef4444',
-            'brand_tagline' => 'Link Monetization',
-            'brand_description' => 'Transform your links into revenue streams.',
+            'brand_tagline' => 'AI Blogging Platform',
+            'brand_description' => 'Create, publish, and grow meaningful content with modern tools.',
             'favicon' => null,
         ]);
     }

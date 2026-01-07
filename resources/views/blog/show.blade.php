@@ -2,21 +2,70 @@
     <x-slot name="title">{{ $post->title }} - CoolPosts</x-slot>
 
     <x-slot name="head">
+        @php
+            $schemaDescription = $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->content), 160);
+            $schema = [
+                "@context" => "https://schema.org",
+                "@type" => "BlogPosting",
+                "headline" => $post->title,
+                "description" => $schemaDescription,
+                "author" => [
+                    "@type" => "Person",
+                    "name" => $post->user->name ?? 'Admin',
+                ],
+                "publisher" => [
+                    "@type" => "Organization",
+                    "name" => "CoolPosts",
+                    "logo" => [
+                        "@type" => "ImageObject",
+                        "url" => asset('img/logo.png'),
+                    ],
+                ],
+                "datePublished" => $post->published_at->toIso8601String(),
+                "dateModified" => $post->updated_at->toIso8601String(),
+                "image" => [
+                    "@type" => "ImageObject",
+                    "url" => $post->featured_image ? Storage::url($post->featured_image) : asset('images/og-blog.jpg'),
+                ],
+                "mainEntityOfPage" => [
+                    "@type" => "WebPage",
+                    "@id" => route('blog.show', $post),
+                ],
+            ];
+
+            $breadcrumbs = [
+                "@context" => "https://schema.org",
+                "@type" => "BreadcrumbList",
+                "itemListElement" => [
+                    [
+                        "@type" => "ListItem",
+                        "position" => 1,
+                        "name" => "Blog Posts",
+                        "item" => route('blog.index'),
+                    ],
+                    [
+                        "@type" => "ListItem",
+                        "position" => 2,
+                        "name" => $post->title,
+                    ],
+                ],
+            ];
+        @endphp
+
         <meta name="description" content="{{ $post->excerpt ?: Str::limit(strip_tags($post->content), 160) }}">
-        <meta name="keywords" content="{{ $post->meta_keywords ? implode(', ', $post->meta_keywords) : ($post->tags ? implode(', ', $post->tags) : '') }}">
+
         <meta name="robots" content="index, follow">
-        <link rel="canonical" href="{{ url('/blog/' . $post->slug) }}">
+        <link rel="canonical" href="{{ route('blog.show', $post) }}">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="article">
-        <meta property="og:url" content="{{ url('/blog/' . $post->slug) }}">
+        <meta property="og:url" content="{{ route('blog.show', $post) }}">
         <meta property="og:title" content="{{ $post->title }} - CoolPosts">
         <meta property="og:description" content="{{ $post->excerpt ?: Str::limit(strip_tags($post->content), 160) }}">
         <meta property="og:image" content="{{ $post->featured_image ? Storage::url($post->featured_image) : asset('images/og-blog.jpg') }}">
         <meta property="og:site_name" content="CoolPosts">
         <meta property="og:locale" content="en_US">
         <meta property="article:published_time" content="{{ $post->published_at->toISOString() }}">
-        <meta property="article:author" content="{{ $post->user->name }}">
         @if($post->tags && is_array($post->tags))
             @foreach($post->tags as $tag)
                 <meta property="article:tag" content="{{ trim($tag) }}">
@@ -25,10 +74,17 @@
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="{{ url('/blog/' . $post->slug) }}">
+        <meta property="twitter:url" content="{{ route('blog.show', $post) }}">
         <meta property="twitter:title" content="{{ $post->title }} - CoolPosts">
         <meta property="twitter:description" content="{{ $post->excerpt ?: Str::limit(strip_tags($post->content), 160) }}">
         <meta property="twitter:image" content="{{ $post->featured_image ? Storage::url($post->featured_image) : asset('images/og-blog.jpg') }}">
+        <!-- Article Structured Data -->
+        <script type="application/ld+json">
+            {!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+        </script>
+        <script type="application/ld+json">
+            {!! json_encode($breadcrumbs, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+        </script>
     </x-slot>
 
     <x-slot name="header">
@@ -307,376 +363,107 @@
         </div>
     </div>
 
-    <style>
-        /* Custom content styling to match the reference images */
-        .content-body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.7;
-            color: #374151;
-        }
 
-        /* Ensure markdown-generated HTML is properly styled */
-        .content-body h1,
-        .content-body h2,
-        .content-body h3,
-        .content-body h4,
-        .content-body h5,
-        .content-body h6 {
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-            color: #111827;
-            line-height: 1.3;
-        }
-
-        .content-body h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-        }
-
-        .content-body h2 {
-            font-size: 1.875rem;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 0.5rem;
-        }
-
-        .content-body h3 {
-            font-size: 1.5rem;
-        }
-
-        .content-body h4 {
-            font-size: 1.25rem;
-        }
-
-        .content-body p {
-            font-size: 1.125rem;
-            margin-bottom: 1.25rem;
-            color: #4b5563;
-            line-height: 1.7;
-        }
-
-        .content-body ul,
-        .content-body ol {
-            margin-bottom: 1.25rem;
-            padding-left: 1.5rem;
-        }
-
-        .content-body li {
-            margin-bottom: 0.5rem;
-            color: #4b5563;
-            font-size: 1.125rem;
-        }
-
-        .content-body ul li {
-            list-style-type: disc;
-        }
-
-        .content-body ol li {
-            list-style-type: decimal;
-        }
-
-        .content-body strong {
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .content-body em {
-            font-style: italic;
-            color: #4b5563;
-        }
-
-        .content-body a {
-            color: #7c3aed;
-            text-decoration: underline;
-            text-decoration-thickness: 2px;
-            text-underline-offset: 2px;
-        }
-
-        .content-body a:hover {
-            color: #6d28d9;
-        }
-
-        .content-body blockquote {
-            border-left: 4px solid #7c3aed;
-            padding-left: 1rem;
-            margin: 1.5rem 0;
-            font-style: italic;
-            color: #6b7280;
-            background-color: #f9fafb;
-            padding: 1rem;
-            border-radius: 0.5rem;
-        }
-
-        .content-body code {
-            background-color: #f3f4f6;
-            color: #1f2937;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.875rem;
-            border: 1px solid #e5e7eb;
-        }
-
-        .content-body pre {
-            background-color: #1f2937;
-            color: #f9fafb;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            border: 1px solid #374151;
-        }
-
-        .content-body pre code {
-            background-color: transparent;
-            color: inherit;
-            padding: 0;
-            border: none;
-            font-size: 0.875rem;
-            line-height: 1.6;
-        }
-
-
-
-        .content-body img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 0.75rem;
-            margin: 1.5rem 0;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .content-body table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            background-color: white;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .content-body th {
-            background-color: #f9fafb;
-            padding: 0.75rem 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: #111827;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .content-body td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #f3f4f6;
-            color: #4b5563;
-        }
-
-        .content-body tr:hover {
-            background-color: #f9fafb;
-        }
-
-        /* Special styling for code blocks */
-        .content-body pre[class*="language-"],
-        .content-body pre[class*="lang-"] {
-            background-color: #1f2937;
-            color: #f9fafb;
-        }
-
-        .content-body pre[class*="language-bash"],
-        .content-body pre[class*="lang-bash"] {
-            background-color: #1f2937;
-            color: #f9fafb;
-        }
-
-        .content-body pre[class*="language-nginx"],
-        .content-body pre[class*="lang-nginx"] {
-            background-color: #1f2937;
-            color: #f9fafb;
-        }
-
-        .content-body pre[class*="language-html"],
-        .content-body pre[class*="lang-html"] {
-            background-color: #1f2937;
-            color: #f9fafb;
-        }
-
-        .content-body pre[class*="language-javascript"],
-        .content-body pre[class*="lang-javascript"] {
-            background-color: #1f2937;
-            color: #f9fafb;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .content-body h1 {
-                font-size: 1.875rem;
-            }
-
-            .content-body h2 {
-                font-size: 1.5rem;
-            }
-
-            .content-body h3 {
-                font-size: 1.25rem;
-            }
-
-            .content-body p, .content-body li {
-                font-size: 1rem;
-            }
-        }
-    </style>
 
     <!-- Smart Tracking JavaScript -->
     <script>
         class SmartTracking {
             constructor() {
-                this.isTabActive = true;
-                this.lastActivity = new Date();
-                this.inactivityTimer = null;
-                this.activityTimeout = 30000; // 30 seconds
+                this.pageLoadTime = new Date();
+                this.maxScrollDepth = 0;
+                this.scrollMilestones = [25, 50, 75, 100];
+                this.sentMilestones = new Set();
+                
                 this.trackingData = {
-                    tab_active: true,
-                    last_activity: this.lastActivity.toISOString(),
-                    self_visit: false,
-                    smart_tracking_enabled: true
+                    scroll_depth: 0,
+                    time_spent: 0
                 };
 
                 this.init();
             }
 
             init() {
-                this.setupTabVisibilityTracking();
-                this.setupActivityTracking();
-                this.setupInactivityTimer();
+                this.setupScrollTracking();
                 this.setupPageUnloadTracking();
-                this.sendTrackingData();
             }
 
-            setupTabVisibilityTracking() {
-                // Track when tab becomes hidden/visible
-                document.addEventListener('visibilitychange', () => {
-                    this.isTabActive = !document.hidden;
-                    this.trackingData.tab_active = this.isTabActive;
-
-                    if (this.isTabActive) {
-                        this.updateLastActivity();
-                        this.sendTrackingData();
-                    } else {
-                        console.log('Tab became inactive, pausing tracking');
-                    }
-                });
-
-                // Track when window loses focus
-                window.addEventListener('blur', () => {
-                    this.isTabActive = false;
-                    this.trackingData.tab_active = false;
-                    console.log('Window lost focus, pausing tracking');
-                });
-
-                window.addEventListener('focus', () => {
-                    this.isTabActive = true;
-                    this.trackingData.tab_active = true;
-                    this.updateLastActivity();
-                    this.sendTrackingData();
-                    console.log('Window gained focus, resuming tracking');
-                });
-            }
-
-            setupActivityTracking() {
-                // Track user interactions
-                const activityEvents = [
-                    'mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart',
-                    'click', 'input', 'focus', 'wheel'
-                ];
-
-                activityEvents.forEach(event => {
-                    document.addEventListener(event, () => {
-                        this.updateLastActivity();
-                    }, { passive: true });
-                });
-
-                // Track scroll depth
-                let maxScrollDepth = 0;
+            setupScrollTracking() {
+                let scrollTimeout;
+                
+                // Track scroll depth with throttling
                 window.addEventListener('scroll', () => {
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-                    const scrollDepth = Math.round((scrollTop / scrollHeight) * 100);
+                    if (scrollTimeout) return;
+                    
+                    scrollTimeout = setTimeout(() => {
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
 
-                    if (scrollDepth > maxScrollDepth) {
-                        maxScrollDepth = scrollDepth;
-                        this.trackingData.scroll_depth = maxScrollDepth;
-                    }
+                        if (scrollHeight <= 0) return;
 
-                    this.updateLastActivity();
+                        let scrollPercent = Math.round((scrollTop / scrollHeight) * 100);
+                        if (scrollPercent > 100) scrollPercent = 100;
+
+                        if (scrollPercent > this.maxScrollDepth) {
+                            this.maxScrollDepth = scrollPercent;
+                            this.trackingData.scroll_depth = this.maxScrollDepth;
+                            this.checkMilestones(scrollPercent);
+                        }
+                        
+                        scrollTimeout = null;
+                    }, 500); // Check every 500ms max
                 }, { passive: true });
             }
 
-            setupInactivityTimer() {
-                this.resetInactivityTimer();
-            }
-
-            resetInactivityTimer() {
-                if (this.inactivityTimer) {
-                    clearTimeout(this.inactivityTimer);
-                }
-
-                this.inactivityTimer = setTimeout(() => {
-                    console.log('User inactive for 30 seconds, pausing tracking');
-                    this.trackingData.tab_active = false;
-                    this.sendTrackingData();
-                }, this.activityTimeout);
-            }
-
-            updateLastActivity() {
-                this.lastActivity = new Date();
-                this.trackingData.last_activity = this.lastActivity.toISOString();
-                this.resetInactivityTimer();
-            }
-
-            sendTrackingData() {
-                // Send tracking data to server
-                fetch('{{ route("blog.track-visitor", $post) }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(this.trackingData)
-                }).catch(error => {
-                    console.log('Tracking data sent:', this.trackingData);
+            checkMilestones(percent) {
+                this.scrollMilestones.forEach(milestone => {
+                    if (percent >= milestone && !this.sentMilestones.has(milestone)) {
+                        this.sentMilestones.add(milestone);
+                        // Console log for debug, actual data sent on unload
+                        console.log(`Scroll milestone reached: ${milestone}%`);
+                    }
                 });
             }
 
             setupPageUnloadTracking() {
-                window.addEventListener('beforeunload', () => {
-                    // Send final tracking data
-                    this.trackingData.page_unload = true;
-                    this.trackingData.time_spent = this.getTimeSpent();
+                // Handle page unload
+                const handleUnload = () => {
+                   this.trackingData.time_spent = this.getTimeSpent();
+                   this.trackingData.scroll_depth = this.maxScrollDepth;
 
-                    // Use sendBeacon for reliable data transmission on page unload
-                    if (navigator.sendBeacon) {
-                        const data = new FormData();
-                        data.append('tracking_data', JSON.stringify(this.trackingData));
-                        data.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+                   // Use sendBeacon for reliable data transmission on page unload
+                   if (navigator.sendBeacon) {
+                       const data = new FormData();
+                       data.append('tracking_data', JSON.stringify(this.trackingData));
+                       data.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
-                        navigator.sendBeacon('{{ route("blog.track-leave", $post) }}', data);
+                       const url = '{{ route("blog.track-leave", $post) }}';
+                       navigator.sendBeacon(url, data);
+                   }
+                };
+
+                window.addEventListener('beforeunload', handleUnload);
+                
+                // Fallback for mobile/other browsers
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'hidden') {
+                        handleUnload();
                     }
                 });
             }
 
             getTimeSpent() {
-                return Math.round((new Date() - this.lastActivity) / 1000);
+                const now = new Date();
+                return Math.round((now - this.pageLoadTime) / 1000);
             }
         }
 
         // Initialize smart tracking when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if this is a self visit
-            const currentUserId = {{ auth()->id() ?? 'null' }};
-            const postUserId = {{ $post->user_id }};
+            // Check if this is a self visit (Server-side flag)
+            const isAuthor = @json(auth()->id() === $post->user_id || auth()->user()?->isAdmin());
 
-            if (currentUserId && currentUserId === postUserId) {
-                console.log('Self visit detected, tracking disabled');
+            if (isAuthor) {
+                console.log('Self visit detected (Author/Admin), tracking disabled');
                 return;
             }
 
@@ -684,4 +471,5 @@
             window.smartTracking = new SmartTracking();
         });
     </script>
+
 </x-app-layout>

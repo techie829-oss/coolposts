@@ -1,0 +1,215 @@
+/* Custom content styling to match the reference images */
+.content-body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.7;
+    color: #374151;
+}
+
+/* Ensure markdown-generated HTML is properly styled */
+.content-body h1,
+.content-body h2,
+.content-body h3,
+.content-body h4,
+.content-body h5,
+.content-body h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.3;
+}
+
+.content-body h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.content-body h2 {
+    font-size: 1.875rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+}
+
+.content-body h3 {
+    font-size: 1.5rem;
+}
+
+.content-body h4 {
+    font-size: 1.25rem;
+}
+
+.content-body p {
+    font-size: 1.125rem;
+    margin-bottom: 1.25rem;
+    color: #4b5563;
+    line-height: 1.7;
+}
+
+.content-body ul,
+.content-body ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+.content-body li {
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+    font-size: 1.125rem;
+}
+
+.content-body ul li {
+    list-style-type: disc;
+}
+
+.content-body ol li {
+    list-style-type: decimal;
+}
+
+.content-body strong {
+    font-weight: 600;
+    color: #111827;
+}
+
+.content-body em {
+    font-style: italic;
+    color: #4b5563;
+}
+
+.content-body a {
+    color: #7c3aed;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+}
+
+.content-body a:hover {
+    color: #6d28d9;
+}
+
+.content-body blockquote {
+    border-left: 4px solid #7c3aed;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #6b7280;
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.content-body code {
+    background-color: #f3f4f6;
+    color: #1f2937;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875rem;
+    border: 1px solid #e5e7eb;
+}
+
+.content-body pre {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid #374151;
+}
+
+.content-body pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    border: none;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.content-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.content-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background-color: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.content-body th {
+    background-color: #f9fafb;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #111827;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.content-body td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: #4b5563;
+}
+
+.content-body tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Special styling for code blocks */
+.content-body pre[class*="language-"],
+.content-body pre[class*="lang-"] {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+.content-body pre[class*="language-bash"],
+.content-body pre[class*="lang-bash"] {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+.content-body pre[class*="language-nginx"],
+.content-body pre[class*="lang-nginx"] {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+.content-body pre[class*="language-html"],
+.content-body pre[class*="lang-html"] {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+.content-body pre[class*="language-javascript"],
+.content-body pre[class*="lang-javascript"] {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .content-body h1 {
+        font-size: 1.875rem;
+    }
+
+    .content-body h2 {
+        font-size: 1.5rem;
+    }
+
+    .content-body h3 {
+        font-size: 1.25rem;
+    }
+
+    .content-body p,
+    .content-body li {
+        font-size: 1rem;
+    }
+}

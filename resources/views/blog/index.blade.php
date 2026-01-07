@@ -3,13 +3,12 @@
 
     <x-slot name="head">
         <meta name="description" content="Discover amazing tech articles, tutorials, and community content on CoolPosts. Read the latest insights on web development, technology trends, and digital innovation.">
-        <meta name="keywords" content="tech blog, programming articles, web development, technology trends, coding tutorials, software development, digital innovation, community content">
         <meta name="robots" content="index, follow">
-        <link rel="canonical" href="{{ url('/blog') }}">
+        <link rel="canonical" href="{{ route('blog.index') }}">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
-        <meta property="og:url" content="{{ url('/blog') }}">
+        <meta property="og:url" content="{{ route('blog.index') }}">
         <meta property="og:title" content="Blog Posts - CoolPosts | Tech Articles & Community Content">
         <meta property="og:description" content="Discover amazing tech articles, tutorials, and community content on CoolPosts. Read the latest insights on web development, technology trends, and digital innovation.">
         <meta property="og:image" content="{{ asset('images/og-blog.jpg') }}">
@@ -18,7 +17,7 @@
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="{{ url('/blog') }}">
+        <meta property="twitter:url" content="{{ route('blog.index') }}">
         <meta property="twitter:title" content="Blog Posts - CoolPosts | Tech Articles & Community Content">
         <meta property="twitter:description" content="Discover amazing tech articles, tutorials, and community content on CoolPosts. Read the latest insights on web development, technology trends, and digital innovation.">
         <meta property="twitter:image" content="{{ asset('images/og-blog.jpg') }}">

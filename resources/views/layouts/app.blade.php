@@ -170,8 +170,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4081697042064528"
-        crossorigin="anonymous"></script>
+    <!-- AdSense Removed primarily for 'Blog-First' Strategy -->
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-27W10DK2T6"></script>
     <script>
@@ -273,8 +272,8 @@
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 ${type === 'success' ? 'bg-green-500 text-white' :
-                    type === 'warning' ? 'bg-yellow-500 text-white' :
-                        'bg-blue-500 text-white'
+                type === 'warning' ? 'bg-yellow-500 text-white' :
+                    'bg-blue-500 text-white'
                 }`;
             notification.textContent = message;
             document.body.appendChild(notification);
@@ -334,9 +333,11 @@
                         @endif
                         <div>
                             <div class="text-xl font-bold text-gray-900">
-                                {{ $brandingSettings->brand_name ?? 'CoolPosts' }}</div>
+                                {{ $brandingSettings->brand_name ?? 'CoolPosts' }}
+                            </div>
                             <div class="hidden md:block text-xs text-gray-600">
-                                {{ $brandingSettings->brand_tagline ?? 'Link Monetization' }}</div>
+                                {{ $brandingSettings->brand_tagline ?? 'Link Monetization' }}
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -605,9 +606,11 @@
                             @endif
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900">
-                                    {{ $brandingSettings->brand_name ?? 'CoolPosts' }}</h3>
+                                    {{ $brandingSettings->brand_name ?? 'CoolPosts' }}
+                                </h3>
                                 <p class="text-sm text-gray-600">
-                                    {{ $brandingSettings->brand_tagline ?? 'Link Monetization Platform' }}</p>
+                                    {{ $brandingSettings->brand_tagline ?? 'Link Monetization Platform' }}
+                                </p>
                             </div>
                         </div>
                         <p class="text-gray-600 text-sm leading-relaxed mb-6 max-w-md">

@@ -5,6 +5,20 @@
         </h2>
     </x-slot>
 
+    <x-slot name="head">
+        <meta name="description"
+            content="{{ Str::limit($link->description, 160) ?? 'Secure Link Redirect via CoolPosts' }}">
+        <meta name="robots" content="noindex, nofollow">
+
+        <!-- Open Graph -->
+        <meta property="og:title" content="{{ $link->title }} - CoolPosts">
+        <meta property="og:description" content="Secure link redirect. Verify to proceed to destination.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:site_name" content="CoolPosts">
+        <meta property="og:image" content="{{ asset('images/og-welcome.jpg') }}">
+    </x-slot>
+
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -38,8 +52,9 @@
                     <div class="mb-6">
                         <h4 class="text-lg font-semibold text-gray-800 flex items-center justify-center">
                             <span class="flex h-3 w-3 relative mr-3">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
-                              <span class="relative inline-flex rounded-full h-3 w-3 bg-violet-500"></span>
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-violet-500"></span>
                             </span>
                             Verifying your access...
                         </h4>
@@ -48,12 +63,13 @@
                     <div class="relative w-32 h-32 mx-auto mb-6 flex items-center justify-center">
                         <!-- Circular Progress Container -->
                         <div class="absolute inset-0 rounded-full border-4 border-gray-100"></div>
-                        <div class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-fuchsia-600" id="countdown">10</div>
+                        <div class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-fuchsia-600"
+                            id="countdown">10</div>
                     </div>
 
                     <div class="w-full max-w-md mx-auto bg-gray-100 rounded-full h-2 mb-6 overflow-hidden">
                         <div class="bg-gradient-to-r from-violet-500 via-fuchsia-500 to-rose-500 h-2 rounded-full transition-all duration-1000 ease-linear shadow-[0_0_10px_rgba(139,92,246,0.3)]"
-                             id="progress" style="width: 0%"></div>
+                            id="progress" style="width: 0%"></div>
                     </div>
 
                     <p class="text-gray-500 text-sm font-medium">
@@ -77,7 +93,8 @@
                         <button
                             class="group relative inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition-all duration-200 shadow-lg hover:shadow-blue-500/30 overflow-hidden"
                             id="verifyRecaptchaBtn">
-                            <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
+                            <span
+                                class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
                             <span class="relative flex items-center">
                                 <i class="fas fa-check-circle mr-2"></i>
                                 Verify Security
