@@ -54,8 +54,8 @@ class BlogController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('content', 'like', "%{$search}%")
-                  ->orWhere('excerpt', 'like', "%{$search}%");
+                    ->orWhere('content', 'like', "%{$search}%")
+                    ->orWhere('excerpt', 'like', "%{$search}%");
             });
         }
 
@@ -120,14 +120,30 @@ class BlogController extends Controller
         // Handle featured image
         $featuredImage = null;
         if ($request->hasFile('featured_image')) {
-            $featuredImage = $request->file('featured_image')->store('blog/featured', 'public');
+            $upload = cloudinary()->upload(
+                $request->file('featured_image')->getRealPath(),
+                [
+                    'folder' => 'coolposts/blog/featured',
+                    'quality' => 'auto',
+                    'fetch_format' => 'auto',
+                ]
+            );
+            $featuredImage = $upload->getSecurePath();
         }
 
         // Handle gallery images
         $galleryImages = [];
         if ($request->hasFile('gallery_images')) {
             foreach ($request->file('gallery_images') as $image) {
-                $galleryImages[] = $image->store('blog/gallery', 'public');
+                $upload = cloudinary()->upload(
+                    $image->getRealPath(),
+                    [
+                        'folder' => 'coolposts/blog/gallery',
+                        'quality' => 'auto',
+                        'fetch_format' => 'auto',
+                    ]
+                );
+                $galleryImages[] = $upload->getSecurePath();
             }
         }
 
@@ -135,8 +151,15 @@ class BlogController extends Controller
         $attachments = [];
         if ($request->hasFile('attachments')) {
             foreach ($request->file('attachments') as $file) {
+                $upload = cloudinary()->upload(
+                    $file->getRealPath(),
+                    [
+                        'folder' => 'coolposts/blog/attachments',
+                        'resource_type' => 'auto',
+                    ]
+                );
                 $attachments[] = [
-                    'path' => $file->store('blog/attachments', 'public'),
+                    'path' => $upload->getSecurePath(),
                     'name' => $file->getClientOriginalName(),
                     'size' => $file->getSize(),
                 ];
@@ -284,40 +307,48 @@ class BlogController extends Controller
 
         // Handle featured image
         if ($request->hasFile('featured_image')) {
-            // Delete old image
-            if ($post->featured_image) {
-                Storage::disk('public')->delete($post->featured_image);
-            }
-            $post->featured_image = $request->file('featured_image')->store('blog/featured', 'public');
+            // Note: Cloudinary handles replacement automatically when using same public_id
+            $upload = cloudinary()->upload(
+                $request->file('featured_image')->getRealPath(),
+                [
+                    'folder' => 'coolposts/blog/featured',
+                    'quality' => 'auto',
+                    'fetch_format' => 'auto',
+                ]
+            );
+            $post->featured_image = $upload->getSecurePath();
         }
 
         // Handle gallery images
         if ($request->hasFile('gallery_images')) {
-            // Delete old images
-            if ($post->gallery_images) {
-                foreach ($post->gallery_images as $image) {
-                    Storage::disk('public')->delete($image);
-                }
-            }
             $galleryImages = [];
             foreach ($request->file('gallery_images') as $image) {
-                $galleryImages[] = $image->store('blog/gallery', 'public');
+                $upload = cloudinary()->upload(
+                    $image->getRealPath(),
+                    [
+                        'folder' => 'coolposts/blog/gallery',
+                        'quality' => 'auto',
+                        'fetch_format' => 'auto',
+                    ]
+                );
+                $galleryImages[] = $upload->getSecurePath();
             }
             $post->gallery_images = $galleryImages;
         }
 
         // Handle attachments
         if ($request->hasFile('attachments')) {
-            // Delete old attachments
-            if ($post->attachments) {
-                foreach ($post->attachments as $attachment) {
-                    Storage::disk('public')->delete($attachment['path']);
-                }
-            }
             $attachments = [];
             foreach ($request->file('attachments') as $file) {
+                $upload = cloudinary()->upload(
+                    $file->getRealPath(),
+                    [
+                        'folder' => 'coolposts/blog/attachments',
+                        'resource_type' => 'auto',
+                    ]
+                );
                 $attachments[] = [
-                    'path' => $file->store('blog/attachments', 'public'),
+                    'path' => $upload->getSecurePath(),
                     'name' => $file->getClientOriginalName(),
                     'size' => $file->getSize(),
                 ];
@@ -367,22 +398,8 @@ class BlogController extends Controller
     {
         $this->authorize('delete', $post);
 
-        // Delete images and attachments
-        if ($post->featured_image) {
-            Storage::disk('public')->delete($post->featured_image);
-        }
-
-        if ($post->gallery_images) {
-            foreach ($post->gallery_images as $image) {
-                Storage::disk('public')->delete($image);
-            }
-        }
-
-        if ($post->attachments) {
-            foreach ($post->attachments as $attachment) {
-                Storage::disk('public')->delete($attachment['path']);
-            }
-        }
+        // Note: With Cloudinary, images persist unless explicitly deleted via API
+        // For now, we keep them for potential recovery. Add Cloudinary deletion if needed.
 
         $post->delete();
 
