@@ -69,7 +69,6 @@ class BlogPostSeeder extends Seeder
                 'slug' => Str::slug($postData['title']),
                 'meta_title' => $postData['title'],
                 'meta_description' => $postData['excerpt'],
-                'meta_keywords' => $postData['tags'],
             ]));
         }
 
