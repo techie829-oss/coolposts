@@ -579,6 +579,15 @@
         </div>
     </nav>
 
+    <!-- Page Heading -->
+    @if (isset($header))
+        <header class="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-100/50 sticky top-16 z-40">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
+    @endif
+
     <!-- Page Content -->
     <main class="pt-0 pb-5">
         {{ $slot }}
@@ -722,13 +731,23 @@
                     <p class="text-gray-600 text-sm mb-4">Get the latest updates on new features and tips delivered to
                         your inbox.</p>
                     <div class="flex flex-col sm:flex-row gap-2 w-full">
-                        <input type="email" placeholder="Enter your email"
-                            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent min-w-0">
-                        <button
-                            class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 whitespace-nowrap flex-shrink-0">
-                            Subscribe
-                        </button>
+                        <form action="{{ route('newsletter.subscribe') }}" method="POST"
+                            class="flex flex-col sm:flex-row gap-2 w-full">
+                            @csrf
+                            <input type="email" name="email" placeholder="Enter your email" required
+                                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent min-w-0">
+                            <button type="submit"
+                                class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 whitespace-nowrap flex-shrink-0">
+                                Subscribe
+                            </button>
+                        </form>
                     </div>
+                    @if(session('success'))
+                        <p class="text-green-600 text-sm mt-2">{{ session('success') }}</p>
+                    @endif
+                    @error('email')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 

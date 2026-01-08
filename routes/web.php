@@ -39,6 +39,9 @@ Route::post('/monetization/validate-session', [MonetizationController::class, 'v
 Route::post('/monetization/countdown-status', [MonetizationController::class, 'getCountdownStatus'])->name('monetization.countdown-status');
 Route::post('/monetization/verify-recaptcha', [MonetizationController::class, 'verifyRecaptcha'])->name('monetization.verify-recaptcha');
 
+// Newsletter routes
+Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
 // Protected routes
 Route::middleware('auth')->group(function () {
     // Dashboard

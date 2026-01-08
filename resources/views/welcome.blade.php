@@ -26,16 +26,6 @@
             content="AI-powered blogging platform for creators to write, optimize, and grow content — monetization coming soon.">
         <meta property="twitter:image" content="{{ asset('images/og-welcome.jpg') }}">
     </x-slot>
-
-    <x-slot name="header">
-        <div class="text-center">
-            <h2 class="font-bold text-xl sm:text-3xl text-white leading-tight">
-                {{ __('Welcome to LinkMonetizer') }}
-            </h2>
-            <p class="text-blue-100 mt-2 text-sm sm:text-base">The Ultimate Link Monetization Platform</p>
-        </div>
-    </x-slot>
-
     <!-- Hero Section -->
     <div class="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 overflow-hidden">
         <!-- Background Pattern -->
@@ -273,19 +263,21 @@
                     @forelse($featuredPosts as $post)
                         <div
                             class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
-                            @if($post->featured_image)
-                                <div class="aspect-w-16 aspect-h-9">
-                                    <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}"
-                                        class="w-full h-48 object-cover">
-                                </div>
-                            @else
-                                <div
-                                    class="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                                    <i class="fas fa-newspaper text-4xl text-gray-400"></i>
-                                </div>
-                            @endif
+                            <a href="{{ route('blog.show', $post->slug) }}" class="block group-hover:opacity-90 transition-opacity relative z-10">
+                                @if($post->featured_image)
+                                    <div class="aspect-w-16 aspect-h-9">
+                                        <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}"
+                                            class="w-full h-48 object-cover">
+                                    </div>
+                                @else
+                                    <div
+                                        class="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+                                        <i class="fas fa-newspaper text-4xl text-gray-400"></i>
+                                    </div>
+                                @endif
+                            </a>
 
-                            <div class="p-6">
+                            <div class="p-6 relative z-10">
                                 <div class="flex items-center text-sm text-gray-500 mb-3">
                                     <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
                                         {{ $post->getTypeDisplayName() }}
@@ -294,7 +286,9 @@
                                 </div>
 
                                 <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-                                    {{ $post->title }}
+                                    <a href="{{ route('blog.show', $post->slug) }}" class="hover:text-purple-600 transition-colors">
+                                        {{ $post->title }}
+                                    </a>
                                 </h3>
 
                                 <p class="text-gray-600 mb-4 line-clamp-3">
@@ -307,7 +301,7 @@
                                         {{ $post->user->name }}
                                     </div>
                                     <a href="{{ route('blog.show', $post->slug) }}"
-                                        class="text-purple-600 hover:text-purple-700 font-medium text-sm flex items-center">
+                                        class="text-purple-600 hover:text-purple-700 font-medium text-sm flex items-center relative z-10">
                                         Read More
                                         <i class="fas fa-arrow-right ml-1"></i>
                                     </a>
@@ -322,7 +316,7 @@
                             <h3 class="text-xl font-semibold text-gray-900 mb-2">No Blog Posts Yet</h3>
                             <p class="text-gray-600 mb-6">We're working on creating amazing content for you!</p>
                             <a href="{{ route('blog.index') }}"
-                                class="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors">
+                                class="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors relative z-10">
                                 <i class="fas fa-newspaper mr-2"></i>
                                 Visit Blog
                             </a>
@@ -333,7 +327,7 @@
                 @if($featuredPosts->count() > 0)
                     <div class="text-center mt-12">
                         <a href="{{ route('blog.index') }}"
-                            class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg relative z-10">
                             <i class="fas fa-newspaper mr-3"></i>
                             View All Blog Posts
                         </a>
