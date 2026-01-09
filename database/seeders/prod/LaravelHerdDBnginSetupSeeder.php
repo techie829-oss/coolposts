@@ -74,5 +74,26 @@ class LaravelHerdDBnginSetupSeeder extends Seeder
             'views' => 120,
             'unique_visitors' => 95,
         ]);
+
+        // Laragon Windows Guide (New)
+        $laragonContent = file_get_contents(database_path('seeders/md/approved/how-to-laravel-laragon-windows.md'));
+
+        BlogPost::create([
+            'user_id' => $user->id,
+            'title' => 'How to Set Up Laravel Development Environment on Windows Using Laragon',
+            'slug' => 'how-to-setup-laravel-windows-using-laragon',
+            'excerpt' => 'A complete guide to setting up Laravel 12 on Windows using Laragon. The beginner-friendly alternative to Herd for easy PHP and MySQL management.',
+            'content' => $laragonContent,
+            'type' => 'tutorial',
+            'category' => 'Web Development',
+            'tags' => ['laravel-12', 'laragon', 'windows', 'mysql', 'sqlite', 'local-development'],
+            'meta_title' => 'How to Set Up Laravel 12 on Windows Using Laragon',
+            'meta_description' => 'Learn how to set up Laravel 12 on Windows using Laragon. A simple, robust alternative to Herd for local development.',
+            'status' => 'published',
+            'published_at' => now()->subDays(3),
+            'is_monetized' => false,
+            'views' => 150,
+            'unique_visitors' => 110,
+        ]);
     }
 }
