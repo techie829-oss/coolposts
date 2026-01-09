@@ -19,48 +19,42 @@
                             service and value to our users. This refund policy outlines the terms and conditions for
                             refunds and cancellations.</p>
 
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Subscription Refunds</h2>
-                        <p class="text-gray-600 mb-6">We offer a 30-day money-back guarantee for all premium
-                            subscriptions. If you're not satisfied with our service within the first 30 days of your
-                            subscription, you may request a full refund.</p>
+                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Refund Scope & Eligibility</h2>
+                        <p class="text-gray-600 mb-6">Refunds apply ONLY to <strong>digital subscription plans</strong>
+                            and <strong>paid features</strong> purchased directly on CoolPosts. Refunds do NOT apply to
+                            content consumption, tipped content, or any other non-subscription payments.</p>
 
                         <div class="bg-green-50 rounded-lg p-6 mb-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">30-Day Money-Back Guarantee</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">7-Day Limited Refund Window</h3>
                             <ul class="list-disc list-inside text-gray-600 space-y-2">
-                                <li>Full refund within 30 days of subscription start</li>
-                                <li>No questions asked policy</li>
-                                <li>Automatic cancellation of subscription</li>
-                                <li>Refund processed within 5-7 business days</li>
+                                <li>Refund requests must be made within <strong>7 days</strong> of original purchase.
+                                </li>
+                                <li>Refunds are only issued if the paid features <strong>have NOT been used</strong>.
+                                </li>
+                                <li>We reserve the right to decline refunds for accounts with significant usage.</li>
                             </ul>
                         </div>
 
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Refund Eligibility</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div class="bg-blue-50 rounded-lg p-6">
-                                <h3 class="text-lg font-semibold text-gray-900 mb-3">Eligible for Refund</h3>
-                                <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                    <li>First 30 days of subscription</li>
-                                    <li>Technical issues preventing service use</li>
-                                    <li>Billing errors or duplicate charges</li>
-                                    <li>Service unavailability for extended periods</li>
-                                </ul>
-                            </div>
-                            <div class="bg-red-50 rounded-lg p-6">
-                                <h3 class="text-lg font-semibold text-gray-900 mb-3">Not Eligible for Refund</h3>
-                                <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                    <li>After 30 days of subscription</li>
-                                    <li>Violation of terms of service</li>
-                                    <li>Fraudulent activity or abuse</li>
-                                    <li>Change of mind after 30 days</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Abuse & Policy Violations</h2>
+                        <p class="text-gray-600 mb-4">To protect our platform and community, we strictly enforce the
+                            following:</p>
+                        <ul class="list-disc pl-6 text-gray-600 mb-6">
+                            <li><strong>Suspended Accounts:</strong> No refunds will be issued for accounts suspended
+                                due to violation of our <a href="{{ route('legal.terms') }}"
+                                    class="text-blue-600 hover:text-blue-800">Terms of Service</a> or <a
+                                    href="{{ route('legal.acceptable-use') }}"
+                                    class="text-blue-600 hover:text-blue-800">Acceptable Use Policy</a>.</li>
+                            <li><strong>Abuse:</strong> Repeated refund requests or chargeback abuse will result in
+                                permanent account termination.</li>
+                        </ul>
 
                         <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">How to Request a Refund</h2>
                         <div class="bg-gray-50 rounded-lg p-6 mb-6">
                             <ol class="list-decimal list-inside space-y-3 text-gray-600">
-                                <li><strong>Contact Support:</strong> Send an email to support@{{ config('app.domain') }}
-                                    with your refund request</li>
+                                <li><strong>Contact Support:</strong> Send an email to <a
+                                        href="mailto:support@coolposts.site"
+                                        class="text-blue-600 hover:text-blue-800">support@coolposts.site</a>
+                                    with the subject "Refund Request"</li>
                                 <li><strong>Provide Details:</strong> Include your account email and reason for refund
                                 </li>
                                 <li><strong>Review Process:</strong> Our team will review your request within 24 hours
@@ -70,9 +64,10 @@
                             </ol>
                         </div>
 
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Refund Methods</h2>
-                        <p class="text-gray-600 mb-6">Refunds will be processed using the same payment method used for
-                            the original purchase:</p>
+                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Refund Methods & Timeline</h2>
+                        <p class="text-gray-600 mb-6">Approved refunds will be processed back to the <strong>original
+                                payment method only</strong>. Please allow 5-10 business days for the funds to appear in
+                            your account, depending on your bank or payment provider.</p>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                             <div class="bg-white border border-gray-200 rounded-lg p-4 text-center">
@@ -138,12 +133,14 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <h3 class="font-medium text-gray-900 mb-2">Email Support</h3>
-                                    <p class="text-gray-600">support@{{ config('app.domain') }}</p>
+                                    <p class="text-gray-600"><a href="mailto:support@coolposts.site"
+                                            class="text-blue-600 hover:text-blue-800">support@coolposts.site</a></p>
                                     <p class="text-sm text-gray-500">Response within 24 hours</p>
                                 </div>
                                 <div>
                                     <h3 class="font-medium text-gray-900 mb-2">Refund Processing</h3>
-                                    <p class="text-gray-600">refunds@{{ config('app.domain') }}</p>
+                                    <p class="text-gray-600"><a href="mailto:support@coolposts.site"
+                                            class="text-blue-600 hover:text-blue-800">support@coolposts.site</a></p>
                                     <p class="text-sm text-gray-500">For refund-specific inquiries</p>
                                 </div>
                             </div>
@@ -155,6 +152,12 @@
                             class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                             Contact Support
                         </a>
+                        <p class="mt-4 text-sm text-gray-500">
+                            By requesting a refund, you agree to our <a href="{{ route('legal.terms') }}"
+                                class="text-blue-600 hover:text-blue-800">Terms of Service</a> and <a
+                                href="{{ route('legal.privacy') }}" class="text-blue-600 hover:text-blue-800">Privacy
+                                Policy</a>.
+                        </p>
                     </div>
                 </div>
             </div>
