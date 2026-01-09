@@ -13,7 +13,7 @@ class LegalController extends Controller
     public function termsOfService()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.terms-of-service', compact('platformName'));
     }
@@ -24,7 +24,7 @@ class LegalController extends Controller
     public function privacyPolicy()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.privacy-policy', compact('platformName'));
     }
@@ -35,7 +35,7 @@ class LegalController extends Controller
     public function about()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.about', compact('platformName'));
     }
@@ -46,7 +46,7 @@ class LegalController extends Controller
     public function faq()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.faq', compact('platformName'));
     }
@@ -57,7 +57,7 @@ class LegalController extends Controller
     public function help()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.help', compact('platformName'));
     }
@@ -68,7 +68,7 @@ class LegalController extends Controller
     public function contact()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.contact', compact('platformName'));
     }
@@ -79,7 +79,7 @@ class LegalController extends Controller
     public function cookiePolicy()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.cookie-policy', compact('platformName'));
     }
@@ -90,7 +90,7 @@ class LegalController extends Controller
     public function refundPolicy()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.refund-policy', compact('platformName'));
     }
@@ -101,7 +101,7 @@ class LegalController extends Controller
     public function acceptableUse()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.acceptable-use', compact('platformName'));
     }
@@ -112,7 +112,7 @@ class LegalController extends Controller
     public function dmca()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.dmca', compact('platformName'));
     }
@@ -123,7 +123,7 @@ class LegalController extends Controller
     public function gdpr()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return view('legal.gdpr', compact('platformName'));
     }
@@ -152,6 +152,14 @@ class LegalController extends Controller
         $xml .= '<priority>0.9</priority>';
         $xml .= '</url>';
 
+        // Blog Templates
+        $xml .= '<url>';
+        $xml .= '<loc>' . route('blog.templates') . '</loc>';
+        $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
+        $xml .= '<changefreq>monthly</changefreq>';
+        $xml .= '<priority>0.8</priority>';
+        $xml .= '</url>';
+
         // Blog Posts
         $posts = \App\Models\BlogPost::where('status', 'published')
             ->orderBy('updated_at', 'desc')
@@ -162,7 +170,7 @@ class LegalController extends Controller
             $xml .= '<loc>' . route('blog.show', $post->slug) . '</loc>';
             $xml .= '<lastmod>' . $post->updated_at->toAtomString() . '</lastmod>';
             $xml .= '<changefreq>weekly</changefreq>';
-            $xml .= '<priority>0.8</priority>';
+            $xml .= '<priority>0.7</priority>';
             $xml .= '</url>';
         }
 
@@ -170,8 +178,11 @@ class LegalController extends Controller
         $legalPages = [
             ['route' => 'legal.terms', 'priority' => '0.3'],
             ['route' => 'legal.privacy', 'priority' => '0.3'],
-            ['route' => 'legal.cookie-policy', 'priority' => '0.3'],
-            ['route' => 'legal.disclaimer', 'priority' => '0.3'],
+            ['route' => 'legal.cookies', 'priority' => '0.3'],
+            ['route' => 'legal.about', 'priority' => '0.4'],
+            ['route' => 'legal.faq', 'priority' => '0.5'],
+            ['route' => 'legal.help', 'priority' => '0.4'],
+            ['route' => 'legal.contact', 'priority' => '0.4'],
         ];
 
         foreach ($legalPages as $page) {
@@ -185,10 +196,7 @@ class LegalController extends Controller
 
         // Other Pages
         $otherPages = [
-            ['route' => 'how-we-work', 'priority' => '0.7'],
-            ['route' => 'legal.faq', 'priority' => '0.6'],
-            ['route' => 'legal.about-us', 'priority' => '0.5'],
-            ['route' => 'legal.contact-us', 'priority' => '0.5'],
+            ['route' => 'blog.how-we-work', 'priority' => '0.6'],
         ];
 
         foreach ($otherPages as $page) {
@@ -212,7 +220,7 @@ class LegalController extends Controller
     public function robots()
     {
         $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $platformName = $settings->platform_name ?? 'CoolPosts';
 
         return response()->view('legal.robots', compact('platformName'))
             ->header('Content-Type', 'text/plain');
