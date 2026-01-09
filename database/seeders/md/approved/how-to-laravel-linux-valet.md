@@ -1,8 +1,10 @@
 # How to Set Up Laravel Development Environment on Linux (Ubuntu/Debian)
 
-While macOS has Herd and Windows has Laragon/Herd, Linux developers often rely on manual configuration or Docker. For a modern, hassle-free experience on Linux, **Laravel Sail** (Docker) is the official recommendation, but **Valet Linux** is also a powerful choice for native speed.
+While macOS and Windows developers enjoy the simplicity of **Laravel Herd**, there is currently **no official Herd version for Linux**.
 
-This guide covers setting up a robust Laravel environment on Ubuntu/Debian using the native LEMP stack (Linux, Nginx, MySQL, PHP) with Valet Linux, which provides a Herd-like experience.
+However, Linux developers can achieve a nearly identical "native" experience using **Valet Linux**. Just like Herd, it serves sites locally without Docker complexity, providing lightning-fast performance on Ubuntu, Debian, and Fedora.
+
+This guide covers how to set up this Herd-like environment using Valet Linux.
 
 ## Why Use Valet Linux?
 
