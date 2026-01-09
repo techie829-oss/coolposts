@@ -1,118 +1,128 @@
-# How to Set Up Laravel Development Environment on Linux Using Valet Linux
+# How to Set Up Laravel 12 Development Environment on Linux Using Valet Linux
 
-While macOS and Windows developers enjoy the simplicity of **Laravel Herd**, there is currently **no official Herd version for Linux**.
+Unlike macOS and Windows, **Laravel Herd is not available for Linux**. However, Linux developers can still achieve a **very similar, native, high-performance local development experience** using **Valet Linux**.
 
-However, Linux developers can achieve a nearly identical "native" experience using **Valet Linux**. Just like Herd, it serves sites locally without Docker complexity, providing lightning-fast performance on Ubuntu, Debian, and Fedora.
+Valet Linux provides automatic Nginx configuration, local `.test` domains, and optional HTTPS — without Docker, virtual machines, or heavy stacks. When paired with Laravel 12’s defaults (SQLite first, MySQL only when needed), this setup is fast, stable, and close to production behavior.
 
-This guide covers how to set up this Herd-like environment using Valet Linux.
+This guide explains the **correct, modern way** to run Laravel 12 locally on Linux.
 
-## Why Use Valet Linux?
+---
 
-Valet Linux is a port of Laravel Valet for Ubuntu/Debian/Fedora. It automatically configures Nginx to serve your sites with a lightweight DNSmasq setup.
+## Why Valet Linux Is the Best Herd Alternative on Linux
 
-- **Fast & Native**: Runs directly on your hardware, no virtualization overhead.
-- **Automatic SSL**: Secure your local sites (`.test`) with a single command.
-- **Easy Sharing**: Share local sites publicly with `valet share`.
+Valet Linux is a community-maintained Linux port of Laravel Valet. It mirrors the same philosophy used by Herd:
+
+* Runs **natively** on your OS (no Docker overhead)
+* Uses **Nginx**, not Apache
+* Auto-serves projects using `.test` domains
+* Minimal configuration
+* Extremely fast file access
+
+This makes it ideal for Laravel development, especially on Ubuntu and Debian systems.
+
+---
+
+## Supported Systems
+
+* Ubuntu 22.04 LTS / 24.04 LTS
+* Debian 11 / 12
+* Fedora (with minor adjustments)
+
+> This guide assumes **Ubuntu/Debian**, which is the most common and best-supported path.
+
+---
 
 ## Prerequisites
 
-- Ubuntu 22.04 LTS or 24.04 LTS (or Debian equivalent)
-- `sudo` access
-- Basic terminal familiarity
+* `sudo` access
+* Basic terminal knowledge
+* Internet connection
 
-## Step 1: Install Dependencies
+---
 
-Update your system and install system requirements:
+## Step 1: Update System & Install Core Tools
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y ca-certificates apt-transport-https software-properties-common
+sudo apt install -y curl git unzip software-properties-common
 ```
 
-## Step 2: Install PHP
+---
 
-Add the Ondřej Surý PPA for the latest PHP versions:
+## Step 2: Install PHP (Laravel 12 Compatible)
+
+Laravel 12 officially supports **PHP 8.2 and 8.3**. Install PHP 8.3 using the Ondřej Surý PPA.
 
 ```bash
 sudo add-apt-repository ppa:ondrej/php -y
 sudo apt update
 ```
 
-Install PHP 8.3 (or your preferred version) and extensions:
+Install PHP and required extensions:
 
 ```bash
-sudo apt install -y php8.3 php8.3-cli php8.3-common php8.3-curl php8.3-mbstring php8.3-mysql php8.3-xml php8.3-zip php8.3-sqlite3 php8.3-intl php8.3-bcmath php8.3-gd
+sudo apt install -y \
+php8.3 php8.3-cli php8.3-common php8.3-curl php8.3-mbstring \
+php8.3-xml php8.3-zip php8.3-sqlite3 php8.3-bcmath php8.3-gd
 ```
 
-## Step 3: Install Composer
+Verify PHP:
 
-Install Composer globally:
+```bash
+php -v
+```
+
+---
+
+## Step 3: Install Composer
 
 ```bash
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 ```
 
+Verify:
+
+```bash
+composer --version
+```
+
+---
+
 ## Step 4: Install Valet Linux
 
-Install Valet using Composer:
+Install Valet Linux globally using Composer:
 
 ```bash
 composer global require cpriego/valet-linux
 ```
 
-Make sure your system assumes global composer binaries are in your path. Add this to your `~/.bashrc` or `~/.zshrc`:
+Add Composer global binaries to PATH:
 
 ```bash
-export PATH=$PATH:$HOME/.config/composer/vendor/bin
-```
-
-Reload your shell:
-
-```bash
+echo 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-Run the Valet install command:
+Install Valet:
 
 ```bash
 valet install
 ```
 
-This configures Nginx and Dnsmasq automatically.
+This automatically configures:
 
-## Step 5: Install Database (MySQL/MariaDB)
+* Nginx
+* Dnsmasq
+* Required permissions
 
-Install MariaDB (drop-in replacement for MySQL):
+---
 
-```bash
-sudo apt install -y mariadb-server
-sudo mysql_secure_installation
-```
+## Step 5: Laravel 12 Default Database (SQLite)
 
-Start the service:
+Laravel 12 **uses SQLite by default**, which is recommended for local development.
 
-```bash
-sudo systemctl start mariadb
-sudo systemctl enable mariadb
-```
-
-Create a database user for development:
-
-```bash
-sudo mysql -u root
-```
-
-```sql
-CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON *.* TO 'laravel'@'localhost' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-EXIT;
-```
-
-## Step 6: Serve Your Projects
-
-Create a directory for your projects:
+Create your projects directory:
 
 ```bash
 mkdir ~/Projects
@@ -125,27 +135,171 @@ Tell Valet to serve this directory:
 valet park
 ```
 
-Now, any folder inside `~/Projects` will be accessible at `http://folder-name.test`.
+---
 
-## Step 7: Create a Laravel Project
+## Step 6: Create a Laravel 12 Project (Recommended Method)
+
+Use the Laravel installer (preferred):
 
 ```bash
-composer create-project laravel/laravel cool-app
+composer global require laravel/installer
+laravel new cool-app
 ```
 
-Visit `http://cool-app.test` in your browser. It should load instantly!
+During setup:
 
-## Step 8: Enable HTTPS (Optional)
+* Choose SQLite
+* Skip extra services if not needed
 
-To secure your site with a local trusted certificate:
+Move into the project:
 
 ```bash
 cd cool-app
+```
+
+Create SQLite database file if missing:
+
+```bash
+touch database/database.sqlite
+```
+
+Run migrations:
+
+```bash
+php artisan migrate
+```
+
+Visit:
+
+```
+http://cool-app.test
+```
+
+Your app should load instantly.
+
+---
+
+## Step 7: When You Need MySQL (Optional)
+
+Laravel 12 does **not require MySQL** locally, but if you want production parity, install MariaDB.
+
+```bash
+sudo apt install -y mariadb-server
+sudo systemctl enable mariadb
+sudo systemctl start mariadb
+```
+
+By default, local MariaDB often runs **without a password**, which is fine for development.
+
+Create database:
+
+```bash
+sudo mysql
+```
+
+```sql
+CREATE DATABASE laravel_local;
+EXIT;
+```
+
+Update `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_local
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Run migrations again:
+
+```bash
+php artisan migrate
+```
+
+---
+
+## Step 8: Enable HTTPS (Optional)
+
+To enable trusted HTTPS:
+
+```bash
 valet secure
 ```
 
-Your site is now at `https://cool-app.test`.
+Your site becomes:
+
+```
+https://cool-app.test
+```
+
+---
+
+## Common Issues & Fixes
+
+### Site Not Loading
+
+```bash
+valet restart
+```
+
+### DNS Issues
+
+```bash
+sudo systemctl restart dnsmasq
+```
+
+### Permission Errors
+
+```bash
+sudo chown -R $USER:$USER ~/Projects
+chmod -R 775 storage bootstrap/cache
+```
+
+### PHP Version Conflicts
+
+Ensure only one PHP version is active:
+
+```bash
+php -v
+```
+
+---
+
+## Recommended Linux Laravel Workflow
+
+```bash
+laravel new app-name
+cd app-name
+php artisan migrate
+npm install
+npm run dev
+```
+
+No Docker. No Apache. No VM.
+
+---
+
+## Herd vs Valet Linux (Reality Check)
+
+| Feature           | Herd (macOS/Windows) | Valet Linux |
+| ----------------- | -------------------- | ----------- |
+| Native speed      | ✅                    | ✅           |
+| Docker-free       | ✅                    | ✅           |
+| Automatic domains | ✅                    | ✅           |
+| GUI               | ✅                    | ❌           |
+| Linux support     | ❌                    | ✅           |
+
+Valet Linux is the **closest functional equivalent** to Herd on Linux.
+
+---
 
 ## Conclusion
 
-With Valet Linux, you get the convenience of "park and play" just like macOS developers. It's significantly faster than Docker for file-heavy operations and uses fewer system resources. For Linux users who prefer a native development experience, this is the ultimate setup.
+For Linux developers, **Valet Linux + Laravel 12** is the cleanest and fastest local development setup available today. SQLite handles most local needs, MySQL is optional, and Valet keeps your system lightweight and responsive.
+
+If Herd ever arrives on Linux, migration will be trivial — because this workflow already matches Laravel’s modern philosophy.
+
+---

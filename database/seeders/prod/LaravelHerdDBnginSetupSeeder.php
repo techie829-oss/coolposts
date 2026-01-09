@@ -59,20 +59,20 @@ class LaravelHerdDBnginSetupSeeder extends Seeder
 
         BlogPost::create([
             'user_id' => $user->id,
-            'title' => 'How to Set Up Laravel Development Environment on Linux Using Valet',
-            'slug' => 'how-to-setup-laravel-linux-using-valet',
-            'excerpt' => 'Laravel Herd isn\'t available for Linux yet. Learn how to set up Valet Linux to get the same lightning-fast, native development experience on Ubuntu and Debian.',
+            'title' => 'How to Set Up Laravel 12 Development Environment on Linux Using Valet Linux',
+            'slug' => 'how-to-setup-laravel-12-linux-using-valet',
+            'excerpt' => 'The ultimate guide to native Laravel 12 development on Linux using Valet. Achieve Herd-like speed on Ubuntu/Debian without Docker complexity.',
             'content' => $linuxContent,
             'type' => 'tutorial',
             'category' => 'Web Development',
-            'tags' => ['laravel', 'linux', 'ubuntu', 'valet', 'herd-alternative', 'local-development'],
-            'meta_title' => 'How to Set Up Laravel on Linux Using Valet',
-            'meta_description' => 'Since Laravel Herd is not on Linux, learn how to set up Valet Linux for the same fast, configuration-free development environment on Ubuntu.',
+            'tags' => ['laravel-12', 'linux', 'valet-linux', 'ubuntu', 'mysql', 'sqlite'],
+            'meta_title' => 'How to Set Up Laravel 12 on Linux Using Valet Linux',
+            'meta_description' => 'Fastest way to develop Laravel 12 on Linux. Use Valet Linux for a native, Docker-free experience on Ubuntu/Debian.',
             'status' => 'published',
-            'published_at' => now()->subDays(5),
+            'published_at' => now()->subDays(4),
             'is_monetized' => false,
-            'views' => 190,
-            'unique_visitors' => 145,
+            'views' => 120,
+            'unique_visitors' => 95,
         ]);
     }
 }
