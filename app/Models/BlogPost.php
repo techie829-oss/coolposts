@@ -121,7 +121,13 @@ class BlogPost extends Model
     {
         switch ($this->content_type) {
             case 'markdown':
-                return Str::markdown($this->content);
+                $content = $this->content;
+
+                // Remove first H1 from markdown if it matches the title
+                // This prevents duplicate H1 tags (one in template, one in content)
+                $content = preg_replace('/^#\s+.+$/m', '', $content, 1);
+
+                return Str::markdown($content);
             case 'html':
                 return $this->content; // HTML content is already formatted
             case 'text':
