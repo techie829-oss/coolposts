@@ -62,10 +62,12 @@
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">1. Acceptance of Terms</h2>
                         <p class="text-gray-700 mb-4">
-                            By accessing and using {{ config('app.name') }} ("the Service"), you accept and agree to be
-                            bound
-                            by the terms and provision of this agreement. If you do not agree to abide by the above,
-                            please do not use this service.
+                            By accessing or using <strong>{{ config('app.name') }}</strong> ("the Service"), you agree
+                            to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you
+                            must not access or use the Service.
+                        </p>
+                        <p class="text-gray-700 mb-4">
+                            These Terms apply to all visitors, users, and others who access or use the Service.
                         </p>
                     </div>
 
@@ -75,156 +77,209 @@
                             {{ config('app.name') }} is a link sharing and monetization platform that allows users to:
                         </p>
                         <ul class="list-disc pl-6 text-gray-700 mb-4">
-                            <li>Create shortened links for easy sharing</li>
+                            <li>Create shortened links for easier sharing</li>
                             <li>Monetize links through advertising</li>
                             <li>Track link performance and analytics</li>
-                            <li>Earn revenue from link clicks</li>
+                            <li>Earn revenue from eligible link clicks</li>
                             <li>Manage subscription plans and payments</li>
                         </ul>
+                        <p class="text-gray-700 mb-4">
+                            We reserve the right to modify, suspend, or discontinue any part of the Service at any time.
+                        </p>
                     </div>
 
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">3. User Accounts</h2>
                         <p class="text-gray-700 mb-4">
-                            To use certain features of the Service, you must register for an account. You agree to:
+                            To access certain features, you must create an account. By creating an account, you agree
+                            to:
                         </p>
                         <ul class="list-disc pl-6 text-gray-700 mb-4">
-                            <li>Provide accurate and complete information</li>
-                            <li>Maintain the security of your account credentials</li>
-                            <li>Notify us immediately of any unauthorized use</li>
-                            <li>Accept responsibility for all activities under your account</li>
+                            <li>Provide accurate, current, and complete information</li>
+                            <li>Maintain the confidentiality of your login credentials</li>
+                            <li>Notify us immediately of any unauthorized access</li>
+                            <li>Accept responsibility for all activities conducted through your account</li>
                         </ul>
+                        <p class="text-gray-700 mb-4">
+                            You are responsible for ensuring your account information remains up to date.
+                        </p>
                     </div>
 
                     <div class="mb-8">
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">4. Acceptable Use</h2>
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">4. Acceptable Use Policy</h2>
                         <p class="text-gray-700 mb-4">
-                            You agree not to use the Service to:
+                            You agree <strong>not</strong> to use the Service to:
                         </p>
                         <ul class="list-disc pl-6 text-gray-700 mb-4">
                             <li>Share illegal, harmful, or offensive content</li>
                             <li>Violate any applicable laws or regulations</li>
-                            <li>Infringe on intellectual property rights</li>
-                            <li>Distribute malware or harmful software</li>
-                            <li>Engage in spam or deceptive practices</li>
-                            <li>Attempt to circumvent security measures</li>
-                            <li>Generate artificial or fraudulent traffic</li>
+                            <li>Infringe intellectual property or privacy rights</li>
+                            <li>Distribute malware, phishing links, or harmful software</li>
+                            <li>Engage in spam, misleading, or deceptive practices</li>
+                            <li>Manipulate or generate artificial or fraudulent traffic</li>
+                            <li>Attempt to bypass security, rate limits, or safeguards</li>
                         </ul>
+                        <p class="text-gray-700 mb-4">
+                            Violation of this section may result in immediate account suspension or termination.
+                        </p>
                     </div>
 
                     <div class="mb-8">
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">5. Link Content and Responsibility</h2>
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">5. Link Content & User Responsibility</h2>
                         <p class="text-gray-700 mb-4">
                             You are solely responsible for:
                         </p>
                         <ul class="list-disc pl-6 text-gray-700 mb-4">
-                            <li>The content and destination of your links</li>
-                            <li>Ensuring your links comply with our policies</li>
-                            <li>Obtaining necessary permissions for linked content</li>
-                            <li>Any damages resulting from your links</li>
+                            <li>The content and destination of all links you create</li>
+                            <li>Ensuring compliance with applicable laws and policies</li>
+                            <li>Obtaining permissions or licenses for linked content</li>
+                            <li>Any damages, claims, or liabilities arising from your links</li>
                         </ul>
+                        <p class="text-gray-700 mb-4">
+                            {{ config('app.name') }} does <strong>not</strong> review or endorse third-party content.
+                        </p>
                     </div>
 
                     <div class="mb-8">
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">6. Monetization and Payments</h2>
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">6. Monetization & Payments</h2>
                         <p class="text-gray-700 mb-4">
-                            Our monetization features include:
+                            {{ config('app.name') }} may offer monetization features including:
                         </p>
                         <ul class="list-disc pl-6 text-gray-700 mb-4">
                             <li>Ad-supported link monetization</li>
                             <li>Subscription-based premium features</li>
-                            <li>Referral commission program</li>
-                            <li>Payment processing through secure gateways</li>
+                            <li>Referral or commission programs</li>
+                            <li>Secure third-party payment processing</li>
+                        </ul>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                            <p class="text-sm text-yellow-700">
+                                <strong>⚠️ Important Notes:</strong>
+                            </p>
+                            <ul class="list-disc pl-6 text-sm text-yellow-700 mt-2">
+                                <li>Earnings are <strong>not guaranteed</strong></li>
+                                <li>Payout thresholds, rates, and eligibility may change</li>
+                                <li>Fraudulent or invalid traffic will not be paid</li>
+                                <li>We reserve the right to withhold payments for policy violations</li>
+                            </ul>
+                        </div>
+                        <p class="text-gray-700 mb-4">
+                            All payments are subject to verification and compliance review.
+                        </p>
+                    </div>
+
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">7. Privacy & Data Protection</h2>
+                        <p class="text-gray-700 mb-4">
+                            Your privacy matters to us. Please review our <a href="{{ route('legal.privacy') }}"
+                                class="text-blue-600 hover:text-blue-800">Privacy Policy</a> to understand how we
+                            collect, use, store, and protect your information.
+                        </p>
+                        <p class="text-gray-700 mb-4">
+                            By using the Service, you consent to data processing as described in the Privacy Policy.
+                        </p>
+                    </div>
+
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">8. Intellectual Property Rights</h2>
+                        <p class="text-gray-700 mb-4">
+                            All content, features, branding, and functionality of {{ config('app.name') }} are owned by
+                            {{ config('app.name') }} and protected under applicable intellectual property laws.
+                        </p>
+                        <p class="text-gray-700 mb-4">
+                            You may not copy, modify, distribute, or exploit any part of the Service without prior
+                            written permission.
+                        </p>
+                    </div>
+
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">9. Account Termination</h2>
+                        <p class="text-gray-700 mb-4">
+                            We reserve the right to suspend or terminate accounts immediately and without prior notice
+                            if we determine that a user:
+                        </p>
+                        <ul class="list-disc pl-6 text-gray-700 mb-4">
+                            <li>Violates these Terms</li>
+                            <li>Engages in harmful or abusive behavior</li>
+                            <li>Uses the Service fraudulently</li>
+                            <li>Poses legal or reputational risk</li>
                         </ul>
                         <p class="text-gray-700 mb-4">
-                            Payment terms and minimum payout amounts are subject to change with notice.
-                        </p>
-                    </div>
-
-                    <div class="mb-8">
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">7. Privacy and Data Protection</h2>
-                        <p class="text-gray-700 mb-4">
-                            Your privacy is important to us. Please review our <a href="{{ route('legal.privacy') }}"
-                                class="text-blue-600 hover:text-blue-800">Privacy Policy</a> to understand how we
-                            collect, use, and protect your information.
-                        </p>
-                    </div>
-
-                    <div class="mb-8">
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">8. Intellectual Property</h2>
-                        <p class="text-gray-700 mb-4">
-                            The Service and its original content, features, and functionality are owned by
-                            {{ config('app.name') }} and are protected by international copyright, trademark, patent,
-                            trade
-                            secret, and other intellectual property laws.
-                        </p>
-                    </div>
-
-                    <div class="mb-8">
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">9. Termination</h2>
-                        <p class="text-gray-700 mb-4">
-                            We may terminate or suspend your account immediately, without prior notice, for conduct that
-                            we believe violates these Terms of Service or is harmful to other users, us, or third
-                            parties.
+                            Upon termination, access to earnings, links, or data may be revoked.
                         </p>
                     </div>
 
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">10. Disclaimers</h2>
                         <p class="text-gray-700 mb-4">
-                            The Service is provided "as is" without warranties of any kind. We disclaim all warranties,
-                            express or implied, including but not limited to warranties of merchantability, fitness for
-                            a particular purpose, and non-infringement.
+                            The Service is provided <strong>"as is"</strong> and <strong>"as available"</strong>,
+                            without warranties of any kind.
+                        </p>
+                        <p class="text-gray-700 mb-4">
+                            We disclaim all warranties, express or implied, including but not limited to:
+                        </p>
+                        <ul class="list-disc pl-6 text-gray-700 mb-4">
+                            <li>Merchantability</li>
+                            <li>Fitness for a particular purpose</li>
+                            <li>Non-infringement</li>
+                            <li>Availability or error-free operation</li>
+                        </ul>
+                        <p class="text-gray-700 mb-4">
+                            Use of the Service is at your own risk.
                         </p>
                     </div>
 
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">11. Limitation of Liability</h2>
                         <p class="text-gray-700 mb-4">
-                            In no event shall {{ config('app.name') }} be liable for any indirect, incidental, special,
-                            consequential, or punitive damages, including without limitation, loss of profits, data,
-                            use, goodwill, or other intangible losses.
+                            To the maximum extent permitted by law, {{ config('app.name') }} shall not be liable for
+                            any indirect, incidental, special, consequential, or punitive damages, including but not
+                            limited to:
                         </p>
+                        <ul class="list-disc pl-6 text-gray-700 mb-4">
+                            <li>Loss of revenue or profits</li>
+                            <li>Loss of data or business opportunities</li>
+                            <li>Service interruptions</li>
+                            <li>Unauthorized access or misuse</li>
+                        </ul>
                     </div>
 
                     <div class="mb-8">
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">12. Changes to Terms</h2>
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">12. Changes to These Terms</h2>
                         <p class="text-gray-700 mb-4">
-                            We reserve the right to modify these terms at any time. We will notify users of any material
-                            changes via email or through the Service. Your continued use of the Service after changes
-                            constitutes acceptance of the new terms.
+                            We may update these Terms from time to time. Material changes will be communicated via email
+                            or within the Service.
+                        </p>
+                        <p class="text-gray-700 mb-4">
+                            Continued use of {{ config('app.name') }} after changes constitutes acceptance of the
+                            updated Terms.
                         </p>
                     </div>
 
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">13. Governing Law</h2>
                         <p class="text-gray-700 mb-4">
-                            These Terms shall be governed by and construed in accordance with the laws of the
-                            jurisdiction in which {{ config('app.name') }} operates, without regard to its conflict of
-                            law
-                            provisions.
+                            These Terms shall be governed and interpreted in accordance with the laws applicable in the
+                            jurisdiction where {{ config('app.name') }} operates, without regard to conflict of law
+                            principles.
                         </p>
                     </div>
 
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">14. Contact Information</h2>
                         <p class="text-gray-700 mb-4">
-                            If you have any questions about these Terms of Service, please contact us at:
+                            For questions regarding these Terms, contact us at:
                         </p>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <p class="text-gray-700">
-                                <strong>Email:</strong> {{ 'support@' . config('app.domain') }}<br>
-                                {{-- <strong>Address:</strong> [Your Business Address]<br>
-                                <strong>Phone:</strong> [Your Phone Number] --}}
+                                <strong>Email:</strong> {{ 'support@' . config('app.domain') }}
                             </p>
                         </div>
                     </div>
 
                     <div class="border-t pt-8">
                         <p class="text-sm text-gray-500 text-center">
-                            By using {{ config('app.name') }}, you acknowledge that you have read, understood, and
-                            agree to
-                            be bound by these Terms of Service.
+                            By using {{ config('app.name') }}, you confirm that you have read, understood, and agreed
+                            to these Terms of Service.
                         </p>
                     </div>
                 </div>
