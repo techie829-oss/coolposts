@@ -1,4 +1,4 @@
-# How to Set Up Laravel Development Environment with Herd on Windows
+# How to Set Up Laravel Development Environment on Windows Using Herd
 
 Setting up a Laravel development environment on Windows has traditionally required installing and configuring multiple tools separately. Managing PHP versions, web servers, and databases often leads to configuration conflicts and compatibility issues.
 

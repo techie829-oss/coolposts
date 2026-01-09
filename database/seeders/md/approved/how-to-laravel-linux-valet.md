@@ -1,4 +1,4 @@
-# How to Set Up Laravel Development Environment on Linux (Ubuntu/Debian)
+# How to Set Up Laravel Development Environment on Linux Using Valet Linux
 
 While macOS and Windows developers enjoy the simplicity of **Laravel Herd**, there is currently **no official Herd version for Linux**.
 
