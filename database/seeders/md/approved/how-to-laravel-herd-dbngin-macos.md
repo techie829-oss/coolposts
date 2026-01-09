@@ -1,140 +1,226 @@
-# How to Set Up Laravel Development Environment on macOS Using Herd and DBngin
+# How to Set Up Laravel 12 Development Environment on macOS Using Herd and DBngin
 
-Setting up a Laravel development environment on macOS traditionally involves configuring PHP, web servers, and databases manually. This process can be time-consuming and error-prone, especially when managing multiple PHP versions or database instances.
+Setting up a Laravel development environment on macOS used to mean manually installing PHP, configuring a web server, managing PHP versions, and setting up databases. While powerful, this approach often led to version conflicts, broken extensions, and wasted setup time.
 
-**In my experience**, switching to Laravel Herd and DBngin saves hours of configuration time compared to managing Homebrew services manually. Herd provides a native macOS interface for managing PHP versions and serving Laravel projects, while DBngin makes creating local database servers effortless.
+With **Laravel Herd**, **Laravel Installer**, and **DBngin**, local development on macOS is now much simpler and closer to how modern Laravel is intended to be used — especially with **Laravel 12**, which ships with SQLite by default.
 
-This guide walks through the complete setup process using these tools, specifically designed for both beginners and experienced developers.
+This guide explains the **correct, real-world setup** for Laravel 12 on macOS.
 
-## Why Use Herd and DBngin?
+---
 
-**Laravel Herd** is a macOS application built specifically for Laravel development. It manages PHP versions, handles web server configuration, and serves local sites with automatic HTTPS support. No manual nginx or Apache configuration required.
+## Why This Setup Works Best for Laravel 12
 
-**DBngin**, created by the TablePlus team, makes spinning up local MySQL, PostgreSQL, or MariaDB servers incredibly simple. You can run multiple database versions simultaneously and see connection details instantly.
+Laravel 12 introduces a more opinionated local setup:
 
-Together, these tools eliminate the friction in local Laravel set up.
+* SQLite is the **default database**
+* Laravel Installer offers **interactive project setup**
+* Herd handles PHP, HTTPS, and local domains automatically
+* DBngin provides MySQL or PostgreSQL only when you actually need them
+
+This avoids unnecessary services running in the background and keeps local environments clean.
+
+---
+
+## Tools Used
+
+### Laravel Herd (macOS)
+
+* Manages PHP versions (8.2, 8.3)
+* Serves Laravel apps automatically
+* Provides HTTPS and `.test` domains
+* No Apache or nginx configuration required
+
+### Laravel Installer
+
+* Creates new Laravel projects
+* Interactive setup (stack, testing, database)
+* Recommended way to start Laravel 12 projects
+
+### DBngin
+
+* Runs MySQL or PostgreSQL locally
+* No system-wide database installation
+* MySQL defaults to **no password**
+* Easy port management
+
+---
 
 ## Prerequisites
 
 Before starting, ensure you have:
 
-- macOS (Herd is macOS-only)
-- **Homebrew** installed (highly recommended for managing other tools)
-- **Git** for cloning repositories
-- Basic terminal familiarity
+* macOS (Apple Silicon or Intel)
+* Git
+* Composer
+* Node.js (for Vite)
+* Basic terminal knowledge
+
+> Homebrew is optional but useful.
+
+---
 
 ## Step 1: Install Laravel Herd
 
-Download Herd from the official Laravel Herd website and install the application.
+Download and install Herd for macOS.
 
-After installation, open Herd and grant it filesystem access when prompted. You'll need to allow access to the folder where you keep your projects, such as `~/Projects` or `~/Sites`.
+After installation:
 
-Open Herd preferences and navigate to the PHP section. Here you can select which PHP version to use (8.1, 8.2, 8.3, etc.). Herd manages multiple PHP versions simultaneously, making it easy to switch between projects with different requirements.
+* Launch Herd
+* Grant folder access (for `~/Sites` or `~/Projects`)
+* Open Herd settings and confirm PHP version (8.3 recommended for Laravel 12)
 
-**Pro Tip:** Herd automatically configures a web server and handles local domain resolution with HTTPS support out of the box. If your browser warns about the certificate, you may need to trust the Herd CA in your Keychain, though Herd usually handles this automatically.
+Herd automatically:
 
-## Step 2: Install DBngin
+* Configures the web server
+* Enables HTTPS
+* Handles local DNS resolution
 
-Download DBngin from dbngin.com and install the application.
+No manual configuration is required.
 
-Open DBngin and create a new database server by selecting your preferred database engine (MySQL or PostgreSQL) and version. DBngin will start the server and display the connection details including host, port, username, and password.
+---
 
-**Important Note:** By default, DBngin often creates a `root` user with an **empty password**. Be sure to check the connection string it displays. If the password field is blank, leave `DB_PASSWORD` empty in your `.env` file later.
+## Step 2: Install Laravel Installer (Recommended)
 
-The default host is usually `127.0.0.1`, MySQL typically uses port `3306`.
+Laravel 12 is best created using the Laravel installer.
 
-Create a new database using DBngin's interface or a database management tool like TablePlus or Sequel Pro. Name it appropriately for your project, such as `laravel_local`.
+Install it globally:
 
-## Step 3: Verify Composer and Node.js
-
-Unlike standard PHP setups, Herd includes the PHP binary, but you still need Composer and Node.js for dependency management.
-
-**Check if Composer is installed:**
 ```bash
-composer --version
-```
-If not found, install it via Homebrew:
-```bash
-brew install composer
+composer global require laravel/installer
 ```
 
-**Check Node.js:**
-Herd does **not** manage Node.js versions. For compiling frontend assets (Vite), use a version manager like `nvm` or `fnm`.
-```bash
-# Install fnm (Fast Node Manager) via Homebrew
-brew install fnm
+Make sure Composer’s global bin directory is in your PATH.
 
-# Install latest Node LTS
-fnm install --lts
+Verify installation:
+
+```bash
+laravel --version
 ```
 
-## Step 4: Create or Clone Your Laravel Project
+---
 
-Create a new Laravel project or clone an existing one:
+## Step 3: Create a Laravel 12 Project (Interactive)
+
+Create a new project using:
 
 ```bash
-# Create new project
-composer create-project laravel/laravel my-project
+laravel new my-project
+```
 
-# Or clone existing project
-git clone git@github.com:username/project.git my-project
+During setup, Laravel will prompt you to choose:
+
+* Starter kit (optional)
+* Testing framework
+* Database (SQLite is default)
+
+✅ **Choose SQLite initially** — this is Laravel 12’s default and works out of the box.
+
+Navigate into the project:
+
+```bash
 cd my-project
 ```
 
-Install dependencies:
+---
 
-```bash
-composer install
-cp .env.example .env
+## Step 4: Serve the Project with Herd
+
+Open Herd and add a new site:
+
+* Select your project directory
+* Herd automatically detects the `public` folder
+* Choose the PHP version if prompted
+
+Herd assigns a local URL like:
+
+```
+https://my-project.test
 ```
 
-## Step 5: Configure Herd to Serve Your Project
+Open it in your browser — Laravel should load immediately.
 
-Open Herd and click the add site button. Set the project folder to your Laravel project root directory containing `composer.json`.
+---
 
-**Critical Setting:** Configure the document root to point to the `public` folder inside your Laravel project, not the project root itself. The path should be similar to `/Users/username/Projects/my-project/public`.
+## Step 5: SQLite (Default Laravel 12 Setup)
 
-Select the appropriate PHP version for your project and start the site. Herd will assign a local URL, typically using the `.test` domain with automatic HTTPS.
+Laravel 12 ships with SQLite configured.
 
-## Step 6: Configure Laravel Environment
+Your `.env` file will look like:
 
-Open the `.env` file in your project and configure the database connection using the credentials from DBngin:
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=/absolute/path/to/database/database.sqlite
+```
+
+Create the SQLite file if it doesn’t exist:
+
+```bash
+touch database/database.sqlite
+```
+
+Run migrations:
+
+```bash
+php artisan migrate
+```
+
+At this point, **your Laravel app is fully functional** without any database server.
+
+---
+
+## Step 6: When You Need MySQL → Install DBngin
+
+If your project requires MySQL (for production parity or specific features), install DBngin.
+
+After installation:
+
+1. Open DBngin
+2. Create a new MySQL server
+3. Note the **port number** (often not 3306)
+4. Default credentials:
+
+   * Username: `root`
+   * Password: **empty**
+
+Create a database (for example `laravel_local`).
+
+---
+
+## Step 7: Configure Laravel for MySQL (DBngin)
+
+Update your `.env` file:
 
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
-DB_PORT=3306
+DB_PORT=3306   # use the exact port shown in DBngin
 DB_DATABASE=laravel_local
 DB_USERNAME=root
-DB_PASSWORD=          # Leave empty if DBngin showed no password
+DB_PASSWORD=
 ```
 
-Verify that the port matches exactly what DBngin shows for your database server. DBngin may assign non-standard ports (like 3307) if 3306 is already in use.
+⚠️ Important:
 
-## Step 7: Run Laravel Setup Commands
+* DBngin MySQL uses **no password by default**
+* Always copy the port from DBngin
 
-Generate the application key and run database migrations:
+Run migrations again:
 
 ```bash
-php artisan key:generate
 php artisan migrate
 ```
 
-If you have seeders:
+---
 
-```bash
-php artisan migrate --seed
-```
+## Step 8: Frontend Assets (Vite)
 
-## Step 8: Build Frontend Assets
-
-For projects using Vite, install Node dependencies and build assets:
+Install Node dependencies:
 
 ```bash
 npm install
 ```
 
-For development directly:
+For development:
 
 ```bash
 npm run dev
@@ -146,81 +232,76 @@ For production builds:
 npm run build
 ```
 
-**Common Issue:** If you see "Vite manifest not found", it means you haven't run the build command yet.
+If Laravel complains about missing `manifest.json`, it means `npm run build` hasn’t been executed.
 
-## Step 9: Verify Installation
+---
 
-Visit the URL provided by Herd in your browser (typically something like `https://my-project.test`). You should see your Laravel application homepage.
+## Common Issues and Fixes
 
-If everything is configured correctly, the application should load without errors and database connections should work properly.
+### Database Connection Refused
 
-## Common Issues and Solutions
+* Ensure DBngin server is running
+* Verify port number
+* Confirm database exists
+* Leave `DB_PASSWORD` empty
 
-### Database Connection Errors
-If Laravel cannot connect to the database, verify that:
-- DBngin database server is running (green light).
-- Port number in `.env` matches DBngin exactly.
-- **Password:** Double-check if DBngin set an empty password or `root`.
-- Database name exists in DBngin.
+### PDO Driver Missing
 
-### PDO Driver Not Found
-Herd includes PHP extensions, but they may need to be enabled. Open Herd preferences, navigate to PHP settings, and enable `pdo_mysql` for MySQL or `pdo_pgsql` for PostgreSQL. Restart the site after enabling extensions.
+Enable extensions in Herd:
 
-### Vite Manifest Not Found
-This error occurs when Laravel expects production assets but `npm run build` hasn't been executed. Either run `npm run build` to generate production assets or use `npm run dev` during development.
+* `pdo_mysql` for MySQL
+* Restart the site after changes
 
-### File Permission Errors
-If Laravel cannot write to `storage` or `bootstrap/cache` directories, you may need to adjust ownership. Be careful with `sudo` permissions. usually, running this from the project root fixes it:
+### Vite Assets Not Loading
+
+Run:
+
+```bash
+npm run build
+```
+
+Ensure `public/build/manifest.json` exists.
+
+### Permission Errors
+
+Fix directory permissions:
 
 ```bash
 chmod -R 775 storage bootstrap/cache
 ```
 
-### Port Conflicts
-DBngin automatically handles port conflicts by assigning alternative ports (e.g., 3307). Always use the **port shown in DBngin's interface** rather than assuming 3306.
+---
 
-## Quick Setup Checklist
+## Recommended Workflow Summary
 
 ```bash
-# 1. Install Composer & Node (if missing)
-brew install composer fnm
-
-# 2. Clone project
-git clone git@github.com:username/project.git
-cd project
-
-# 3. Install dependencies
-composer install
-cp .env.example .env
-
-# 4. Configure environment
-php artisan key:generate
-
-# 5. Install frontend dependencies
-npm install
-
-# 6. Set up database in DBngin (Check Port & Password!)
-# Update .env with DBngin credentials
-
-# 7. Run migrations
+laravel new project-name
+cd project-name
 php artisan migrate
-
-# 8. Build assets
+npm install
 npm run dev
 ```
 
-Configure Herd to serve `public` folder and visit the assigned URL.
+Optional:
 
-## Best Practices
+* Install DBngin only if MySQL is required
+* Switch `.env` from SQLite to MySQL
 
-Keep `APP_ENV=local` and `APP_DEBUG=true` in development. These settings should be changed for production deployments.
+---
 
-Use DBngin for all local database needs. It isolates local databases from system databases and makes managing multiple projects straightforward.
+## Best Practices for macOS Laravel Development
 
-Herd's ability to manage multiple PHP versions per site makes it ideal for maintaining legacy projects alongside modern ones.
+* Use **SQLite by default** for speed
+* Add DBngin only when needed
+* Keep `APP_ENV=local`
+* Keep `APP_DEBUG=true`
+* Let Herd manage PHP and HTTPS
+* Avoid system-wide MySQL installations
+
+---
 
 ## Conclusion
 
-Laravel Herd and DBngin transform local Laravel development on macOS from a configuration-heavy process into a streamlined workflow. By handling the complexity of web servers, PHP versions, and database servers, these tools allow you to focus on building applications rather than managing infrastructure.
+Laravel 12, combined with Herd and DBngin, represents the cleanest local development setup Laravel has ever offered on macOS. SQLite removes unnecessary friction, Herd eliminates web server configuration, and DBngin provides databases only when required.
 
-Once configured, this setup requires minimal maintenance and provides a robust, professional development environment.
+This setup mirrors real production workflows while staying fast, simple, and reliable for daily development.

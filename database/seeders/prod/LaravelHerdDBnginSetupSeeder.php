@@ -17,20 +17,20 @@ class LaravelHerdDBnginSetupSeeder extends Seeder
 
         BlogPost::create([
             'user_id' => $user->id,
-            'title' => 'How to Set Up Laravel Development Environment on macOS Using Herd and DBngin',
-            'slug' => 'how-to-setup-laravel-macos-using-herd-dbngin',
-            'excerpt' => 'Learn how to set up a modern Laravel development environment on macOS using Herd and DBngin. Streamline PHP versions, web servers, and database management for faster local development.',
+            'title' => 'How to Set Up Laravel 12 Development Environment on macOS Using Herd and DBngin',
+            'slug' => 'how-to-setup-laravel-12-macos-using-herd-dbngin',
+            'excerpt' => 'The complete guide to setting up Laravel 12 on macOS. Learn how to use Herd for PHP, DBngin for MySQL, and configure the ideal local dev stack.',
             'content' => $macContent,
             'type' => 'tutorial',
             'category' => 'Web Development',
-            'tags' => ['laravel', 'herd', 'dbngin', 'macos', 'php', 'local-development'],
-            'meta_title' => 'How to Set Up Laravel on macOS Using Herd and DBngin',
-            'meta_description' => 'Complete guide to setting up Laravel development environment on macOS using Herd and DBngin. Manage PHP versions and databases effortlessly.',
+            'tags' => ['laravel-12', 'herd', 'macos', 'dbngin', 'mysql', 'sqlite'],
+            'meta_title' => 'How to Set Up Laravel 12 on macOS Using Herd and DBngin',
+            'meta_description' => 'Expert guide for setting up Laravel 12 on macOS. Covers Herd, DBngin, SQLite vs MySQL, and avoiding common setup pitfalls.',
             'status' => 'published',
-            'published_at' => now()->subDays(6),
+            'published_at' => now()->subDays(5),
             'is_monetized' => false,
-            'views' => 280,
-            'unique_visitors' => 215,
+            'views' => 450,
+            'unique_visitors' => 310,
         ]);
 
         // Windows Guide
