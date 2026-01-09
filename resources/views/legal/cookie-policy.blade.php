@@ -90,50 +90,53 @@
                             </ul>
                         </div>
 
+                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Cookie Retention</h2>
+                        <ul class="list-disc pl-6 text-gray-600 mb-6">
+                            <li><strong>Session Cookies:</strong> Deleted automatically when you close your browser.
+                            </li>
+                            <li><strong>Persistent Cookies:</strong> Stored on your device for a set period (up to 12
+                                months) to remember preferences.</li>
+                            <li><strong>Analytics Cookies:</strong> Anonymized and retained for analysis purposes.</li>
+                        </ul>
+
+                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">How to control cookies</h2>
+                        <p class="text-gray-600 mb-6">You have the right to decide whether to accept or reject cookies.
+                            You
+                            can exercise your cookie rights by setting your preferences in the Cookie Consent Manager.
+                        </p>
+
+                        <div class="bg-blue-50 rounded-lg p-6 mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Browser Settings</h3>
+                            <p class="text-gray-600 mb-3">You can also set or amend your web browser controls to accept
+                                or
+                                refuse cookies. If you choose to reject cookies, you may still use our website though
+                                your
+                                access to some functionality and areas of our website may be restricted.</p>
+                        </div>
+
+                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Updates to this policy</h2>
+                        <p class="text-gray-600 mb-6">We may update this Cookie Policy from time to time in order to
+                            reflect, for example, changes to the cookies we use or for other operational, legal or
+                            regulatory reasons. Please therefore re-visit this Cookie Policy regularly to stay informed
+                            about our use of cookies and related technologies.</p>
+
+                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Contact us</h2>
+                        <p class="text-gray-600 mb-6">If you have any questions about our use of cookies or other
+                            technologies, please contact us at <a href="mailto:privacy@coolposts.site"
+                                class="text-blue-600 hover:text-blue-800">privacy@coolposts.site</a>.</p>
+                        <p class="text-gray-600 mb-6">For more details on how we handle personal data, see our <a
+                                href="{{ route('legal.privacy') }}" class="text-blue-600 hover:text-blue-800">Privacy
+                                Policy</a>.</p>
                     </div>
 
-                    <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Cookie Retention</h2>
-                    <ul class="list-disc pl-6 text-gray-600 mb-6">
-                        <li><strong>Session Cookies:</strong> Deleted automatically when you close your browser.</li>
-                        <li><strong>Persistent Cookies:</strong> Stored on your device for a set period (up to 12
-                            months) to remember preferences.</li>
-                        <li><strong>Analytics Cookies:</strong> Anonymized and retained for analysis purposes.</li>
-                    </ul>
-
-                    <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">How to control cookies</h2>
-                    <p class="text-gray-600 mb-6">You have the right to decide whether to accept or reject cookies. You
-                        can exercise your cookie rights by setting your preferences in the Cookie Consent Manager.</p>
-
-                    <div class="bg-blue-50 rounded-lg p-6 mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Browser Settings</h3>
-                        <p class="text-gray-600 mb-3">You can also set or amend your web browser controls to accept or
-                            refuse cookies. If you choose to reject cookies, you may still use our website though your
-                            access to some functionality and areas of our website may be restricted.</p>
+                    <div class="mt-8 text-center">
+                        <a href="{{ route('legal.contact') }}"
+                            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                            Contact Us
+                        </a>
                     </div>
-
-                    <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Updates to this policy</h2>
-                    <p class="text-gray-600 mb-6">We may update this Cookie Policy from time to time in order to
-                        reflect, for example, changes to the cookies we use or for other operational, legal or
-                        regulatory reasons. Please therefore re-visit this Cookie Policy regularly to stay informed
-                        about our use of cookies and related technologies.</p>
-
-                    <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Contact us</h2>
-                    <p class="text-gray-600 mb-6">If you have any questions about our use of cookies or other
-                        technologies, please contact us at <a href="mailto:privacy@coolposts.site"
-                            class="text-blue-600 hover:text-blue-800">privacy@coolposts.site</a>.</p>
-                    <p class="text-gray-600 mb-6">For more details on how we handle personal data, see our <a
-                            href="{{ route('legal.privacy') }}" class="text-blue-600 hover:text-blue-800">Privacy
-                            Policy</a>.</p>
-                </div>
-
-                <div class="mt-8 text-center">
-                    <a href="{{ route('legal.contact') }}"
-                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                        Contact Us
-                    </a>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </x-app-layout>
