@@ -1,30 +1,30 @@
 <x-app-layout>
-    <x-slot name="title">Privacy Policy - CoolPosts | Data Protection & Privacy</x-slot>
+    <x-slot name="title">Privacy Policy - {{ config('app.name') }} | Data Protection & Privacy</x-slot>
 
     <x-slot name="head">
         <meta name="description"
-            content="Read CoolPosts Privacy Policy. Learn how we protect your data, handle personal information, and ensure your privacy while using our link monetization platform.">
+            content="Read {{ config('app.name') }} Privacy Policy. Learn how we protect your data, handle personal information, and ensure your privacy while using our link monetization platform.">
         <meta name="keywords"
-            content="privacy policy, data protection, privacy rights, personal data, GDPR compliance, data security, CoolPosts privacy">
+            content="privacy policy, data protection, privacy rights, personal data, GDPR compliance, data security, {{ config('app.name') }} privacy">
         <meta name="robots" content="index, follow">
         <link rel="canonical" href="{{ url('/privacy-policy') }}">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url('/privacy-policy') }}">
-        <meta property="og:title" content="Privacy Policy - CoolPosts | Data Protection & Privacy">
+        <meta property="og:title" content="Privacy Policy - {{ config('app.name') }} | Data Protection & Privacy">
         <meta property="og:description"
-            content="Read CoolPosts Privacy Policy. Learn how we protect your data, handle personal information, and ensure your privacy while using our link monetization platform.">
+            content="Read {{ config('app.name') }} Privacy Policy. Learn how we protect your data, handle personal information, and ensure your privacy while using our link monetization platform.">
         <meta property="og:image" content="{{ asset('images/og-privacy.jpg') }}">
-        <meta property="og:site_name" content="CoolPosts">
+        <meta property="og:site_name" content="{{ config('app.name') }}">
         <meta property="og:locale" content="en_US">
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ url('/privacy-policy') }}">
-        <meta property="twitter:title" content="Privacy Policy - CoolPosts | Data Protection & Privacy">
+        <meta property="twitter:title" content="Privacy Policy - {{ config('app.name') }} | Data Protection & Privacy">
         <meta property="twitter:description"
-            content="Read CoolPosts Privacy Policy. Learn how we protect your data, handle personal information, and ensure your privacy while using our link monetization platform.">
+            content="Read {{ config('app.name') }} Privacy Policy. Learn how we protect your data, handle personal information, and ensure your privacy while using our link monetization platform.">
         <meta property="twitter:image" content="{{ asset('images/og-privacy.jpg') }}">
     </x-slot>
 
@@ -61,7 +61,8 @@
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">1. Introduction</h2>
                         <p class="text-gray-700 mb-4">
-                            {{ $platformName }} ("we," "our," or "us") is committed to protecting your privacy. This
+                            {{ config('app.name') }} ("we," "our," or "us") is committed to protecting your privacy.
+                            This
                             Privacy Policy explains how we collect, use, disclose, and safeguard your information when
                             you use our link sharing and monetization platform.
                         </p>
@@ -230,17 +231,18 @@
                         </p>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <p class="text-gray-700">
-                                <strong>Email:</strong> techie829@gmail.com<br>
+                                <strong>Email:</strong> {{ 'support@' . config('app.domain') }}<br>
                                 {{-- <strong>Address:</strong> [Your Business Address]<br>
                                 <strong>Phone:</strong> [Your Phone Number]<br> --}}
-                                <strong>Data Protection Officer:</strong> techie829@gmail.com
+                                <strong>Data Protection Officer:</strong> {{ 'privacy@' . config('app.domain') }}
                             </p>
                         </div>
                     </div>
 
                     <div class="border-t pt-8">
                         <p class="text-sm text-gray-500 text-center">
-                            This Privacy Policy is effective as of {{ date('F d, Y') }} and will remain in effect except
+                            This Privacy Policy is effective as of {{ date('F d, Y') }} and will remain in effect
+                            except
                             with respect to any changes in its provisions in the future.
                         </p>
                     </div>
@@ -249,8 +251,10 @@
 
             <!-- Navigation -->
             <div class="mt-8 text-center">
-                <a href="{{ route('legal.terms') }}" class="text-blue-600 hover:text-blue-800 mr-4">Terms of Service</a>
-                <a href="{{ route('legal.cookies') }}" class="text-blue-600 hover:text-blue-800 mr-4">Cookie Policy</a>
+                <a href="{{ route('legal.terms') }}" class="text-blue-600 hover:text-blue-800 mr-4">Terms of
+                    Service</a>
+                <a href="{{ route('legal.cookies') }}" class="text-blue-600 hover:text-blue-800 mr-4">Cookie
+                    Policy</a>
                 <a href="{{ route('legal.gdpr') }}" class="text-blue-600 hover:text-blue-800 mr-4">GDPR</a>
                 <a href="{{ route('legal.contact') }}" class="text-blue-600 hover:text-blue-800">Contact Us</a>
             </div>

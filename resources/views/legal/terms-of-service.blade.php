@@ -1,30 +1,31 @@
 <x-app-layout>
-    <x-slot name="title">Terms of Service - CoolPosts | Legal Terms & Conditions</x-slot>
+    <x-slot name="title">Terms of Service - {{ config('app.name') }} | Legal Terms & Conditions</x-slot>
 
     <x-slot name="head">
         <meta name="description"
-            content="Read CoolPosts Terms of Service. Understand our terms and conditions for using our link monetization platform, user responsibilities, and service guidelines.">
+            content="Read {{ config('app.name') }} Terms of Service. Understand our terms and conditions for using our link monetization platform, user responsibilities, and service guidelines.">
         <meta name="keywords"
-            content="terms of service, terms and conditions, legal terms, user agreement, service terms, CoolPosts terms">
+            content="terms of service, terms and conditions, legal terms, user agreement, service terms, {{ config('app.name') }} terms">
         <meta name="robots" content="index, follow">
         <link rel="canonical" href="{{ url('/terms-of-service') }}">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url('/terms-of-service') }}">
-        <meta property="og:title" content="Terms of Service - CoolPosts | Legal Terms & Conditions">
+        <meta property="og:title" content="Terms of Service - {{ config('app.name') }} | Legal Terms & Conditions">
         <meta property="og:description"
-            content="Read CoolPosts Terms of Service. Understand our terms and conditions for using our link monetization platform, user responsibilities, and service guidelines.">
+            content="Read {{ config('app.name') }} Terms of Service. Understand our terms and conditions for using our link monetization platform, user responsibilities, and service guidelines.">
         <meta property="og:image" content="{{ asset('images/og-terms.jpg') }}">
-        <meta property="og:site_name" content="CoolPosts">
+        <meta property="og:site_name" content="{{ config('app.name') }}">
         <meta property="og:locale" content="en_US">
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ url('/terms-of-service') }}">
-        <meta property="twitter:title" content="Terms of Service - CoolPosts | Legal Terms & Conditions">
+        <meta property="twitter:title"
+            content="Terms of Service - {{ config('app.name') }} | Legal Terms & Conditions">
         <meta property="twitter:description"
-            content="Read CoolPosts Terms of Service. Understand our terms and conditions for using our link monetization platform, user responsibilities, and service guidelines.">
+            content="Read {{ config('app.name') }} Terms of Service. Understand our terms and conditions for using our link monetization platform, user responsibilities, and service guidelines.">
         <meta property="twitter:image" content="{{ asset('images/og-terms.jpg') }}">
     </x-slot>
 
@@ -61,7 +62,8 @@
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">1. Acceptance of Terms</h2>
                         <p class="text-gray-700 mb-4">
-                            By accessing and using {{ $platformName }} ("the Service"), you accept and agree to be bound
+                            By accessing and using {{ config('app.name') }} ("the Service"), you accept and agree to be
+                            bound
                             by the terms and provision of this agreement. If you do not agree to abide by the above,
                             please do not use this service.
                         </p>
@@ -70,7 +72,7 @@
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">2. Description of Service</h2>
                         <p class="text-gray-700 mb-4">
-                            {{ $platformName }} is a link sharing and monetization platform that allows users to:
+                            {{ config('app.name') }} is a link sharing and monetization platform that allows users to:
                         </p>
                         <ul class="list-disc pl-6 text-gray-700 mb-4">
                             <li>Create shortened links for easy sharing</li>
@@ -152,7 +154,8 @@
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">8. Intellectual Property</h2>
                         <p class="text-gray-700 mb-4">
                             The Service and its original content, features, and functionality are owned by
-                            {{ $platformName }} and are protected by international copyright, trademark, patent, trade
+                            {{ config('app.name') }} and are protected by international copyright, trademark, patent,
+                            trade
                             secret, and other intellectual property laws.
                         </p>
                     </div>
@@ -178,7 +181,7 @@
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">11. Limitation of Liability</h2>
                         <p class="text-gray-700 mb-4">
-                            In no event shall {{ $platformName }} be liable for any indirect, incidental, special,
+                            In no event shall {{ config('app.name') }} be liable for any indirect, incidental, special,
                             consequential, or punitive damages, including without limitation, loss of profits, data,
                             use, goodwill, or other intangible losses.
                         </p>
@@ -197,7 +200,8 @@
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">13. Governing Law</h2>
                         <p class="text-gray-700 mb-4">
                             These Terms shall be governed by and construed in accordance with the laws of the
-                            jurisdiction in which {{ $platformName }} operates, without regard to its conflict of law
+                            jurisdiction in which {{ config('app.name') }} operates, without regard to its conflict of
+                            law
                             provisions.
                         </p>
                     </div>
@@ -209,7 +213,7 @@
                         </p>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <p class="text-gray-700">
-                                <strong>Email:</strong> techie829@gmail.com<br>
+                                <strong>Email:</strong> {{ 'support@' . config('app.domain') }}<br>
                                 {{-- <strong>Address:</strong> [Your Business Address]<br>
                                 <strong>Phone:</strong> [Your Phone Number] --}}
                             </p>
@@ -218,7 +222,8 @@
 
                     <div class="border-t pt-8">
                         <p class="text-sm text-gray-500 text-center">
-                            By using {{ $platformName }}, you acknowledge that you have read, understood, and agree to
+                            By using {{ config('app.name') }}, you acknowledge that you have read, understood, and
+                            agree to
                             be bound by these Terms of Service.
                         </p>
                     </div>
@@ -227,7 +232,8 @@
 
             <!-- Navigation -->
             <div class="mt-8 text-center">
-                <a href="{{ route('legal.privacy') }}" class="text-blue-600 hover:text-blue-800 mr-4">Privacy Policy</a>
+                <a href="{{ route('legal.privacy') }}" class="text-blue-600 hover:text-blue-800 mr-4">Privacy
+                    Policy</a>
                 <a href="{{ route('legal.about') }}" class="text-blue-600 hover:text-blue-800 mr-4">About Us</a>
                 <a href="{{ route('legal.contact') }}" class="text-blue-600 hover:text-blue-800">Contact Us</a>
             </div>

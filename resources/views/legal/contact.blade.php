@@ -1,30 +1,30 @@
 <x-app-layout>
-    <x-slot name="title">Contact Us - CoolPosts | Support & Help</x-slot>
+    <x-slot name="title">Contact Us - {{ config('app.name') }} | Support & Help</x-slot>
 
     <x-slot name="head">
         <meta name="description"
-            content="Get in touch with CoolPosts support team. Contact us for technical support, billing questions, feature requests, or general inquiries. We're here to help!">
+            content="Get in touch with {{ config('app.name') }} support team. Contact us for technical support, billing questions, feature requests, or general inquiries. We're here to help!">
         <meta name="keywords"
-            content="contact support, help desk, technical support, customer service, CoolPosts support, contact form">
+            content="contact support, help desk, technical support, customer service, {{ config('app.name') }} support, contact form">
         <meta name="robots" content="index, follow">
         <link rel="canonical" href="{{ url('/contact') }}">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url('/contact') }}">
-        <meta property="og:title" content="Contact Us - CoolPosts | Support & Help">
+        <meta property="og:title" content="Contact Us - {{ config('app.name') }} | Support & Help">
         <meta property="og:description"
-            content="Get in touch with CoolPosts support team. Contact us for technical support, billing questions, feature requests, or general inquiries. We're here to help!">
+            content="Get in touch with {{ config('app.name') }} support team. Contact us for technical support, billing questions, feature requests, or general inquiries. We're here to help!">
         <meta property="og:image" content="{{ asset('images/og-contact.jpg') }}">
-        <meta property="og:site_name" content="CoolPosts">
+        <meta property="og:site_name" content="{{ config('app.name') }}">
         <meta property="og:locale" content="en_US">
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ url('/contact') }}">
-        <meta property="twitter:title" content="Contact Us - CoolPosts | Support & Help">
+        <meta property="twitter:title" content="Contact Us - {{ config('app.name') }} | Support & Help">
         <meta property="twitter:description"
-            content="Get in touch with CoolPosts support team. Contact us for technical support, billing questions, feature requests, or general inquiries. We're here to help!">
+            content="Get in touch with {{ config('app.name') }} support team. Contact us for technical support, billing questions, feature requests, or general inquiries. We're here to help!">
         <meta property="twitter:image" content="{{ asset('images/og-contact.jpg') }}">
     </x-slot>
 
@@ -70,7 +70,8 @@
                                 </div>
 
                                 <div>
-                                    <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                                    <label for="subject"
+                                        class="block text-sm font-medium text-gray-700">Subject</label>
                                     <select name="subject" id="subject" required
                                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                         <option value="">Select a subject</option>
@@ -84,7 +85,8 @@
                                 </div>
 
                                 <div>
-                                    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                                    <label for="message"
+                                        class="block text-sm font-medium text-gray-700">Message</label>
                                     <textarea name="message" id="message" rows="4" required
                                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
                                 </div>
@@ -118,7 +120,7 @@
                                     </div>
                                     <div>
                                         <h3 class="text-sm font-medium text-gray-900">Email Support</h3>
-                                        <p class="text-sm text-gray-600">techie829@gmail.com</p>
+                                        <p class="text-sm text-gray-600">{{ 'support@' . config('app.domain') }}</p>
                                         <p class="text-xs text-gray-500 mt-1">Response within 24 hours</p>
                                     </div>
                                 </div>

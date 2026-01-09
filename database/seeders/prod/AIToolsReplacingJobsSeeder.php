@@ -15,22 +15,28 @@ class AIToolsReplacingJobsSeeder extends Seeder
 
         $content = file_get_contents(database_path('seeders/md/approved/ai-tools-replacing-jobs-truth-vs-hype.md'));
 
-        BlogPost::create([
-            'user_id' => $user->id,
-            'title' => 'AI Tools Replacing Jobs: Truth vs Hype — What Really Changes in the Workforce',
-            'slug' => 'ai-tools-replacing-jobs-truth-vs-hype-what-really-changes-in-workforce',
-            'excerpt' => 'AI automation is reshaping the workforce, but not in the way headlines suggest. Learn what\'s actually changing, which jobs are affected, and how professionals should prepare.',
-            'content' => $content,
-            'type' => 'guide',
-            'category' => 'Technology & AI',
-            'tags' => ['ai', 'automation', 'jobs', 'workforce', 'future-of-work'],
-            'meta_title' => 'AI Tools Replacing Jobs: Truth vs Hype — What Really Changes',
-            'meta_description' => 'Separating AI job automation hype from reality. Understand which jobs are affected, what skills matter, and how to prepare for an AI-enabled workplace.',
-            'status' => 'published',
-            'published_at' => now()->subDays(1),
-            'is_monetized' => false,
-            'views' => 580,
-            'unique_visitors' => 420,
-        ]);
+        try {
+            BlogPost::updateOrCreate(
+                ['slug' => 'ai-tools-replacing-jobs-truth-vs-hype-what-really-changes-in-workforce'],
+                [
+                    'user_id' => $user->id,
+                    'title' => 'AI Tools Replacing Jobs: Truth vs Hype',
+                    'excerpt' => 'An in-depth analysis of how AI tools are impacting the job market and which roles are most at risk.',
+                    'content' => $content,
+                    'type' => 'opinion',
+                    'category' => 'Technology',
+                    'tags' => ['ai', 'jobs', 'future-of-work', 'technology'],
+                    'meta_title' => 'Will AI Replace Your Job? The Truth vs Hype',
+                    'meta_description' => 'Explore the reality of AI replacing jobs versus augmenting them. Understand the future of work in the age of AI.',
+                    'status' => 'published',
+                    'published_at' => now()->subDays(2),
+                    'is_monetized' => true,
+                    'views' => 5400,
+                    'unique_visitors' => 4200,
+                ]
+            );
+        } catch (\Exception $e) {
+            $this->command->error("Failed to seed AITools: " . $e->getMessage());
+        }
     }
 }

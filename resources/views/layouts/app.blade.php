@@ -30,23 +30,17 @@
     <style>
         :root {
             --brand-primary:
-                {{ $brandingSettings->primary_color ?? '#8b5cf6' }}
-            ;
+                {{ $brandingSettings->primary_color ?? '#8b5cf6' }};
             --brand-secondary:
-                {{ $brandingSettings->secondary_color ?? '#ec4899' }}
-            ;
+                {{ $brandingSettings->secondary_color ?? '#ec4899' }};
             --brand-accent:
-                {{ $brandingSettings->accent_color ?? '#ef4444' }}
-            ;
+                {{ $brandingSettings->accent_color ?? '#ef4444' }};
             --brand-gradient-start:
-                {{ $brandingSettings->gradient_start ?? '#8b5cf6' }}
-            ;
+                {{ $brandingSettings->gradient_start ?? '#8b5cf6' }};
             --brand-gradient-end:
-                {{ $brandingSettings->gradient_end ?? '#ec4899' }}
-            ;
+                {{ $brandingSettings->gradient_end ?? '#ec4899' }};
             --brand-gradient-third:
-                {{ $brandingSettings->gradient_third ?? '#ef4444' }}
-            ;
+                {{ $brandingSettings->gradient_third ?? '#ef4444' }};
             --brand-gradient: linear-gradient(to right, var(--brand-gradient-start), var(--brand-gradient-end), var(--brand-gradient-third));
             --brand-gradient-hover: linear-gradient(to right, var(--brand-gradient-start), var(--brand-gradient-end), var(--brand-gradient-third));
 
@@ -175,7 +169,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-27W10DK2T6"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
         gtag('config', 'G-27W10DK2T6');
@@ -185,12 +182,12 @@
     <script>
         // Register Service Worker
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
+            window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/sw.js')
-                    .then(function (registration) {
+                    .then(function(registration) {
                         console.log('Service Worker registered successfully:', registration);
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                         console.log('Service Worker registration failed:', error);
                     });
             });
@@ -259,12 +256,12 @@
         }
 
         // Offline detection
-        window.addEventListener('online', function () {
+        window.addEventListener('online', function() {
             document.body.classList.remove('offline');
             showNotification('You are back online!', 'success');
         });
 
-        window.addEventListener('offline', function () {
+        window.addEventListener('offline', function() {
             document.body.classList.add('offline');
             showNotification('You are offline. Some features may be limited.', 'warning');
         });
@@ -307,8 +304,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50"
-        x-data="{ mobileMenuOpen: false }">
+    <nav class="bg-white/80 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Mobile Menu Button (Left Side) -->
@@ -320,7 +316,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="{{ route('welcome') }}" class="flex items-center space-x-3">
-                        @if($brandingSettings->brand_logo)
+                        @if ($brandingSettings->brand_logo)
                             <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-lg">
                                 <img src="{{ asset('storage/' . $brandingSettings->brand_logo) }}"
                                     alt="{{ $brandingSettings->brand_name }}" class="w-full h-full object-cover">
@@ -350,7 +346,7 @@
                             <i class="fas fa-chart-line mr-2"></i>
                             Dashboard
                         </a>
-                        @if($globalSettings->isLinkCreationEnabled())
+                        @if ($globalSettings->isLinkCreationEnabled())
                             <a href="{{ route('links.index') }}"
                                 class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('links.*') ? 'text-purple-600 bg-purple-50' : '' }}">
                                 <i class="fas fa-link mr-2"></i>
@@ -362,21 +358,21 @@
                             <i class="fas fa-newspaper mr-2"></i>
                             Blog
                         </a>
-                        @if($globalSettings->isEarningsEnabled())
+                        @if ($globalSettings->isEarningsEnabled())
                             <a href="{{ route('earnings.index') }}"
                                 class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('earnings.*') ? 'text-purple-600 bg-purple-50' : '' }}">
                                 <i class="fas fa-dollar-sign mr-2"></i>
                                 Earnings
                             </a>
                         @endif
-                        @if($globalSettings->isSubscriptionEnabled())
+                        @if ($globalSettings->isSubscriptionEnabled())
                             <a href="{{ route('subscriptions.plans') }}"
                                 class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('subscriptions.*') ? 'text-purple-600 bg-purple-50' : '' }}">
                                 <i class="fas fa-crown mr-2"></i>
                                 Subscriptions
                             </a>
                         @endif
-                        @if($globalSettings->isReferralsEnabled())
+                        @if ($globalSettings->isReferralsEnabled())
                             <a href="{{ route('referrals.dashboard') }}"
                                 class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('referrals.*') ? 'text-purple-600 bg-purple-50' : '' }}">
                                 <i class="fas fa-users mr-2"></i>
@@ -494,7 +490,7 @@
                             <i class="fas fa-chart-line mr-2"></i>
                             Dashboard
                         </a>
-                        @if($globalSettings->isLinkCreationEnabled())
+                        @if ($globalSettings->isLinkCreationEnabled())
                             <a href="{{ route('links.index') }}"
                                 class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
                                 <i class="fas fa-link mr-2"></i>
@@ -506,21 +502,21 @@
                             <i class="fas fa-newspaper mr-2"></i>
                             Blog
                         </a>
-                        @if($globalSettings->isEarningsEnabled())
+                        @if ($globalSettings->isEarningsEnabled())
                             <a href="{{ route('earnings.index') }}"
                                 class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
                                 <i class="fas fa-dollar-sign mr-2"></i>
                                 Earnings
                             </a>
                         @endif
-                        @if($globalSettings->isSubscriptionEnabled())
+                        @if ($globalSettings->isSubscriptionEnabled())
                             <a href="{{ route('subscriptions.plans') }}"
                                 class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
                                 <i class="fas fa-crown mr-2"></i>
                                 Subscriptions
                             </a>
                         @endif
-                        @if($globalSettings->isReferralsEnabled())
+                        @if ($globalSettings->isReferralsEnabled())
                             <a href="{{ route('referrals.dashboard') }}"
                                 class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
                                 <i class="fas fa-users mr-2"></i>
@@ -598,11 +594,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Main Footer Content -->
             <div class="py-12">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
                     <!-- Company Info -->
                     <div class="lg:col-span-2">
                         <div class="flex items-center space-x-3 mb-4">
-                            @if($brandingSettings->brand_logo)
+                            @if ($brandingSettings->brand_logo)
                                 <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg">
                                     <img src="{{ asset('storage/' . $brandingSettings->brand_logo) }}"
                                         alt="{{ $brandingSettings->brand_name }}" class="w-full h-full object-cover">
@@ -649,31 +645,54 @@
 
                     <!-- Quick Links -->
                     <div>
-                        <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Quick Links</h4>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Company</h4>
                         <ul class="space-y-2">
+                            <li><a href="{{ route('legal.about') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">About
+                                    Us</a></li>
+                            <li><a href="{{ route('blog.how-we-work') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">How
+                                    It Works</a></li>
+                            <li><a href="{{ route('subscriptions.plans') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Pricing</a>
+                            </li>
+                            <li><a href="{{ route('blog.index') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Resources -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Resources</h4>
+                        <ul class="space-y-2">
+                            <li><a href="{{ route('blog.templates') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog
+                                    Templates</a></li>
+                            <li><a href="{{ route('api.docs') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">API
+                                    Docs</a></li>
+                            <li><a href="{{ route('legal.help') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Help
+                                    Center</a></li>
+                            <li><a href="{{ route('legal.faq') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">FAQ</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Support -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Support</h4>
+                        <ul class="space-y-2">
+                            <li><a href="{{ route('legal.contact') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Contact
+                                    Us</a></li>
                             @auth
                                 <li><a href="{{ route('dashboard') }}"
                                         class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Dashboard</a>
                                 </li>
-                                <li><a href="{{ route('links.index') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">My
-                                        Links</a></li>
-                                <li><a href="{{ route('blog.index') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog</a>
-                                </li>
-                                <li><a href="{{ route('links.create') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Create
-                                        Link</a></li>
                             @else
-                                <li><a href="{{ route('welcome') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Home</a>
-                                </li>
-                                <li><a href="{{ route('blog.index') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog</a>
-                                </li>
-                                <li><a href="{{ route('blog.how-we-work') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">How
-                                        We Work</a></li>
                                 <li><a href="{{ route('login') }}"
                                         class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Login</a>
                                 </li>
@@ -684,63 +703,33 @@
                         </ul>
                     </div>
 
-                    <!-- Resources -->
-                    <div>
-                        <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Resources</h4>
-                        <ul class="space-y-2">
-                            <li><a href="{{ route('blog.index') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog</a>
-                            </li>
-                            <li><a href="{{ route('blog.templates') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog
-                                    Templates</a></li>
-                            <li><a href="{{ route('blog.how-we-work') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">How
-                                    It Works</a></li>
-                            <li><a href="{{ route('legal.faq') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">FAQ</a>
-                            </li>
-                            <li><a href="{{ route('api.docs') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">API
-                                    Docs</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Support -->
-                    <div>
-                        <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Support</h4>
-                        <ul class="space-y-2">
-                            <li><a href="{{ route('legal.help') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Help
-                                    Center</a></li>
-                            <li><a href="{{ route('legal.contact') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Contact
-                                    Us</a></li>
-                            <li><a href="{{ route('legal.faq') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">FAQ</a>
-                            </li>
-                            <li><a href="{{ route('api.docs') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">API
-                                    Docs</a></li>
-                        </ul>
-                    </div>
-
                     <!-- Legal -->
                     <div>
                         <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Legal</h4>
                         <ul class="space-y-2">
-                            <li><a href="{{ route('legal.terms') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Terms
-                                    of Service</a></li>
-                            <li><a href="{{ route('legal.privacy') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Privacy
-                                    Policy</a></li>
-                            <li><a href="{{ route('legal.cookies') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Cookie
-                                    Policy</a></li>
-                            <li><a href="{{ route('legal.refund') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Refund
-                                    Policy</a></li>
+                            <li><a href="{{ route('legal.terms') }}" target="_blank" rel="noopener noreferrer"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Terms</a>
+                            </li>
+                            <li><a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener noreferrer"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Privacy</a>
+                            </li>
+                            <li><a href="{{ route('legal.cookies') }}" target="_blank" rel="noopener noreferrer"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Cookies</a>
+                            </li>
+                            <li><a href="{{ route('legal.refund') }}" target="_blank" rel="noopener noreferrer"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Refunds</a>
+                            </li>
+                            <li><a href="{{ route('legal.acceptable-use') }}" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Acceptable
+                                    Use</a>
+                            </li>
+                            <li><a href="{{ route('legal.dmca') }}" target="_blank" rel="noopener noreferrer"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">DMCA</a>
+                            </li>
+                            <li><a href="{{ route('legal.gdpr') }}" target="_blank" rel="noopener noreferrer"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">GDPR</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -764,7 +753,7 @@
                             </button>
                         </form>
                     </div>
-                    @if(session('success'))
+                    @if (session('success'))
                         <p class="text-green-600 text-sm mt-2">{{ session('success') }}</p>
                     @endif
                     @error('email')
@@ -780,11 +769,11 @@
                         © 2025 CoolPosts. All rights reserved.
                     </p>
                     <div class="flex space-x-6 mt-4 md:mt-0">
-                        <a href="{{ route('legal.terms') }}"
+                        <a href="{{ route('legal.terms') }}" target="_blank" rel="noopener noreferrer"
                             class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">Terms</a>
-                        <a href="{{ route('legal.privacy') }}"
+                        <a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener noreferrer"
                             class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">Privacy</a>
-                        <a href="{{ route('legal.cookies') }}"
+                        <a href="{{ route('legal.cookies') }}" target="_blank" rel="noopener noreferrer"
                             class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">Cookies</a>
                     </div>
                 </div>

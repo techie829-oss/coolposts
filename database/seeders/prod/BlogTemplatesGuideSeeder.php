@@ -14,22 +14,24 @@ class BlogTemplatesGuideSeeder extends Seeder
 
         $content = file_get_contents(database_path('seeders/md/approved/blog-post-templates-guide.md'));
 
-        BlogPost::create([
-            'user_id' => $user->id,
-            'title' => 'Blog Post Templates: Create Professional Content Faster Without Writing From Scratch',
-            'slug' => 'blog-post-templates-create-professional-content-faster',
-            'excerpt' => 'Discover ready-to-use blog post templates for tutorials, how-to guides, reviews, news articles, portfolios, and business pages. Save time and publish better content.',
-            'content' => $content,
-            'type' => 'guide',
-            'category' => 'Content Writing',
-            'tags' => ['blog templates', 'content templates', 'writing faster', 'seo content'],
-            'meta_title' => 'Blog Post Templates: Create Professional Content Faster',
-            'meta_description' => 'Discover ready-to-use blog post templates for tutorials, how-to guides, reviews, news articles, portfolios, and business pages.',
-            'status' => 'published',
-            'published_at' => now()->subDays(2),
-            'is_monetized' => false,
-            'views' => 210,
-            'unique_visitors' => 165,
-        ]);
+        BlogPost::updateOrCreate(
+            ['slug' => 'blog-post-templates-create-professional-content-faster'],
+            [
+                'user_id' => $user->id,
+                'title' => 'The Ultimate Guide to Blog Post Templates',
+                'excerpt' => 'Learn how to use blog post templates to streamline your content creation process and maintain consistency across your blog.',
+                'content' => $content,
+                'type' => 'tutorial',
+                'category' => 'Content Strategy',
+                'tags' => ['blogging', 'templates', 'content-creation', 'productivity'],
+                'meta_title' => 'Blog Post Templates Guide: Streamline Your Writing',
+                'meta_description' => 'A comprehensive guide on using blog post templates to write faster and more consistently.',
+                'status' => 'published',
+                'published_at' => now()->subDays(10),
+                'is_monetized' => true,
+                'views' => 1250,
+                'unique_visitors' => 950,
+            ]
+        );
     }
 }

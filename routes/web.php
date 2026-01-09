@@ -365,6 +365,7 @@ Route::get('/payments/status', [PaymentController::class, 'getPaymentStatus'])->
 Route::get('/terms-of-service', [LegalController::class, 'termsOfService'])->name('legal.terms');
 Route::get('/privacy-policy', [LegalController::class, 'privacyPolicy'])->name('legal.privacy');
 Route::get('/about', [LegalController::class, 'about'])->name('legal.about');
+Route::redirect('/about-us', '/about', 301);
 Route::get('/faq', [LegalController::class, 'faq'])->name('legal.faq');
 Route::get('/help', [LegalController::class, 'help'])->name('legal.help');
 Route::get('/contact', [LegalController::class, 'contact'])->name('legal.contact');

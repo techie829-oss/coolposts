@@ -18,7 +18,7 @@
                 </div>
                 <div class="relative z-10">
                     <h1 class="text-5xl font-extrabold text-white mb-6 tracking-tight drop-shadow-md">About
-                        {{ $platformName }}</h1>
+                        {{ config('app.name') }}</h1>
                     <p class="text-xl text-blue-50 max-w-3xl mx-auto font-light leading-relaxed">
                         Empowering creators and businesses to monetize their links while providing a seamless sharing
                         experience for their audience.
@@ -37,13 +37,14 @@
                             convenient, but profitable.
                         </p>
                         <p class="text-gray-600">
-                            Whether you're a content creator, marketer, or business owner, {{ $platformName }} provides
+                            Whether you're a content creator, marketer, or business owner, {{ config('app.name') }}
+                            provides
                             the tools you need to maximize the impact of your shared content while earning revenue from
                             your efforts.
                         </p>
                     </div>
                     <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg p-8 text-white">
-                        <h3 class="text-2xl font-bold mb-4">Why Choose {{ $platformName }}?</h3>
+                        <h3 class="text-2xl font-bold mb-4">Why Choose {{ config('app.name') }}?</h3>
                         <ul class="space-y-3">
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
@@ -128,7 +129,8 @@
                 </div>
             </div>
 
-            <!-- Stats Section -->
+            <!-- Stats Section (Hidden until live data available) -->
+            {{--
             <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg p-8 mb-12">
                 <div class="grid md:grid-cols-4 gap-8 text-center text-white">
                     <div>
@@ -149,8 +151,10 @@
                     </div>
                 </div>
             </div>
+            --}}
 
-            <!-- Team Section -->
+            <!-- Team Section (Hidden until real team added) -->
+            {{--
             <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
                 <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Our Team</h2>
                 <div class="grid md:grid-cols-3 gap-8">
@@ -189,6 +193,7 @@
                     </div>
                 </div>
             </div>
+            --}}
 
             <!-- Values Section -->
             <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
@@ -257,7 +262,7 @@
             <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg p-8 text-center text-white">
                 <h2 class="text-3xl font-bold mb-4">Ready to Get Started?</h2>
                 <p class="text-xl mb-6">Join thousands of creators who are already monetizing their links with
-                    {{ $platformName }}.</p>
+                    {{ config('app.name') }}.</p>
                 <div class="space-x-4">
                     <a href="{{ route('register') }}"
                         class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-200">
@@ -272,8 +277,10 @@
 
             <!-- Navigation -->
             <div class="mt-8 text-center">
-                <a href="{{ route('legal.terms') }}" class="text-blue-600 hover:text-blue-800 mr-4">Terms of Service</a>
-                <a href="{{ route('legal.privacy') }}" class="text-blue-600 hover:text-blue-800 mr-4">Privacy Policy</a>
+                <a href="{{ route('legal.terms') }}" class="text-blue-600 hover:text-blue-800 mr-4">Terms of
+                    Service</a>
+                <a href="{{ route('legal.privacy') }}" class="text-blue-600 hover:text-blue-800 mr-4">Privacy
+                    Policy</a>
                 <a href="{{ route('legal.faq') }}" class="text-blue-600 hover:text-blue-800 mr-4">FAQ</a>
                 <a href="{{ route('legal.contact') }}" class="text-blue-600 hover:text-blue-800">Contact Us</a>
             </div>

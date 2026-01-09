@@ -14,8 +14,6 @@ class PaymentGatewaySeeder extends Seeder
      */
     public function run(): void
     {
-        // Clear existing gateways
-        // Disable foreign key checks based on database driver
         $driver = DB::getDriverName();
         if ($driver === 'mysql') {
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -25,7 +23,6 @@ class PaymentGatewaySeeder extends Seeder
 
         PaymentGateway::truncate();
 
-        // Re-enable foreign key checks
         if ($driver === 'mysql') {
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         } elseif ($driver === 'sqlite') {

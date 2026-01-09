@@ -14,22 +14,24 @@ class WhyUseBlogTemplatesSeeder extends Seeder
 
         $content = file_get_contents(database_path('seeders/md/approved/why-use-blog-post-templates.md'));
 
-        BlogPost::create([
-            'user_id' => $user->id,
-            'title' => 'Why Blog Post Templates Matter for Consistent, High-Quality Content',
-            'slug' => 'why-blog-post-templates-matter-consistent-high-quality-content',
-            'excerpt' => 'Creating consistent, high-quality blog content is challenging. Learn how blog post templates solve this problem by providing repeatable frameworks for better structure, SEO, and efficiency.',
-            'content' => $content,
-            'type' => 'guide',
-            'category' => 'Content Writing',
-            'tags' => ['blog templates', 'content writing', 'blogging', 'content strategy'],
-            'meta_title' => 'Why Blog Post Templates Matter for Consistent, High-Quality Content',
-            'meta_description' => 'Blog post templates provide repeatable frameworks that ensure clarity, consistency, and professionalism. Learn why they matter for content creators.',
-            'status' => 'published',
-            'published_at' => now()->subDays(3),
-            'is_monetized' => false,
-            'views' => 350,
-            'unique_visitors' => 280,
-        ]);
+        BlogPost::updateOrCreate(
+            ['slug' => 'why-blog-post-templates-matter-consistent-high-quality-content'],
+            [
+                'user_id' => $user->id,
+                'title' => 'Why Blog Post Templates Matter',
+                'excerpt' => 'Discover the key benefits of using templates for your blog posts, from saving time to improving SEO.',
+                'content' => $content,
+                'type' => 'article',
+                'category' => 'Blogging Tips',
+                'tags' => ['blogging', 'templates', 'efficiency'],
+                'meta_title' => 'Why You Should Use Blog Post Templates',
+                'meta_description' => 'Learn why blog post templates are essential for efficient and consistent content creation.',
+                'status' => 'published',
+                'published_at' => now()->subDays(15),
+                'is_monetized' => false,
+                'views' => 890,
+                'unique_visitors' => 600,
+            ]
+        );
     }
 }
