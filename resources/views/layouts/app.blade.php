@@ -694,7 +694,7 @@
                             <li><a href="{{ route('blog.templates') }}"
                                     class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog
                                     Templates</a></li>
-                            <li><a href="{{ route('how-we-work') }}"
+                            <li><a href="{{ route('blog.how-we-work') }}"
                                     class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">How
                                     It Works</a></li>
                             <li><a href="{{ route('legal.faq') }}"
