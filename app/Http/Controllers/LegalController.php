@@ -133,10 +133,76 @@ class LegalController extends Controller
      */
     public function sitemap()
     {
-        $settings = GlobalSetting::first();
-        $platformName = $settings->platform_name ?? 'CoolPosts Posts';
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-        return response()->view('legal.sitemap', compact('platformName'))
+        // Homepage
+        $xml .= '<url>';
+        $xml .= '<loc>' . url('/') . '</loc>';
+        $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
+        $xml .= '<changefreq>daily</changefreq>';
+        $xml .= '<priority>1.0</priority>';
+        $xml .= '</url>';
+
+        // Blog Index
+        $xml .= '<url>';
+        $xml .= '<loc>' . route('blog.index') . '</loc>';
+        $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
+        $xml .= '<changefreq>daily</changefreq>';
+        $xml .= '<priority>0.9</priority>';
+        $xml .= '</url>';
+
+        // Blog Posts
+        $posts = \App\Models\BlogPost::where('status', 'published')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        foreach ($posts as $post) {
+            $xml .= '<url>';
+            $xml .= '<loc>' . route('blog.show', $post->slug) . '</loc>';
+            $xml .= '<lastmod>' . $post->updated_at->toAtomString() . '</lastmod>';
+            $xml .= '<changefreq>weekly</changefreq>';
+            $xml .= '<priority>0.8</priority>';
+            $xml .= '</url>';
+        }
+
+        // Legal Pages
+        $legalPages = [
+            ['route' => 'legal.terms', 'priority' => '0.3'],
+            ['route' => 'legal.privacy', 'priority' => '0.3'],
+            ['route' => 'legal.cookie-policy', 'priority' => '0.3'],
+            ['route' => 'legal.disclaimer', 'priority' => '0.3'],
+        ];
+
+        foreach ($legalPages as $page) {
+            $xml .= '<url>';
+            $xml .= '<loc>' . route($page['route']) . '</loc>';
+            $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
+            $xml .= '<changefreq>monthly</changefreq>';
+            $xml .= '<priority>' . $page['priority'] . '</priority>';
+            $xml .= '</url>';
+        }
+
+        // Other Pages
+        $otherPages = [
+            ['route' => 'how-we-work', 'priority' => '0.7'],
+            ['route' => 'legal.faq', 'priority' => '0.6'],
+            ['route' => 'legal.about-us', 'priority' => '0.5'],
+            ['route' => 'legal.contact-us', 'priority' => '0.5'],
+        ];
+
+        foreach ($otherPages as $page) {
+            $xml .= '<url>';
+            $xml .= '<loc>' . route($page['route']) . '</loc>';
+            $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
+            $xml .= '<changefreq>monthly</changefreq>';
+            $xml .= '<priority>' . $page['priority'] . '</priority>';
+            $xml .= '</url>';
+        }
+
+        $xml .= '</urlset>';
+
+        return response($xml, 200)
             ->header('Content-Type', 'text/xml');
     }
 
