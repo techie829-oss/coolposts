@@ -53,5 +53,26 @@ class LaravelHerdDBnginSetupSeeder extends Seeder
             'views' => 340,
             'unique_visitors' => 255,
         ]);
+
+        // Linux Guide (Valet)
+        $linuxContent = file_get_contents(database_path('seeders/md/approved/how-to-laravel-linux-valet.md'));
+
+        BlogPost::create([
+            'user_id' => $user->id,
+            'title' => 'How to Set Up Laravel on Linux (Ubuntu/Debian) with Valet',
+            'slug' => 'how-to-setup-laravel-linux-valet',
+            'excerpt' => 'Get a Herd-like experience on Linux using Laravel Valet. A complete guide to setting up Nginx, PHP, and MySQL natively on Ubuntu for lightning-fast development.',
+            'content' => $linuxContent,
+            'type' => 'tutorial',
+            'category' => 'Web Development',
+            'tags' => ['laravel', 'linux', 'ubuntu', 'valet', 'php', 'local-development'],
+            'meta_title' => 'How to Set Up Laravel on Linux with Valet',
+            'meta_description' => 'Speed up your Linux Laravel workflow with Valet. The ultimate guide to a native, fast, and configuration-free development environment on Ubuntu.',
+            'status' => 'published',
+            'published_at' => now()->subDays(5),
+            'is_monetized' => false,
+            'views' => 190,
+            'unique_visitors' => 145,
+        ]);
     }
 }
