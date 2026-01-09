@@ -133,32 +133,32 @@ class LegalController extends Controller
      */
     public function sitemap()
     {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
         // Homepage
-        $xml .= '<url>';
-        $xml .= '<loc>' . url('/') . '</loc>';
-        $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
-        $xml .= '<changefreq>daily</changefreq>';
-        $xml .= '<priority>1.0</priority>';
-        $xml .= '</url>';
+        $xml .= '  <url>' . "\n";
+        $xml .= '    <loc>' . url('/') . '</loc>' . "\n";
+        $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
+        $xml .= '    <changefreq>daily</changefreq>' . "\n";
+        $xml .= '    <priority>1.0</priority>' . "\n";
+        $xml .= '  </url>' . "\n";
 
         // Blog Index
-        $xml .= '<url>';
-        $xml .= '<loc>' . route('blog.index') . '</loc>';
-        $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
-        $xml .= '<changefreq>daily</changefreq>';
-        $xml .= '<priority>0.9</priority>';
-        $xml .= '</url>';
+        $xml .= '  <url>' . "\n";
+        $xml .= '    <loc>' . route('blog.index') . '</loc>' . "\n";
+        $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
+        $xml .= '    <changefreq>daily</changefreq>' . "\n";
+        $xml .= '    <priority>0.9</priority>' . "\n";
+        $xml .= '  </url>' . "\n";
 
         // Blog Templates
-        $xml .= '<url>';
-        $xml .= '<loc>' . route('blog.templates') . '</loc>';
-        $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
-        $xml .= '<changefreq>monthly</changefreq>';
-        $xml .= '<priority>0.8</priority>';
-        $xml .= '</url>';
+        $xml .= '  <url>' . "\n";
+        $xml .= '    <loc>' . route('blog.templates') . '</loc>' . "\n";
+        $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
+        $xml .= '    <changefreq>monthly</changefreq>' . "\n";
+        $xml .= '    <priority>0.8</priority>' . "\n";
+        $xml .= '  </url>' . "\n";
 
         // Blog Posts
         $posts = \App\Models\BlogPost::where('status', 'published')
@@ -166,12 +166,12 @@ class LegalController extends Controller
             ->get();
 
         foreach ($posts as $post) {
-            $xml .= '<url>';
-            $xml .= '<loc>' . route('blog.show', $post->slug) . '</loc>';
-            $xml .= '<lastmod>' . $post->updated_at->toAtomString() . '</lastmod>';
-            $xml .= '<changefreq>weekly</changefreq>';
-            $xml .= '<priority>0.7</priority>';
-            $xml .= '</url>';
+            $xml .= '  <url>' . "\n";
+            $xml .= '    <loc>' . route('blog.show', $post->slug) . '</loc>' . "\n";
+            $xml .= '    <lastmod>' . $post->updated_at->toAtomString() . '</lastmod>' . "\n";
+            $xml .= '    <changefreq>weekly</changefreq>' . "\n";
+            $xml .= '    <priority>0.7</priority>' . "\n";
+            $xml .= '  </url>' . "\n";
         }
 
         // Legal Pages
@@ -186,12 +186,12 @@ class LegalController extends Controller
         ];
 
         foreach ($legalPages as $page) {
-            $xml .= '<url>';
-            $xml .= '<loc>' . route($page['route']) . '</loc>';
-            $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
-            $xml .= '<changefreq>monthly</changefreq>';
-            $xml .= '<priority>' . $page['priority'] . '</priority>';
-            $xml .= '</url>';
+            $xml .= '  <url>' . "\n";
+            $xml .= '    <loc>' . route($page['route']) . '</loc>' . "\n";
+            $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
+            $xml .= '    <changefreq>monthly</changefreq>' . "\n";
+            $xml .= '    <priority>' . $page['priority'] . '</priority>' . "\n";
+            $xml .= '  </url>' . "\n";
         }
 
         // Other Pages
@@ -200,12 +200,12 @@ class LegalController extends Controller
         ];
 
         foreach ($otherPages as $page) {
-            $xml .= '<url>';
-            $xml .= '<loc>' . route($page['route']) . '</loc>';
-            $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
-            $xml .= '<changefreq>monthly</changefreq>';
-            $xml .= '<priority>' . $page['priority'] . '</priority>';
-            $xml .= '</url>';
+            $xml .= '  <url>' . "\n";
+            $xml .= '    <loc>' . route($page['route']) . '</loc>' . "\n";
+            $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
+            $xml .= '    <changefreq>monthly</changefreq>' . "\n";
+            $xml .= '    <priority>' . $page['priority'] . '</priority>' . "\n";
+            $xml .= '  </url>' . "\n";
         }
 
         $xml .= '</urlset>';
