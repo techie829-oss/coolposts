@@ -13,7 +13,7 @@ class AIToolsReplacingJobsSeeder extends Seeder
     {
         $user = User::first();
 
-        $content = file_get_contents(database_path('seeders/md/ai-tools-replacing-jobs-truth-vs-hype.md'));
+        $content = file_get_contents(database_path('seeders/md/approved/ai-tools-replacing-jobs-truth-vs-hype.md'));
 
         BlogPost::create([
             'user_id' => $user->id,
