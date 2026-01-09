@@ -12,7 +12,7 @@ class BlogTemplatesGuideSeeder extends Seeder
     {
         $user = User::first();
 
-        $content = file_get_contents(database_path('seeders/md/blog-post-templates-guide.md'));
+        $content = file_get_contents(database_path('seeders/md/approved/blog-post-templates-guide.md'));
 
         BlogPost::create([
             'user_id' => $user->id,

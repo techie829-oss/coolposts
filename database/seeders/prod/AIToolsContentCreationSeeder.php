@@ -12,7 +12,7 @@ class AIToolsContentCreationSeeder extends Seeder
     {
         $user = User::first();
 
-        $content = file_get_contents(database_path('seeders/md/ai-tools-and-content-creation.md'));
+        $content = file_get_contents(database_path('seeders/md/approved/ai-tools-and-content-creation.md'));
 
         BlogPost::create([
             'user_id' => $user->id,
