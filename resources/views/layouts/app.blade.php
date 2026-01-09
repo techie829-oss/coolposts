@@ -684,6 +684,28 @@
                         </ul>
                     </div>
 
+                    <!-- Resources -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Resources</h4>
+                        <ul class="space-y-2">
+                            <li><a href="{{ route('blog.index') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog</a>
+                            </li>
+                            <li><a href="{{ route('blog.templates') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog
+                                    Templates</a></li>
+                            <li><a href="{{ route('how-we-work') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">How
+                                    It Works</a></li>
+                            <li><a href="{{ route('legal.faq') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">FAQ</a>
+                            </li>
+                            <li><a href="{{ route('api.docs') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">API
+                                    Docs</a></li>
+                        </ul>
+                    </div>
+
                     <!-- Support -->
                     <div>
                         <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Support</h4>

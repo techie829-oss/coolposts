@@ -20,8 +20,7 @@
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ url('/') }}">
-        <meta property="twitter:title"
-            content="CoolPosts – Publish Smarter. Grow Faster.">
+        <meta property="twitter:title" content="CoolPosts – Publish Smarter. Grow Faster.">
         <meta property="twitter:description"
             content="AI-powered blogging platform for creators to write, optimize, and grow content — monetization coming soon.">
         <meta property="twitter:image" content="{{ asset('images/og-welcome.jpg') }}">
@@ -85,7 +84,8 @@
                                     <h3 class="text-xl sm:text-2xl font-bold text-white tracking-wide">Earnings Feature
                                         <span
                                             class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">Coming
-                                            Soon</span></h3>
+                                            Soon</span>
+                                    </h3>
                                 </div>
                                 <p class="text-slate-300 text-sm sm:text-base text-center mb-6 leading-relaxed">
                                     We’re building a fair and transparent monetization system.
@@ -110,6 +110,11 @@
                                 <div
                                     class="absolute inset-0 -z-10 rounded-full ring-4 ring-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
+                            </a>
+                            <a href="{{ route('blog.templates') }}"
+                                class="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-green-600 to-teal-600 rounded-full font-pj hover:from-green-700 hover:to-teal-700 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 shadow-lg shadow-green-600/30">
+                                <i class="fas fa-file-alt mr-3"></i>
+                                Browse Templates
                             </a>
                             <a href="{{ route('login') }}"
                                 class="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-slate-800 border border-slate-700 rounded-full font-pj hover:bg-slate-700 hover:border-slate-600 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-700">
@@ -251,7 +256,8 @@
                 <div class="text-center mb-16">
                     <h2 class="text-4xl font-bold text-gray-900 mb-4">Latest from Our Blog</h2>
                     <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Discover tips, insights, and strategies for bloggers to grow their content, audience, and long-term monetization potential.
+                        Discover tips, insights, and strategies for bloggers to grow their content, audience, and
+                        long-term monetization potential.
                     </p>
                 </div>
 
@@ -263,7 +269,8 @@
                     @forelse($featuredPosts as $post)
                         <div
                             class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
-                            <a href="{{ route('blog.show', $post->slug) }}" class="block group-hover:opacity-90 transition-opacity relative z-10">
+                            <a href="{{ route('blog.show', $post->slug) }}"
+                                class="block group-hover:opacity-90 transition-opacity relative z-10">
                                 @if($post->featured_image)
                                     <div class="aspect-w-16 aspect-h-9">
                                         <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}"
@@ -286,7 +293,8 @@
                                 </div>
 
                                 <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-                                    <a href="{{ route('blog.show', $post->slug) }}" class="hover:text-purple-600 transition-colors">
+                                    <a href="{{ route('blog.show', $post->slug) }}"
+                                        class="hover:text-purple-600 transition-colors">
                                         {{ $post->title }}
                                     </a>
                                 </h3>
@@ -342,7 +350,8 @@
                 <div class="text-center mb-16">
                     <h2 class="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
                     <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Get started in just 3 simple steps to publish content, grow your audience, and enable monetization when it launches.
+                        Get started in just 3 simple steps to publish content, grow your audience, and enable
+                        monetization when it launches.
                     </p>
                 </div>
 

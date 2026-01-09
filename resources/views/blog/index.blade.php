@@ -44,6 +44,10 @@
                     </div>
                 @else
                     <div class="flex space-x-3">
+                        <a href="{{ route('blog.templates') }}"
+                            class="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+                            <i class="fas fa-file-alt mr-2"></i>Browse Templates
+                        </a>
                         <a href="{{ route('login') }}"
                             class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
                             <i class="fas fa-sign-in-alt mr-2"></i>Login
