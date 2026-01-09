@@ -47,7 +47,7 @@ class StripePaymentService implements PaymentServiceInterface
 
             // Create payment intent
             $paymentIntent = PaymentIntent::create([
-                'amount' => (int)($amount * 100), // Convert to cents
+                'amount' => (int) ($amount * 100), // Convert to cents
                 'currency' => $currency,
                 'customer' => $customer->id,
                 'metadata' => [
@@ -59,7 +59,7 @@ class StripePaymentService implements PaymentServiceInterface
                 'automatic_payment_methods' => [
                     'enabled' => true,
                 ],
-                'statement_descriptor' => $this->gateway->getConfig('statement_descriptor', 'CoolPosts Posts'),
+                'statement_descriptor' => $this->gateway->getConfig('statement_descriptor', 'CoolPosts'),
                 'statement_descriptor_suffix' => $this->gateway->getConfig('statement_descriptor_suffix', 'Subscription'),
             ]);
 
@@ -124,13 +124,13 @@ class StripePaymentService implements PaymentServiceInterface
             switch ($event) {
                 case 'payment_intent.succeeded':
                     return $this->handlePaymentSuccess($data);
-                
+
                 case 'payment_intent.payment_failed':
                     return $this->handlePaymentFailure($data);
-                
+
                 case 'invoice.payment_succeeded':
                     return $this->handleSubscriptionPayment($data);
-                
+
                 case 'customer.subscription.deleted':
                     return $this->handleSubscriptionCancellation($data);
             }
@@ -150,7 +150,7 @@ class StripePaymentService implements PaymentServiceInterface
     {
         try {
             $paymentIntent = PaymentIntent::retrieve($paymentId);
-            
+
             return [
                 'success' => true,
                 'status' => $paymentIntent->status,
@@ -176,9 +176,9 @@ class StripePaymentService implements PaymentServiceInterface
     {
         try {
             $refundData = ['payment_intent' => $paymentId];
-            
+
             if ($amount) {
-                $refundData['amount'] = (int)($amount * 100);
+                $refundData['amount'] = (int) ($amount * 100);
             }
 
             $refund = Refund::create($refundData);
@@ -248,7 +248,7 @@ class StripePaymentService implements PaymentServiceInterface
         try {
             // Try to retrieve account information
             $account = \Stripe\Account::retrieve();
-            
+
             return [
                 'success' => true,
                 'message' => 'Connection successful',
@@ -301,10 +301,10 @@ class StripePaymentService implements PaymentServiceInterface
     protected function handlePaymentSuccess(array $data): bool
     {
         $transaction = PaymentTransaction::where('gateway_transaction_id', $data['id'])->first();
-        
+
         if ($transaction) {
             $transaction->markAsCompleted($data['id']);
-            
+
             // Update user subscription status
             $this->activateUserSubscription($transaction);
         }
@@ -318,7 +318,7 @@ class StripePaymentService implements PaymentServiceInterface
     protected function handlePaymentFailure(array $data): bool
     {
         $transaction = PaymentTransaction::where('gateway_transaction_id', $data['id'])->first();
-        
+
         if ($transaction) {
             $transaction->markAsFailed($data['last_payment_error']['message'] ?? 'Payment failed');
         }
@@ -351,7 +351,7 @@ class StripePaymentService implements PaymentServiceInterface
     {
         $user = $transaction->user;
         $metadata = $transaction->gateway_response;
-        
+
         // Create or update subscription
         $subscription = \App\Models\Subscription::updateOrCreate(
             ['user_id' => $user->id],

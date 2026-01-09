@@ -40,7 +40,7 @@ class RazorpayPaymentService implements PaymentServiceInterface
             $amount = $plan->getPrice($userData['currency'] ?? 'INR');
 
             // Convert amount to paise (smallest currency unit)
-            $amountInPaise = (int)($amount * 100);
+            $amountInPaise = (int) ($amount * 100);
 
             // Create Razorpay order
             $orderData = [
@@ -48,7 +48,7 @@ class RazorpayPaymentService implements PaymentServiceInterface
                 'amount' => $amountInPaise,
                 'currency' => strtolower($currency),
                 'notes' => [
-                    'subscription_for' => 'CoolPosts Posts Premium',
+                    'subscription_for' => 'CoolPosts Premium',
                     'plan_name' => $plan->name,
                     'billing_cycle' => $plan->billing_cycle,
                     'user_id' => $user->id,
@@ -179,7 +179,7 @@ class RazorpayPaymentService implements PaymentServiceInterface
             $refundData = ['payment_id' => $paymentId];
 
             if ($amount) {
-                $refundData['amount'] = (int)($amount * 100); // Convert to paise
+                $refundData['amount'] = (int) ($amount * 100); // Convert to paise
             }
 
             $refund = $this->api->refund->create($refundData);

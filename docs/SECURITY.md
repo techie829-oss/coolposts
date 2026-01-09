@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the comprehensive security measures implemented in the CoolPosts Posts link sharing application to protect against various cyber threats and ensure data integrity.
+This document outlines the comprehensive security measures implemented in the CoolPosts link sharing application to protect against various cyber threats and ensure data integrity.
 
 ## Security Features Implemented
 
