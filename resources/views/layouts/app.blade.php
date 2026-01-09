@@ -594,32 +594,32 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Main Footer Content -->
             <div class="py-12">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                     <!-- Company Info -->
                     <div class="lg:col-span-2">
                         <div class="flex items-center space-x-3 mb-4">
-                            @if ($brandingSettings->brand_logo)
+                            @if ($brandingSettings?->brand_logo)
                                 <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg">
                                     <img src="{{ asset('storage/' . $brandingSettings->brand_logo) }}"
                                         alt="{{ $brandingSettings->brand_name }}" class="w-full h-full object-cover">
                                 </div>
                             @else
                                 <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
-                                    style="background: linear-gradient(to right, {{ $brandingSettings->gradient_start ?? '#8b5cf6' }}, {{ $brandingSettings->gradient_end ?? '#ec4899' }}, {{ $brandingSettings->gradient_third ?? '#ef4444' }});">
+                                    style="background: linear-gradient(to right, {{ $brandingSettings?->gradient_start ?? '#8b5cf6' }}, {{ $brandingSettings?->gradient_end ?? '#ec4899' }}, {{ $brandingSettings?->gradient_third ?? '#ef4444' }});">
                                     <i class="fas fa-link text-white text-lg"></i>
                                 </div>
                             @endif
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900">
-                                    {{ $brandingSettings->brand_name ?? 'CoolPosts' }}
+                                    {{ $brandingSettings?->brand_name ?? config('app.name') }}
                                 </h3>
                                 <p class="text-sm text-gray-600">
-                                    {{ $brandingSettings->brand_tagline ?? 'Link Monetization Platform' }}
+                                    {{ $brandingSettings?->brand_tagline ?? 'Link Monetization Platform' }}
                                 </p>
                             </div>
                         </div>
                         <p class="text-gray-600 text-sm leading-relaxed mb-6 max-w-md">
-                            {{ $brandingSettings->brand_description ?? 'Transform your links into revenue streams. Create, protect, and monetize your URLs with our advanced platform designed for bloggers and content creators.' }}
+                            {{ $brandingSettings?->brand_description ?? 'CoolPosts is an AI blogging and content creation platform that helps users create, publish, and grow content.' }}
                         </p>
 
                         <!-- Social Links -->
@@ -643,7 +643,7 @@
                         </div>
                     </div>
 
-                    <!-- Quick Links -->
+                    <!-- Company -->
                     <div>
                         <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Company</h4>
                         <ul class="space-y-2">
@@ -666,12 +666,17 @@
                     <div>
                         <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Resources</h4>
                         <ul class="space-y-2">
+                            <li><a href="{{ route('legal.contact') }}"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Contact
+                                    Us</a></li>
+                            @auth
+                                <li><a href="{{ route('dashboard') }}"
+                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Dashboard</a>
+                                </li>
+                            @endauth
                             <li><a href="{{ route('blog.templates') }}"
                                     class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Blog
                                     Templates</a></li>
-                            <li><a href="{{ route('api.docs') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">API
-                                    Docs</a></li>
                             <li><a href="{{ route('legal.help') }}"
                                     class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Help
                                     Center</a></li>
@@ -681,54 +686,28 @@
                         </ul>
                     </div>
 
-                    <!-- Support -->
-                    <div>
-                        <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Support</h4>
-                        <ul class="space-y-2">
-                            <li><a href="{{ route('legal.contact') }}"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Contact
-                                    Us</a></li>
-                            @auth
-                                <li><a href="{{ route('dashboard') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Dashboard</a>
-                                </li>
-                            @else
-                                <li><a href="{{ route('login') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Login</a>
-                                </li>
-                                <li><a href="{{ route('register') }}"
-                                        class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Register</a>
-                                </li>
-                            @endauth
-                        </ul>
-                    </div>
-
                     <!-- Legal -->
                     <div>
                         <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Legal</h4>
                         <ul class="space-y-2">
                             <li><a href="{{ route('legal.terms') }}" target="_blank" rel="noopener noreferrer"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Terms</a>
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Terms
+                                    of Service</a>
                             </li>
                             <li><a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener noreferrer"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Privacy</a>
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Privacy
+                                    Policy</a>
                             </li>
                             <li><a href="{{ route('legal.cookies') }}" target="_blank" rel="noopener noreferrer"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Cookies</a>
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Cookie
+                                    Policy</a>
                             </li>
                             <li><a href="{{ route('legal.refund') }}" target="_blank" rel="noopener noreferrer"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Refunds</a>
-                            </li>
-                            <li><a href="{{ route('legal.acceptable-use') }}" target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Acceptable
-                                    Use</a>
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Refund
+                                    Policy</a>
                             </li>
                             <li><a href="{{ route('legal.dmca') }}" target="_blank" rel="noopener noreferrer"
                                     class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">DMCA</a>
-                            </li>
-                            <li><a href="{{ route('legal.gdpr') }}" target="_blank" rel="noopener noreferrer"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">GDPR</a>
                             </li>
                         </ul>
                     </div>
@@ -766,16 +745,8 @@
             <div class="py-6 border-t border-gray-200">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <p class="text-sm text-gray-500">
-                        © 2025 CoolPosts. All rights reserved.
+                        © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
                     </p>
-                    <div class="flex space-x-6 mt-4 md:mt-0">
-                        <a href="{{ route('legal.terms') }}" target="_blank" rel="noopener noreferrer"
-                            class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">Terms</a>
-                        <a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener noreferrer"
-                            class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">Privacy</a>
-                        <a href="{{ route('legal.cookies') }}" target="_blank" rel="noopener noreferrer"
-                            class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">Cookies</a>
-                    </div>
                 </div>
             </div>
         </div>

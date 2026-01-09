@@ -3,7 +3,7 @@
 
     <x-slot name="head">
         <meta name="description"
-            content="Read {{ config('app.name') }} Privacy Policy. Learn how we protect your data, handle personal information, and ensure your privacy while using our link monetization platform.">
+            content="Read {{ config('app.name') }} Privacy Policy. Learn how we protect your data, handle personal information, and ensure your privacy while using our AI blogging and content creation platform.">
         <meta name="keywords"
             content="privacy policy, data protection, privacy rights, personal data, GDPR compliance, data security, {{ config('app.name') }} privacy">
         <meta name="robots" content="index, follow">
@@ -64,7 +64,7 @@
                             {{ config('app.name') }} ("we," "our," or "us") is committed to protecting your privacy.
                             This
                             Privacy Policy explains how we collect, use, disclose, and safeguard your information when
-                            you use our link sharing and monetization platform.
+                            you use our AI blogging and content creation platform.
                         </p>
                     </div>
 
@@ -98,6 +98,9 @@
                             <li>Provide personalized content and ads</li>
                             <li>Improve our services and user experience</li>
                         </ul>
+                        <p class="text-gray-700 mb-4">For details on cookies and tracking technologies, see our <a
+                                href="{{ route('legal.cookies') }}" class="text-blue-600 hover:text-blue-800">Cookie
+                                Policy</a>.</p>
                     </div>
 
                     <div class="mb-8">
@@ -112,6 +115,8 @@
                             <li>Preventing fraud and ensuring security</li>
                             <li>Complying with legal obligations</li>
                         </ul>
+                        <p class="text-gray-700 mb-4">We process data based on user consent, contractual necessity, and
+                            legitimate business interests.</p>
                     </div>
 
                     <div class="mb-8">
@@ -163,6 +168,10 @@
                             <li>Export your data in a portable format</li>
                             <li>Opt-out of marketing communications</li>
                         </ul>
+                        <p class="text-gray-700 mb-4">Users may request data access, correction, or deletion by emailing
+                            <a href="mailto:support@coolposts.site"
+                                class="text-blue-600 hover:text-blue-800">support@coolposts.site</a>.
+                        </p>
 
                         <h3 class="text-xl font-semibold text-gray-800 mb-3">6.2 Cookie Preferences</h3>
                         <p class="text-gray-700 mb-4">You can control cookie settings through your browser preferences.
@@ -211,8 +220,8 @@
                             <li>Resolve disputes</li>
                             <li>Enforce our agreements</li>
                         </ul>
-                        <p class="text-gray-700 mb-4">Account data is typically retained for 3 years after account
-                            deletion, unless required by law.</p>
+                        <p class="text-gray-700 mb-4">Account data is retained for up to 3 years after account
+                            deletion. Analytics data is anonymized. Emails are retained until you unsubscribe.</p>
                     </div>
 
                     <div class="mb-8">
@@ -231,10 +240,8 @@
                         </p>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <p class="text-gray-700">
-                                <strong>Email:</strong> {{ 'support@' . config('app.domain') }}<br>
-                                {{-- <strong>Address:</strong> [Your Business Address]<br>
-                                <strong>Phone:</strong> [Your Phone Number]<br> --}}
-                                <strong>Data Protection Officer:</strong> {{ 'privacy@' . config('app.domain') }}
+                                <strong>Email:</strong> support@coolposts.site<br>
+                                <strong>Data Protection Officer:</strong> privacy@coolposts.site
                             </p>
                         </div>
                     </div>

@@ -3,7 +3,7 @@
 
     <x-slot name="head">
         <meta name="description"
-            content="Read {{ config('app.name') }} Terms of Service. Understand our terms and conditions for using our link monetization platform, user responsibilities, and service guidelines.">
+            content="Read {{ config('app.name') }} Terms of Service. Understand our terms and conditions for using our AI blogging and content creation platform, user responsibilities, and service guidelines.">
         <meta name="keywords"
             content="terms of service, terms and conditions, legal terms, user agreement, service terms, {{ config('app.name') }} terms">
         <meta name="robots" content="index, follow">
@@ -74,7 +74,8 @@
                     <div class="mb-8">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">2. Description of Service</h2>
                         <p class="text-gray-700 mb-4">
-                            {{ config('app.name') }} is a link sharing and monetization platform that allows users to:
+                            {{ config('app.name') }} is an AI blogging and content creation platform that allows users
+                            to:
                         </p>
                         <ul class="list-disc pl-6 text-gray-700 mb-4">
                             <li>Create shortened links for easier sharing</li>
@@ -271,7 +272,7 @@
                         </p>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <p class="text-gray-700">
-                                <strong>Email:</strong> {{ 'support@' . config('app.domain') }}
+                                <strong>Email:</strong> support@coolposts.site
                             </p>
                         </div>
                     </div>
