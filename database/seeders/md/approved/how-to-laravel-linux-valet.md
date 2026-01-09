@@ -1,42 +1,99 @@
 # How to Set Up Laravel 12 Development Environment on Linux Using Valet Linux
 
-Unlike macOS and Windows, **Laravel Herd is not available for Linux**. However, Linux developers can still achieve a **very similar, native, high-performance local development experience** using **Valet Linux**.
+While macOS and Windows developers have **Laravel Herd**, there is currently **no official Herd release for Linux**.
+However, Linux developers can achieve a **nearly identical native Laravel experience** using **Valet Linux**.
 
-Valet Linux provides automatic Nginx configuration, local `.test` domains, and optional HTTPS — without Docker, virtual machines, or heavy stacks. When paired with Laravel 12’s defaults (SQLite first, MySQL only when needed), this setup is fast, stable, and close to production behavior.
+Valet Linux works across **most modern Linux distributions**, especially those commonly used by developers.
 
-This guide explains the **correct, modern way** to run Laravel 12 locally on Linux.
+---
+
+## Supported Linux Distributions
+
+Valet Linux works best on **Debian-based and Ubuntu-based systems**, and also supports several Arch-based distributions with minor adjustments.
+
+### Debian / Ubuntu Family (Best Supported)
+
+* **Ubuntu** (20.04, 22.04, 24.04)
+* **Linux Mint**
+* **Pop!_OS**
+* **Elementary OS**
+* **Kubuntu / Xubuntu / Lubuntu**
+* **Debian 11 / 12**
+
+These distributions are **fully compatible** with Valet Linux using the steps in this guide.
+
+### Arch-Based Distributions (Works with Adjustments)
+
+* **Manjaro**
+* **Arch Linux**
+
+> On Arch-based systems, package names and PHP installation steps may differ slightly, but Valet Linux functions the same once PHP, Nginx, and Dnsmasq are installed.
+
+### Fedora / RHEL-Based (Advanced Users)
+
+* **Fedora**
+* **Rocky Linux**
+* **AlmaLinux**
+
+Valet Linux can run on these systems, but manual dependency handling is required. This guide focuses on Debian/Ubuntu-based systems for reliability.
 
 ---
 
 ## Why Valet Linux Is the Best Herd Alternative on Linux
 
-Valet Linux is a community-maintained Linux port of Laravel Valet. It mirrors the same philosophy used by Herd:
+Valet Linux mirrors the same philosophy as Herd:
 
-* Runs **natively** on your OS (no Docker overhead)
-* Uses **Nginx**, not Apache
-* Auto-serves projects using `.test` domains
+* Native OS performance (no Docker, no VM)
+* Nginx-based web serving
+* Automatic `.test` domains
 * Minimal configuration
-* Extremely fast file access
+* Extremely fast for Laravel projects
 
-This makes it ideal for Laravel development, especially on Ubuntu and Debian systems.
-
----
-
-## Supported Systems
-
-* Ubuntu 22.04 LTS / 24.04 LTS
-* Debian 11 / 12
-* Fedora (with minor adjustments)
-
-> This guide assumes **Ubuntu/Debian**, which is the most common and best-supported path.
+For Linux developers who prefer **lightweight, system-level tooling**, Valet Linux is the closest match to Herd.
 
 ---
 
 ## Prerequisites
 
+* Any supported Linux distribution listed above
 * `sudo` access
-* Basic terminal knowledge
-* Internet connection
+* Basic terminal familiarity
+
+---
+
+## PHP & Laravel 12 Compatibility
+
+Laravel 12 officially supports:
+
+* **PHP 8.2**
+* **PHP 8.3**
+
+This guide uses **PHP 8.3**, which works across Ubuntu, Mint, Debian, and Manjaro (with distro-specific package names).
+
+---
+
+## Database Note (Important for Laravel 12)
+
+Laravel 12 uses **SQLite by default**, which means:
+
+* No database server is required initially
+* Ideal for local development
+* Zero configuration friction
+
+If you want MySQL for production parity, you can install **MariaDB** later (covered in this guide).
+
+---
+
+## When to Use MySQL vs SQLite
+
+| Use Case                 | Recommended DB  |
+| ------------------------ | --------------- |
+| Local dev & testing      | SQLite          |
+| Production parity        | MySQL / MariaDB |
+| CI / automation          | SQLite          |
+| Heavy relational queries | MySQL           |
+
+SQLite is **not a limitation** for most local Laravel workflows.
 
 ---
 
@@ -51,7 +108,7 @@ sudo apt install -y curl git unzip software-properties-common
 
 ## Step 2: Install PHP (Laravel 12 Compatible)
 
-Laravel 12 officially supports **PHP 8.2 and 8.3**. Install PHP 8.3 using the Ondřej Surý PPA.
+Laravel 12 officially supports **PHP 8.2 and 8.3**. Install PHP 8.3 using the Ondřej Surý PPA (Ubuntu/Debian).
 
 ```bash
 sudo add-apt-repository ppa:ondrej/php -y
@@ -110,11 +167,7 @@ Install Valet:
 valet install
 ```
 
-This automatically configures:
-
-* Nginx
-* Dnsmasq
-* Required permissions
+This automatically configures Nginx, Dnsmasq, and required permissions.
 
 ---
 
@@ -127,17 +180,12 @@ Create your projects directory:
 ```bash
 mkdir ~/Projects
 cd ~/Projects
-```
-
-Tell Valet to serve this directory:
-
-```bash
 valet park
 ```
 
 ---
 
-## Step 6: Create a Laravel 12 Project (Recommended Method)
+## Step 6: Create a Laravel 12 Project
 
 Use the Laravel installer (preferred):
 
@@ -146,42 +194,23 @@ composer global require laravel/installer
 laravel new cool-app
 ```
 
-During setup:
-
-* Choose SQLite
-* Skip extra services if not needed
+During setup, choose **SQLite**.
 
 Move into the project:
 
 ```bash
 cd cool-app
-```
-
-Create SQLite database file if missing:
-
-```bash
 touch database/database.sqlite
-```
-
-Run migrations:
-
-```bash
 php artisan migrate
 ```
 
-Visit:
-
-```
-http://cool-app.test
-```
-
-Your app should load instantly.
+Visit `http://cool-app.test`.
 
 ---
 
 ## Step 7: When You Need MySQL (Optional)
 
-Laravel 12 does **not require MySQL** locally, but if you want production parity, install MariaDB.
+If you want production parity, install MariaDB:
 
 ```bash
 sudo apt install -y mariadb-server
@@ -189,20 +218,16 @@ sudo systemctl enable mariadb
 sudo systemctl start mariadb
 ```
 
-By default, local MariaDB often runs **without a password**, which is fine for development.
-
 Create database:
 
 ```bash
 sudo mysql
-```
-
-```sql
+-- inside mysql shell:
 CREATE DATABASE laravel_local;
 EXIT;
 ```
 
-Update `.env`:
+Update `.env` for MySQL:
 
 ```env
 DB_CONNECTION=mysql
@@ -213,7 +238,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Run migrations again:
+Run migrations:
 
 ```bash
 php artisan migrate
@@ -229,77 +254,32 @@ To enable trusted HTTPS:
 valet secure
 ```
 
-Your site becomes:
-
-```
-https://cool-app.test
-```
+Your site becomes `https://cool-app.test`.
 
 ---
 
 ## Common Issues & Fixes
 
 ### Site Not Loading
-
-```bash
-valet restart
-```
+`valet restart`
 
 ### DNS Issues
-
-```bash
-sudo systemctl restart dnsmasq
-```
+`sudo systemctl restart dnsmasq`
 
 ### Permission Errors
-
 ```bash
 sudo chown -R $USER:$USER ~/Projects
 chmod -R 775 storage bootstrap/cache
 ```
 
-### PHP Version Conflicts
-
-Ensure only one PHP version is active:
-
-```bash
-php -v
-```
-
 ---
 
-## Recommended Linux Laravel Workflow
+## Summary
 
-```bash
-laravel new app-name
-cd app-name
-php artisan migrate
-npm install
-npm run dev
-```
-
-No Docker. No Apache. No VM.
-
----
-
-## Herd vs Valet Linux (Reality Check)
-
-| Feature           | Herd (macOS/Windows) | Valet Linux |
-| ----------------- | -------------------- | ----------- |
-| Native speed      | ✅                    | ✅           |
-| Docker-free       | ✅                    | ✅           |
-| Automatic domains | ✅                    | ✅           |
-| GUI               | ✅                    | ❌           |
-| Linux support     | ❌                    | ✅           |
-
-Valet Linux is the **closest functional equivalent** to Herd on Linux.
-
----
-
-## Conclusion
-
-For Linux developers, **Valet Linux + Laravel 12** is the cleanest and fastest local development setup available today. SQLite handles most local needs, MySQL is optional, and Valet keeps your system lightweight and responsive.
-
-If Herd ever arrives on Linux, migration will be trivial — because this workflow already matches Laravel’s modern philosophy.
+* Linux **does not have Herd**, but Valet Linux provides the same workflow
+* Works on **Ubuntu, Mint, Pop!_OS, Debian, Manjaro**
+* Laravel 12 defaults to **SQLite**
+* MySQL is optional and easy to add
+* Native performance without Docker complexity
 
 ---
