@@ -27,9 +27,15 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Blog Post Templates') }}
             </h2>
-            <a href="{{ route('blog.create') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
-                <i class="fas fa-plus mr-2"></i>Create Custom Post
-            </a>
+            @auth
+                <a href="{{ route('blog.create') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Create Custom Post
+                </a>
+            @else
+                <a href="{{ route('register') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Sign Up to Create
+                </a>
+            @endauth
         </div>
     </x-slot>
 
@@ -1225,8 +1231,13 @@ I'm always open to discussing new opportunities, interesting projects, or just h
                     content: currentTemplateData.content
                 }));
 
-                // Redirect to create page
-                window.location.href = '{{ route("blog.create") }}';
+                // Redirect based on authentication status
+                @auth
+                    window.location.href = '{{ route("blog.create") }}';
+                @else
+                    // Redirect to register page for guest users
+                    window.location.href = '{{ route("register") }}';
+                @endauth
             }
         }
 
