@@ -48,6 +48,28 @@ class LinkController extends Controller
     }
 
     /**
+     * Display a management listing of the resource.
+     */
+    public function manage()
+    {
+        $user = Auth::user();
+
+        if ($user->isAdmin()) {
+            $links = Link::with(['user', 'clicks', 'earnings'])
+                ->withCount(['clicks'])
+                ->latest()
+                ->paginate(15);
+        } else {
+            $links = $user->links()
+                ->withCount(['clicks'])
+                ->latest()
+                ->paginate(15);
+        }
+
+        return view('links.manage', compact('links'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     // Links management
+    Route::get('/links/manage', [LinkController::class, 'manage'])->name('links.manage');
     Route::resource('links', LinkController::class)->middleware('rate.limit');
 
     // Earnings
@@ -386,6 +387,7 @@ Route::get('/robots.txt', [LegalController::class, 'robots'])->name('legal.robot
 Route::redirect('/blog', '/blog-posts', 301);
 
 Route::get('/blog-posts', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog-posts/manage', [BlogController::class, 'manage'])->name('blog.manage');
 Route::get('/blog-posts/templates', [BlogController::class, 'templates'])->name('blog.templates');
 Route::get('/how-we-work', [BlogController::class, 'howWeWork'])->name('blog.how-we-work');
 Route::post('/blog-posts/{post}/track-leave', [BlogController::class, 'trackLeave'])->name('blog.track-leave');

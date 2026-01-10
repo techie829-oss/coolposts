@@ -69,6 +69,20 @@ class BlogController extends Controller
     }
 
     /**
+     * Display a management listing of blog posts
+     */
+    public function manage()
+    {
+        $user = Auth::user();
+
+        $posts = $user->blogPosts()
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        return view('blog.manage', compact('posts'));
+    }
+
+    /**
      * Show the form for creating a new blog post
      */
     public function create()

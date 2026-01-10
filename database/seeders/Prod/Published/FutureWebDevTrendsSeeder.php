@@ -32,7 +32,9 @@ class FutureWebDevTrendsSeeder extends Seeder
                 'category' => 'Technology',
                 'tags' => ['web-development', 'trends', 'ai', 'edge-computing', '2026'],
                 'meta_title' => 'Web Development Trends 2025-2026: The Future of Code',
-                'meta_description' => 'Explore the top web development trends for 2025 and 2026, including AI-native workflows, edge architecture, and framework consolidation.',
+                'meta_description' => 'What does 2026 hold for web dev? From AI-native workflows to edge architecture, discover the technologies defining the future of code.',
+                'meta_keywords' => ['web development trends 2026', 'future of coding', 'AI in web dev', 'edge computing', 'frontend trends'],
+                'canonical_url' => 'https://www.coolposts.site/blog-posts/future-web-development-trends-2025-2026-outlook',
                 'status' => 'published',
                 'published_at' => now(), // Keeps current time on run, or could be set to a fixed recent date
                 'is_monetized' => true,

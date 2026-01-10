@@ -16,7 +16,7 @@
                         Welcome to CoolPosts, {{ Auth::user()->name }}! 🎉
                     </h1>
                     <p class="text-purple-100 text-lg">
-                        @if($globalSettings->isEarningsEnabled())
+                        @if ($globalSettings->isEarningsEnabled())
                             Ready to monetize more links and grow your earnings?
                         @else
                             Ready to create more links and grow your audience?
@@ -34,22 +34,22 @@
                     <i class="fas fa-plus mr-3 text-purple-600"></i>
                     New Link
                 </a>
-                <a href="{{ route('links.index') }}"
+                <a href="{{ route('links.manage') }}"
                     class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
                     <i class="fas fa-list mr-3 text-blue-600"></i>
-                    View All Links
+                    Manage Links
                 </a>
                 <a href="{{ route('blog.create') }}"
                     class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
                     <i class="fas fa-edit mr-3 text-green-600"></i>
                     Create Blog Post
                 </a>
-                <a href="{{ route('blog.index') }}"
+                <a href="{{ route('blog.manage') }}"
                     class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
                     <i class="fas fa-newspaper mr-3 text-orange-600"></i>
-                    View Blog
+                    Manage Blog
                 </a>
-                @if($globalSettings->isEarningsEnabled())
+                @if ($globalSettings->isEarningsEnabled())
                     <a href="{{ route('withdrawals.index') }}"
                         class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
                         <i class="fas fa-dollar-sign mr-3 text-yellow-600"></i>
@@ -168,19 +168,19 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('blog.index') }}"
+                    <a href="{{ route('blog.manage') }}"
                         class="flex items-center p-4 bg-gradient-to-r from-zinc-50 to-zinc-100 rounded-2xl border border-zinc-200 hover:from-zinc-100 hover:to-zinc-200 transition-all duration-200 group">
                         <div
                             class="w-12 h-12 bg-white border border-zinc-200 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-200">
-                            <i class="fas fa-newspaper text-zinc-600 text-lg"></i>
+                            <i class="fas fa-tasks text-zinc-600 text-lg"></i>
                         </div>
                         <div>
-                            <h4 class="font-semibold text-gray-900">View Blog</h4>
-                            <p class="text-sm text-gray-600">Browse all blog posts</p>
+                            <h4 class="font-semibold text-gray-900">Manage Blog</h4>
+                            <p class="text-sm text-gray-600">Edit and track your posts</p>
                         </div>
                     </a>
 
-                    @if($globalSettings->isLinkCreationEnabled())
+                    @if ($globalSettings->isLinkCreationEnabled())
                         <a href="{{ route('links.create') }}"
                             class="flex items-center p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-2xl border border-purple-200 hover:from-purple-100 hover:to-purple-200 transition-all duration-200 group">
                             <div
