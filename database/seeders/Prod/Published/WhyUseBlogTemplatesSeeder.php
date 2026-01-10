@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Prod;
+namespace Database\Seeders\Prod\Published;
 
 use App\Models\BlogPost;
 use App\Models\User;
@@ -12,7 +12,7 @@ class WhyUseBlogTemplatesSeeder extends Seeder
     {
         $user = User::first();
 
-        $content = file_get_contents(database_path('seeders/md/approved/why-use-blog-post-templates.md'));
+        $content = file_get_contents(database_path('seeders/md/published/why-use-blog-post-templates.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'why-blog-post-templates-matter-consistent-high-quality-content'],

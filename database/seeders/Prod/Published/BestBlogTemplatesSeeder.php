@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Prod;
+namespace Database\Seeders\Prod\Published;
 
 use Illuminate\Database\Seeder;
 use App\Models\BlogPost;

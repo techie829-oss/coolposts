@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Prod;
+namespace Database\Seeders\Prod\Published;
 
 use App\Models\BlogPost;
 use App\Models\User;
@@ -12,7 +12,7 @@ class NginxInstallGuideSeeder extends Seeder
     {
         $user = User::first();
 
-        $content = file_get_contents(database_path('seeders/md/approved/nginx-install-ubuntu-guide.md'));
+        $content = file_get_contents(database_path('seeders/md/published/nginx-install-ubuntu-guide.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'how-to-install-configure-nginx-ubuntu-beginner-guide'],

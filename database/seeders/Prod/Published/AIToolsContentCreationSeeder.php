@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Prod;
+namespace Database\Seeders\Prod\Published;
 
 use App\Models\BlogPost;
 use App\Models\User;
@@ -12,7 +12,7 @@ class AIToolsContentCreationSeeder extends Seeder
     {
         $user = User::first();
 
-        $content = file_get_contents(database_path('seeders/md/approved/ai-tools-and-content-creation.md'));
+        $content = file_get_contents(database_path('seeders/md/published/ai-tools-and-content-creation.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'how-ai-tools-changing-content-creation-without-replacing-writers'],

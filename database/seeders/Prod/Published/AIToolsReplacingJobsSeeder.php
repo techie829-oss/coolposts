@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Prod;
+namespace Database\Seeders\Prod\Published;
 
 use App\Models\BlogPost;
 use App\Models\User;
@@ -13,7 +13,7 @@ class AIToolsReplacingJobsSeeder extends Seeder
     {
         $user = User::first();
 
-        $content = file_get_contents(database_path('seeders/md/approved/ai-tools-replacing-jobs-truth-vs-hype.md'));
+        $content = file_get_contents(database_path('seeders/md/published/ai-tools-replacing-jobs-truth-vs-hype.md'));
 
         try {
             BlogPost::updateOrCreate(

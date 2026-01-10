@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Prod;
+namespace Database\Seeders\Prod\Published;
 
 use App\Models\BlogPost;
 use App\Models\User;
@@ -13,7 +13,7 @@ class LaravelHerdDBnginSetupSeeder extends Seeder
         $user = User::first();
 
         // macOS Guide
-        $macContent = file_get_contents(database_path('seeders/md/approved/how-to-laravel-herd-dbngin-macos.md'));
+        $macContent = file_get_contents(database_path('seeders/md/published/how-to-laravel-herd-dbngin-macos.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'how-to-setup-laravel-12-macos-using-herd-dbngin'],
@@ -36,7 +36,7 @@ class LaravelHerdDBnginSetupSeeder extends Seeder
         );
 
         // Windows Guide
-        $windowsContent = file_get_contents(database_path('seeders/md/approved/how-to-laravel-herd-windows.md'));
+        $windowsContent = file_get_contents(database_path('seeders/md/published/how-to-laravel-herd-windows.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'how-to-setup-laravel-12-windows-using-herd-mysql'],
@@ -59,7 +59,7 @@ class LaravelHerdDBnginSetupSeeder extends Seeder
         );
 
         // Linux Guide (Valet)
-        $linuxContent = file_get_contents(database_path('seeders/md/approved/how-to-laravel-linux-valet.md'));
+        $linuxContent = file_get_contents(database_path('seeders/md/published/how-to-laravel-linux-valet.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'how-to-setup-laravel-12-linux-using-valet'],
@@ -82,7 +82,7 @@ class LaravelHerdDBnginSetupSeeder extends Seeder
         );
 
         // Laragon Windows Guide (New)
-        $laragonContent = file_get_contents(database_path('seeders/md/approved/how-to-laravel-laragon-windows.md'));
+        $laragonContent = file_get_contents(database_path('seeders/md/published/how-to-laravel-laragon-windows.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'how-to-setup-laravel-windows-using-laragon'],

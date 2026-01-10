@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Prod;
+namespace Database\Seeders\Prod\Published;
 
 use Illuminate\Database\Seeder;
 use App\Models\BlogPost;
@@ -18,7 +18,7 @@ class MachineLearningProductionSeeder extends Seeder
             $user = User::factory()->create();
         }
 
-        $content = file_get_contents(database_path('seeders/md/approved/machine-learning-in-production.md'));
+        $content = file_get_contents(database_path('seeders/md/published/machine-learning-in-production.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'machine-learning-in-production-best-practices-challenges'],

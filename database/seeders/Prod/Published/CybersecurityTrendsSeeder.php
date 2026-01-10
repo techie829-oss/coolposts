@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Prod;
+namespace Database\Seeders\Prod\Published;
 
 use Illuminate\Database\Seeder;
 use App\Models\BlogPost;
@@ -18,7 +18,7 @@ class CybersecurityTrendsSeeder extends Seeder
             $user = User::factory()->create();
         }
 
-        $content = file_get_contents(database_path('seeders/md/approved/cybersecurity-trends-2026.md'));
+        $content = file_get_contents(database_path('seeders/md/published/cybersecurity-trends-2026.md'));
 
         BlogPost::updateOrCreate(
             ['slug' => 'cybersecurity-trends-2026-post-ai-era'],

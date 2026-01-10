@@ -2,20 +2,20 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\Prod\AIToolsContentCreationSeeder;
-use Database\Seeders\Prod\AIToolsReplacingJobsSeeder;
-use Database\Seeders\Prod\BestBlogTemplatesSeeder;
-use Database\Seeders\Prod\BlogTemplatesGuideSeeder;
-use Database\Seeders\Prod\CybersecurityTrendsSeeder;
-use Database\Seeders\Prod\DockerGuideSeeder;
-use Database\Seeders\Prod\FutureWebDevTrendsSeeder;
-use Database\Seeders\Prod\KubernetesGuideSeeder;
-use Database\Seeders\Prod\LaravelBeginnerGuideSeeder;
-use Database\Seeders\Prod\LaravelHerdDBnginSetupSeeder;
-use Database\Seeders\Prod\MachineLearningProductionSeeder;
-use Database\Seeders\Prod\NginxInstallGuideSeeder;
-use Database\Seeders\Prod\React18GuideSeeder;
-use Database\Seeders\Prod\WhyUseBlogTemplatesSeeder;
+// use Database\Seeders\Prod\Published\AIToolsContentCreationSeeder;
+// use Database\Seeders\Prod\Published\AIToolsReplacingJobsSeeder;
+// use Database\Seeders\Prod\Published\BestBlogTemplatesSeeder;
+// use Database\Seeders\Prod\Published\BlogTemplatesGuideSeeder;
+// use Database\Seeders\Prod\Published\CybersecurityTrendsSeeder;
+// use Database\Seeders\Prod\Published\DockerGuideSeeder;
+// use Database\Seeders\Prod\Published\FutureWebDevTrendsSeeder;
+// use Database\Seeders\Prod\Published\KubernetesGuideSeeder;
+// use Database\Seeders\Prod\Published\LaravelBeginnerGuideSeeder;
+// use Database\Seeders\Prod\Published\LaravelHerdDBnginSetupSeeder;
+// use Database\Seeders\Prod\Published\MachineLearningProductionSeeder;
+// use Database\Seeders\Prod\Published\NginxInstallGuideSeeder;
+// use Database\Seeders\Prod\Published\React18GuideSeeder;
+// use Database\Seeders\Prod\Published\WhyUseBlogTemplatesSeeder;
 use Illuminate\Database\Seeder;
 
 class ProdBlogPostSeeder extends Seeder
@@ -26,20 +26,21 @@ class ProdBlogPostSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            BlogTemplatesGuideSeeder::class,
-            WhyUseBlogTemplatesSeeder::class,
-            NginxInstallGuideSeeder::class,
-            LaravelHerdDBnginSetupSeeder::class,
-            AIToolsReplacingJobsSeeder::class,
-            AIToolsContentCreationSeeder::class,
-            CybersecurityTrendsSeeder::class,
-            DockerGuideSeeder::class,
-            FutureWebDevTrendsSeeder::class,
-            KubernetesGuideSeeder::class,
-            MachineLearningProductionSeeder::class,
-            React18GuideSeeder::class,
-            LaravelBeginnerGuideSeeder::class,
-            BestBlogTemplatesSeeder::class,
+            // Moved to Prod/Published folder - already seeded
+            // \Database\Seeders\Prod\Published\BlogTemplatesGuideSeeder::class,
+            // \Database\Seeders\Prod\Published\WhyUseBlogTemplatesSeeder::class,
+            // \Database\Seeders\Prod\Published\NginxInstallGuideSeeder::class,
+            // \Database\Seeders\Prod\Published\LaravelHerdDBnginSetupSeeder::class,
+            // \Database\Seeders\Prod\Published\AIToolsReplacingJobsSeeder::class,
+            // \Database\Seeders\Prod\Published\AIToolsContentCreationSeeder::class,
+            // \Database\Seeders\Prod\Published\CybersecurityTrendsSeeder::class,
+            // \Database\Seeders\Prod\Published\DockerGuideSeeder::class,
+            // \Database\Seeders\Prod\Published\FutureWebDevTrendsSeeder::class,
+            // \Database\Seeders\Prod\Published\KubernetesGuideSeeder::class,
+            // \Database\Seeders\Prod\Published\MachineLearningProductionSeeder::class,
+            // \Database\Seeders\Prod\Published\React18GuideSeeder::class,
+            // \Database\Seeders\Prod\Published\LaravelBeginnerGuideSeeder::class,
+            // \Database\Seeders\Prod\Published\BestBlogTemplatesSeeder::class,
         ]);
 
         $this->command->info('Production blog posts seeded successfully!');
