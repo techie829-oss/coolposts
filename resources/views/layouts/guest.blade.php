@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google tag (gtag.js) -->
-    @if (!request()->is('admin*'))
+    @if (app()->environment('production') && !request()->is('admin*'))
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-FBB3YFWDKF"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
