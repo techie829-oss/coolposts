@@ -164,6 +164,26 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- SEO: Noindex for Legal, Auth, and System Pages -->
+    @php
+        $noIndexRoutes = [
+            'legal.terms',
+            'legal.privacy',
+            'legal.cookies',
+            'legal.refund',
+            'legal.dmca',
+            'login',
+            'register',
+            'password.request',
+            'password.reset',
+            'verification.notice',
+            'verification.verify',
+        ];
+    @endphp
+    @if (in_array(Route::currentRouteName(), $noIndexRoutes) || request()->is('admin/*') || request()->is('user/*'))
+        <meta name="robots" content="noindex, nofollow">
+    @endif
     <!-- AdSense Removed primarily for 'Blog-First' Strategy -->
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-27W10DK2T6"></script>
@@ -702,12 +722,11 @@
                                     class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Cookie
                                     Policy</a>
                             </li>
-                            <li><a href="{{ route('legal.refund') }}" target="_blank" rel="noopener noreferrer"
-                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Refund
-                                    Policy</a>
-                            </li>
                             <li><a href="{{ route('legal.dmca') }}" target="_blank" rel="noopener noreferrer"
                                     class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">DMCA</a>
+                            </li>
+                            <li><a href="{{ route('legal.contact') }}" target="_blank" rel="noopener noreferrer"
+                                    class="text-sm text-gray-600 hover:text-purple-600 transition-colors duration-200">Contact</a>
                             </li>
                         </ul>
                     </div>

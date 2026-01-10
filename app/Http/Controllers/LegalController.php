@@ -174,18 +174,25 @@ class LegalController extends Controller
             $xml .= '  </url>' . "\n";
         }
 
-        // Legal Pages
-        $legalPages = [
-            ['route' => 'legal.terms', 'priority' => '0.3'],
-            ['route' => 'legal.privacy', 'priority' => '0.3'],
-            ['route' => 'legal.cookies', 'priority' => '0.3'],
-            ['route' => 'legal.about', 'priority' => '0.4'],
+        // Legal Pages - Excluded from Sitemap for SEO
+        // $legalPages = [
+        //     ['route' => 'legal.terms', 'priority' => '0.3'],
+        //     ['route' => 'legal.privacy', 'priority' => '0.3'],
+        //     ['route' => 'legal.cookies', 'priority' => '0.3'],
+        //     ['route' => 'legal.about', 'priority' => '0.4'],
+        //     ['route' => 'legal.faq', 'priority' => '0.5'],
+        //     ['route' => 'legal.help', 'priority' => '0.4'],
+        //     ['route' => 'legal.contact', 'priority' => '0.4'],
+        // ];
+
+        // Allowed Legal/Info Pages
+        $infoPages = [
+            ['route' => 'legal.about', 'priority' => '0.5'],
             ['route' => 'legal.faq', 'priority' => '0.5'],
-            ['route' => 'legal.help', 'priority' => '0.4'],
             ['route' => 'legal.contact', 'priority' => '0.4'],
         ];
 
-        foreach ($legalPages as $page) {
+        foreach ($infoPages as $page) {
             $xml .= '  <url>' . "\n";
             $xml .= '    <loc>' . route($page['route']) . '</loc>' . "\n";
             $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
@@ -193,6 +200,15 @@ class LegalController extends Controller
             $xml .= '    <priority>' . $page['priority'] . '</priority>' . "\n";
             $xml .= '  </url>' . "\n";
         }
+
+        // foreach ($legalPages as $page) {
+        //     $xml .= '  <url>' . "\n";
+        //     $xml .= '    <loc>' . route($page['route']) . '</loc>' . "\n";
+        //     $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
+        //     $xml .= '    <changefreq>monthly</changefreq>' . "\n";
+        //     $xml .= '    <priority>' . $page['priority'] . '</priority>' . "\n";
+        //     $xml .= '  </url>' . "\n";
+        // }
 
         // Other Pages
         $otherPages = [

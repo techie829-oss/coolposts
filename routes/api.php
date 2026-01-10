@@ -81,31 +81,3 @@ Route::prefix('webhooks')->group(function () {
 Route::middleware('throttle:api')->group(function () {
     // Additional rate-limited endpoints can be added here
 });
-
-// API Documentation endpoint
-Route::get('/docs', function () {
-    return response()->json([
-        'message' => 'Link Sharing App API Documentation',
-        'version' => '1.0.0',
-        'endpoints' => [
-            'GET /api/status' => 'Get API status',
-            'GET /api/links' => 'Get user links',
-            'POST /api/links' => 'Create new link',
-            'GET /api/links/{id}' => 'Get specific link',
-            'PUT /api/links/{id}' => 'Update link',
-            'DELETE /api/links/{id}' => 'Delete link',
-            'GET /api/blog-posts' => 'Get user blog posts',
-            'GET /api/blog-posts/{id}' => 'Get specific blog post',
-            'GET /api/analytics' => 'Get user analytics',
-            'GET /api/analytics/realtime' => 'Get real-time analytics',
-            'GET /api/earnings' => 'Get user earnings',
-            'GET /api/settings' => 'Get global settings (admin only)',
-            'POST /api/webhooks/adsense' => 'AdSense webhook',
-            'POST /api/webhooks/admob' => 'AdMob webhook',
-            'POST /api/webhooks/payment' => 'Payment webhook'
-        ],
-        'authentication' => 'Bearer token required for protected endpoints',
-        'rate_limiting' => '60 requests per minute per user',
-        'documentation' => 'https://docs.linksharingapp.com/api'
-    ]);
-});

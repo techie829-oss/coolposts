@@ -4,136 +4,71 @@
             {{ __('Cookie Policy') }}
         </h2>
     </x-slot>
-    <div class="py-12">
+
+    <div class="py-12 bg-gray-50">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="text-center mb-8">
+                <div class="p-8 text-gray-900">
+                    <!-- Page Header -->
+                    <div class="text-center mb-12">
                         <h1 class="text-3xl font-bold text-gray-900 mb-4">Cookie Policy</h1>
-                        <p class="text-lg text-gray-600">How we use cookies and similar technologies</p>
+                        <p class="text-lg text-gray-600">Last updated: January 09, 2026</p>
                     </div>
 
-                    <div class="prose max-w-none">
-                        <p class="text-gray-600 mb-6">CoolPosts is an AI blogging and content creation platform. This
-                            Cookie Policy explains how we use cookies and similar technologies to recognize you when you
-                            visit our website. Users can control or disable cookies through their browser settings.
-                            Continued use of the site indicates acceptance of cookies.</p>
-
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">What are cookies?</h2>
-                        <p class="text-gray-600 mb-6">Cookies are small data files that are placed on your computer or
-                            mobile device when you visit a website. Cookies are widely used by website owners in order
-                            to make their websites work, or to work more efficiently, as well as to provide reporting
-                            information.</p>
-
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">How we use cookies</h2>
-                        <p class="text-gray-600 mb-6">We use cookies for several reasons. Some cookies are required for
-                            technical reasons in order for our website to operate, and we refer to these as "essential"
-                            or "strictly necessary" cookies. Other cookies also enable us to track and target the
-                            interests of our users to enhance the experience on our website.</p>
-
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Types of cookies we use</h2>
-
-                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Essential Cookies</h3>
-                            <p class="text-gray-600 mb-3">These cookies are essential to provide you with services
-                                available through our website and to enable you to use some of its features. Without
-                                these cookies, the services that you have asked for cannot be provided.</p>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                <li>Authentication cookies to keep you logged in</li>
-                                <li>Security cookies to protect against fraud</li>
-                                <li>Session cookies to maintain your session</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Analytics Cookies</h3>
-                            <p class="text-gray-600 mb-3">These cookies allow us to analyze how our website is being
-                                accessed and used, and enable us to track performance of our site.</p>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                <li>Google Analytics cookies to understand user behavior</li>
-                                <li>Performance monitoring cookies</li>
-                                <li>Error tracking cookies</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Functionality Cookies</h3>
-                            <p class="text-gray-600 mb-3">These cookies allow our website to remember choices you make
-                                when you use our website.</p>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                <li>Language preference cookies</li>
-                                <li>Theme preference cookies</li>
-                                <li>User interface customization cookies</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Advertising Cookies</h3>
-                            <p class="text-gray-600 mb-3">These cookies are used to make advertising messages more
-                                relevant to you and your interests.</p>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                <li>Ad targeting cookies (where applicable)</li>
-                                <li>Ad performance cookies</li>
-                                <li>Retargeting cookies</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Third-Party Cookies</h3>
-                            <p class="text-gray-600 mb-3">In some cases, we may use cookies provided by trusted third
-                                parties. The following section details which third party cookies you might encounter
-                                through this site:</p>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                <li>Analytics (e.g., Google Analytics) to track usage</li>
-                                <li>Performance monitoring tools</li>
-                                <li>Security and fraud prevention services</li>
-                            </ul>
-                        </div>
-
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Cookie Retention</h2>
-                        <ul class="list-disc pl-6 text-gray-600 mb-6">
-                            <li><strong>Session Cookies:</strong> Deleted automatically when you close your browser.
-                            </li>
-                            <li><strong>Persistent Cookies:</strong> Stored on your device for a set period (up to 12
-                                months) to remember preferences.</li>
-                            <li><strong>Analytics Cookies:</strong> Anonymized and retained for analysis purposes.</li>
-                        </ul>
-
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">How to control cookies</h2>
-                        <p class="text-gray-600 mb-6">You have the right to decide whether to accept or reject cookies.
-                            You
-                            can exercise your cookie rights by setting your preferences in the Cookie Consent Manager.
+                    <!-- Content -->
+                    <div class="prose max-w-none text-gray-600">
+                        <p class="mb-6">CoolPosts uses cookies and similar technologies to enhance user experience.
                         </p>
 
-                        <div class="bg-blue-50 rounded-lg p-6 mb-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Browser Settings</h3>
-                            <p class="text-gray-600 mb-3">You can also set or amend your web browser controls to accept
-                                or
-                                refuse cookies. If you choose to reject cookies, you may still use our website though
-                                your
-                                access to some functionality and areas of our website may be restricted.</p>
+                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">What Cookies Are Used For</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-gray-50 p-6 rounded-lg text-center">
+                                <div
+                                    class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Preferences</h3>
+                                <p class="text-sm">Remembering your settings</p>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg text-center">
+                                <div
+                                    class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Analytics</h3>
+                                <p class="text-sm">Understanding site usage</p>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg text-center">
+                                <div
+                                    class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Functionality</h3>
+                                <p class="text-sm">Improving site features</p>
+                            </div>
                         </div>
 
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Updates to this policy</h2>
-                        <p class="text-gray-600 mb-6">We may update this Cookie Policy from time to time in order to
-                            reflect, for example, changes to the cookies we use or for other operational, legal or
-                            regulatory reasons. Please therefore re-visit this Cookie Policy regularly to stay informed
-                            about our use of cookies and related technologies.</p>
+                        <p class="mb-4">Cookies do <strong>not</strong> collect personally identifiable information
+                            unless explicitly provided by you.</p>
 
-                        <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Contact us</h2>
-                        <p class="text-gray-600 mb-6">If you have any questions about our use of cookies or other
-                            technologies, please contact us at <a href="mailto:privacy@coolposts.site"
-                                class="text-blue-600 hover:text-blue-800">privacy@coolposts.site</a>.</p>
-                        <p class="text-gray-600 mb-6">For more details on how we handle personal data, see our <a
-                                href="{{ route('legal.privacy') }}" class="text-blue-600 hover:text-blue-800">Privacy
-                                Policy</a>.</p>
-                    </div>
-
-                    <div class="mt-8 text-center">
-                        <a href="{{ route('legal.contact') }}"
-                            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                            Contact Us
-                        </a>
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r mt-6">
+                            <p class="text-blue-700">By continuing to use CoolPosts, you consent to the use of cookies.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

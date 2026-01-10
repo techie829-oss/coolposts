@@ -55,40 +55,70 @@
                         <div class="bg-gray-50 rounded-lg p-6">
                             <h2 class="text-xl font-semibold text-gray-900 mb-4">Send us a Message</h2>
 
-                            <form action="#" method="POST" class="space-y-4">
+                            @if (session('success'))
+                                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                                    role="alert">
+                                    <span class="block sm:inline">{{ session('success') }}</span>
+                                </div>
+                            @endif
+
+                            <form action="{{ route('contact.submit') }}" method="POST" class="space-y-4">
                                 @csrf
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                    <input type="text" name="name" id="name" required
-                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    <input type="text" name="name" id="name" value="{{ old('name') }}"
+                                        required
+                                        class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2">
+                                    @error('name')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                    <input type="email" name="email" id="email" required
-                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    <input type="email" name="email" id="email" value="{{ old('email') }}"
+                                        required
+                                        class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2">
+                                    @error('email')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div>
                                     <label for="subject"
                                         class="block text-sm font-medium text-gray-700">Subject</label>
                                     <select name="subject" id="subject" required
-                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                        <option value="">Select a subject</option>
-                                        <option value="general">General Inquiry</option>
-                                        <option value="technical">Technical Support</option>
-                                        <option value="billing">Billing & Payments</option>
-                                        <option value="feature">Feature Request</option>
-                                        <option value="bug">Bug Report</option>
-                                        <option value="partnership">Partnership</option>
+                                        class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2">
+                                        <option value="" disabled {{ old('subject') ? '' : 'selected' }}>Select a
+                                            subject</option>
+                                        <option value="general" {{ old('subject') == 'general' ? 'selected' : '' }}>
+                                            General Inquiry</option>
+                                        <option value="technical"
+                                            {{ old('subject') == 'technical' ? 'selected' : '' }}>Technical Support
+                                        </option>
+                                        <option value="billing" {{ old('subject') == 'billing' ? 'selected' : '' }}>
+                                            Billing & Payments</option>
+                                        <option value="feature" {{ old('subject') == 'feature' ? 'selected' : '' }}>
+                                            Feature Request</option>
+                                        <option value="bug" {{ old('subject') == 'bug' ? 'selected' : '' }}>Bug
+                                            Report</option>
+                                        <option value="partnership"
+                                            {{ old('subject') == 'partnership' ? 'selected' : '' }}>Partnership
+                                        </option>
                                     </select>
+                                    @error('subject')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div>
                                     <label for="message"
                                         class="block text-sm font-medium text-gray-700">Message</label>
-                                    <textarea name="message" id="message" rows="4" required
-                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                    <textarea name="message" id="message" rows="5" required
+                                        class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2">{{ old('message') }}</textarea>
+                                    @error('message')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div>
@@ -166,7 +196,7 @@
                                         Questions</a>
                                     <a href="{{ route('legal.help') }}"
                                         class="block text-sm text-blue-600 hover:text-blue-800">Help Center</a>
-                                    <a href="{{ route('api.docs') }}"
+                                    <a href="{{ route('docs.index') }}"
                                         class="block text-sm text-blue-600 hover:text-blue-800">API Documentation</a>
                                     <a href="{{ route('legal.terms') }}"
                                         class="block text-sm text-blue-600 hover:text-blue-800">Terms of Service</a>

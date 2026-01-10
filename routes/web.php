@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\LegalController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
@@ -277,9 +278,9 @@ Route::middleware('auth')->group(function () {
 
     // API Documentation Routes
     Route::middleware(['auth'])->group(function () {
-        Route::get('/api/docs', function () {
+        Route::get('/docs', function () {
             return view('api.documentation');
-        })->name('api.docs');
+        })->name('docs.index');
 
         Route::get('/api/docs/json', function () {
             return response()->json([
@@ -369,6 +370,7 @@ Route::redirect('/about-us', '/about', 301);
 Route::get('/faq', [LegalController::class, 'faq'])->name('legal.faq');
 Route::get('/help', [LegalController::class, 'help'])->name('legal.help');
 Route::get('/contact', [LegalController::class, 'contact'])->name('legal.contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 Route::get('/cookie-policy', [LegalController::class, 'cookiePolicy'])->name('legal.cookies');
 Route::get('/refund-policy', [LegalController::class, 'refundPolicy'])->name('legal.refund');
 Route::get('/acceptable-use', [LegalController::class, 'acceptableUse'])->name('legal.acceptable-use');
