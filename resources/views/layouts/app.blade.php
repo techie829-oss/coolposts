@@ -200,18 +200,7 @@
         <meta name="robots" content="noindex, nofollow">
     @endif
     <!-- AdSense Removed primarily for 'Blog-First' Strategy -->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-27W10DK2T6"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-27W10DK2T6');
-    </script>
 
     <!-- PWA Scripts -->
     <script>
