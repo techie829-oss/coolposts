@@ -2,11 +2,18 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-gray-900">Manage Blog Posts</h1>
-            <a href="{{ route('blog.create') }}"
-                class="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-                <i class="fas fa-plus mr-2"></i>
-                Write New Post
-            </a>
+            <div class="flex space-x-3">
+                <a href="{{ route('blog.templates') }}"
+                    class="flex items-center px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-layer-group mr-2"></i>
+                    Templates
+                </a>
+                <a href="{{ route('blog.create') }}"
+                    class="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                    <i class="fas fa-plus mr-2"></i>
+                    Write New Post
+                </a>
+            </div>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">

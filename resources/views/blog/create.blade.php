@@ -120,8 +120,7 @@
                         $aiSettings = \App\Models\AiSetting::getSettings();
                         $user = auth()->user();
                         // User-specific AI access takes precedence over global settings
-                        $userCanUseAI = $user->isAdmin() ||
-                                       ($user->canUseAi() && $user->canUseAiBlogGeneration());
+                        $userCanUseAI = $user->isAdmin() || ($user->canUseAi() && $user->canUseAiBlogGeneration());
                     @endphp
                     @if ($aiSettings->blog_generation_enabled && $userCanUseAI)
                         <div
@@ -130,7 +129,8 @@
                                 <i class="fas fa-magic text-purple-600 text-2xl mr-3"></i>
                                 <div>
                                     <h3 class="text-lg font-semibold text-gray-900">AI Markdown Assistant</h3>
-                                    <p class="text-xs text-gray-600">Optimize and improve specific sections of your content</p>
+                                    <p class="text-xs text-gray-600">Optimize and improve specific sections of your
+                                        content</p>
                                 </div>
                             </div>
 
@@ -151,7 +151,8 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">AI Model</label>
                                     <select id="ai_model"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm">
-                                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash ⭐ (Recommended)</option>
+                                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash ⭐ (Recommended)
+                                        </option>
                                         <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash Exp</option>
                                     </select>
                                 </div>
@@ -182,10 +183,10 @@
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Context (Optional)</label>
-                                <textarea id="ai_context" rows="2"
-                                    placeholder="Describe what you want to improve or generate..."
+                                <textarea id="ai_context" rows="2" placeholder="Describe what you want to improve or generate..."
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"></textarea>
-                                <p class="text-xs text-gray-500 mt-1">💡 Tip: Select text in the editor and choose an action, or describe what you need</p>
+                                <p class="text-xs text-gray-500 mt-1">💡 Tip: Select text in the editor and choose an
+                                    action, or describe what you need</p>
                             </div>
 
                             <button type="button" id="generateAIContent"
@@ -198,7 +199,8 @@
                         </div>
                     @elseif ($aiSettings->blog_generation_enabled && !$userCanUseAI)
                         <!-- AI Restricted Message -->
-                        <div class="mb-8 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl p-6 border border-orange-200">
+                        <div
+                            class="mb-8 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl p-6 border border-orange-200">
                             <div class="flex items-center mb-4">
                                 <i class="fas fa-user-shield text-orange-600 text-2xl mr-3"></i>
                                 <div>
@@ -520,44 +522,14 @@
                         </div>
                     @endif
 
-                    <!-- Publishing Options -->
-                    <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">Publishing Options</h3>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Status -->
-                            <div>
-                                <label for="status"
-                                    class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                                <select name="status" id="status"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                                    <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft
-                                    </option>
-                                    <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>
-                                        Published</option>
-                                </select>
-                            </div>
-
-                            <!-- Publish Date -->
-                            <div>
-                                <label for="published_at" class="block text-sm font-medium text-gray-700 mb-2">Publish
-                                    Date</label>
-                                <input type="datetime-local" name="published_at" id="published_at"
-                                    value="{{ old('published_at') }}"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Hidden Status Field (Default to Draft) -->
+                    <input type="hidden" name="status" value="draft">
 
                     <!-- Submit Button -->
                     <div class="flex justify-end space-x-4">
-                        <button type="button" onclick="saveDraft()"
-                            class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
-                            <i class="fas fa-save mr-2"></i>Save as Draft
-                        </button>
                         <button type="submit"
                             class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                            <i class="fas fa-paper-plane mr-2"></i>Publish Post
+                            <i class="fas fa-save mr-2"></i>Create Draft
                         </button>
                     </div>
                 </form>
@@ -644,8 +616,10 @@
             const aiModel = document.getElementById('ai_model').value;
 
             // Get length and tone for full blog generation
-            const aiLength = document.getElementById('ai_length') ? document.getElementById('ai_length').value : 'medium';
-            const aiTone = document.getElementById('ai_tone') ? document.getElementById('ai_tone').value : 'professional';
+            const aiLength = document.getElementById('ai_length') ? document.getElementById('ai_length').value :
+                'medium';
+            const aiTone = document.getElementById('ai_tone') ? document.getElementById('ai_tone').value :
+                'professional';
 
             // Get selected text
             const start = contentField.selectionStart;
@@ -804,174 +778,175 @@
                     case 'html':
                         // Check if content looks like markdown (contains #, **, etc.)
                         const hasMarkdownSyntax = /^#+\s|^\*\*|```|\[.*\]\(.*\)/.test(content);
-                        if (hasMarkdownSyntax) {
-                            // Convert markdown to HTML for preview
-                            htmlContent = marked.parse(content);
-                        } else {
-                            // Treat as raw HTML
-                            htmlContent = content;
-                        }
-                        break;
-                    case 'text':
-                        htmlContent = content.replace(/\n/g, '<br>'); // Convert line breaks to <br>
-                        break;
-                }
-
-                previewContent.innerHTML = htmlContent;
-                preview.classList.remove('hidden');
-                this.innerHTML = '<i class="fas fa-eye-slash mr-2"></i>Hide Preview';
-            } else {
-                // Hide preview
-                preview.classList.add('hidden');
-                this.innerHTML = '<i class="fas fa-eye mr-2"></i>Preview Content';
+                    if (hasMarkdownSyntax) {
+                        // Convert markdown to HTML for preview
+                        htmlContent = marked.parse(content);
+                    } else {
+                        // Treat as raw HTML
+                        htmlContent = content;
+                    }
+                    break;
+                case 'text':
+                    htmlContent = content.replace(/\n/g, '<br>'); // Convert line breaks to <br>
+                    break;
             }
-        });
 
-        // Auto-save draft functionality
-        let autoSaveTimer;
-        document.getElementById('content').addEventListener('input', function() {
-            clearTimeout(autoSaveTimer);
-            autoSaveTimer = setTimeout(function() {
-                // Auto-save draft logic here
-                console.log('Auto-saving draft...');
-            }, 3000);
-        });
+            previewContent.innerHTML = htmlContent;
+            preview.classList.remove('hidden');
+            this.innerHTML = '<i class="fas fa-eye-slash mr-2"></i>Hide Preview';
+        } else {
+            // Hide preview
+            preview.classList.add('hidden');
+            this.innerHTML = '<i class="fas fa-eye mr-2"></i>Preview Content';
+        }
+    });
 
-        // Save draft function
-        function saveDraft() {
-            document.getElementById('status').value = 'draft';
-            document.querySelector('form').submit();
+    // Auto-save draft functionality
+    let autoSaveTimer;
+    document.getElementById('content').addEventListener('input', function() {
+        clearTimeout(autoSaveTimer);
+        autoSaveTimer = setTimeout(function() {
+            // Auto-save draft logic here
+            console.log('Auto-saving draft...');
+        }, 3000);
+    });
+
+    // Save draft function
+    function saveDraft() {
+        document.getElementById('status').value = 'draft';
+        document.querySelector('form').submit();
+    }
+
+    // Enhanced textarea with line numbers
+    const textarea = document.getElementById('content');
+    textarea.addEventListener('scroll', function() {
+        // Sync scroll position if needed
+    });
+
+
+    // Upload and Analyze Image
+    document.getElementById('analyzeUploadBtn').addEventListener('click', async function() {
+        const fileInput = document.getElementById('imageUpload');
+        const context = document.getElementById('imageContext').value;
+
+        if (!fileInput.files[0]) {
+            alert('Please select an image to upload');
+            return;
         }
 
-        // Enhanced textarea with line numbers
-        const textarea = document.getElementById('content');
-        textarea.addEventListener('scroll', function() {
-            // Sync scroll position if needed
-        });
+        this.disabled = true;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Uploading image...';
 
+        const formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+        formData.append('context', context);
 
-        // Upload and Analyze Image
-        document.getElementById('analyzeUploadBtn').addEventListener('click', async function() {
-            const fileInput = document.getElementById('imageUpload');
-            const context = document.getElementById('imageContext').value;
+        try {
+            const response = await fetch('{{ route('ai.analyze-image') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            });
 
-            if (!fileInput.files[0]) {
-                alert('Please select an image to upload');
-                return;
-            }
+            const data = await response.json();
 
-            this.disabled = true;
-            this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Uploading image...';
-
-            const formData = new FormData();
-            formData.append('image', fileInput.files[0]);
-            formData.append('context', context);
-
-            try {
-                const response = await fetch('{{ route('ai.analyze-image') }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    displayImageResult(data.imagePath, data.caption, data.altText);
-                    alert('Image uploaded successfully!');
-                    // Clear file input
-                    fileInput.value = '';
-                    document.getElementById('imageContext').value = '';
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while uploading the image');
-            } finally {
-                this.disabled = false;
-                this.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload Image';
-            }
-        });
-
-        // Display image result
-        function displayImageResult(imagePath, caption, altText) {
-            console.log('Displaying image:', imagePath);
-
-            const gallery = document.getElementById('imageGalleryContent');
-            const imageDiv = document.createElement('div');
-            imageDiv.className = 'bg-white p-3 rounded-lg border';
-
-            // Create image container with fallback
-            const imageContainer = document.createElement('div');
-            imageContainer.className = 'w-full h-40 rounded mb-2 overflow-hidden bg-gray-100 relative';
-
-            const img = document.createElement('img');
-            img.src = imagePath;
-            img.alt = altText || 'Generated image';
-            img.className = 'w-full h-full object-cover';
-            img.onerror = function() {
-                console.error('Failed to load image:', imagePath);
-                // Replace with placeholder
-                const placeholder = document.createElement('div');
-                placeholder.className = 'w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center';
-                placeholder.innerHTML = '<span class="text-gray-500 text-xs">Image loading...</span>';
-                imageContainer.replaceChild(placeholder, img);
-            };
-
-            imageContainer.appendChild(img);
-
-            const captionDiv = document.createElement('div');
-            captionDiv.className = 'text-xs text-gray-600 mb-2';
-            captionDiv.innerHTML = '<strong>Caption:</strong> ' + (caption || 'No caption');
-
-            const altDiv = document.createElement('div');
-            altDiv.className = 'text-xs text-gray-500 mb-2';
-            altDiv.innerHTML = '<strong>Alt Text:</strong> ' + (altText || 'No alt text');
-
-            const buttonDiv = document.createElement('div');
-            buttonDiv.className = 'flex gap-2';
-
-            const insertBtn = document.createElement('button');
-            insertBtn.className = 'flex-1 bg-green-600 text-white text-xs py-1 px-2 rounded hover:bg-green-700';
-            insertBtn.innerHTML = '<i class="fas fa-plus mr-1"></i>Insert';
-            insertBtn.onclick = function() {
-                insertImageIntoContent(imagePath, altText || 'Generated image');
-            };
-
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'bg-red-600 text-white text-xs py-1 px-2 rounded hover:bg-red-700';
-            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-            deleteBtn.onclick = function() {
-                imageDiv.remove();
-            };
-
-            buttonDiv.appendChild(insertBtn);
-            buttonDiv.appendChild(deleteBtn);
-
-            imageDiv.appendChild(imageContainer);
-            imageDiv.appendChild(captionDiv);
-            imageDiv.appendChild(altDiv);
-            imageDiv.appendChild(buttonDiv);
-
-            gallery.appendChild(imageDiv);
-            document.getElementById('imageGallery').classList.remove('hidden');
-        }
-
-        // Insert image into content
-        window.insertImageIntoContent = function(imagePath, altText) {
-            const contentField = document.getElementById('content');
-            const contentType = document.getElementById('content_type').value;
-
-            let imageMarkdown = '';
-            if (contentType === 'markdown') {
-                imageMarkdown = `![${altText}](${imagePath})`;
-            } else if (contentType === 'html') {
-                imageMarkdown = `<img src="${imagePath}" alt="${altText}" class="w-full rounded-lg">`;
+            if (data.success) {
+                displayImageResult(data.imagePath, data.caption, data.altText);
+                alert('Image uploaded successfully!');
+                // Clear file input
+                fileInput.value = '';
+                document.getElementById('imageContext').value = '';
             } else {
-                imageMarkdown = `Image: ${imagePath} (${altText})`;
+                alert('Error: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while uploading the image');
+        } finally {
+            this.disabled = false;
+            this.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload Image';
+        }
+    });
+
+    // Display image result
+    function displayImageResult(imagePath, caption, altText) {
+        console.log('Displaying image:', imagePath);
+
+        const gallery = document.getElementById('imageGalleryContent');
+        const imageDiv = document.createElement('div');
+        imageDiv.className = 'bg-white p-3 rounded-lg border';
+
+        // Create image container with fallback
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'w-full h-40 rounded mb-2 overflow-hidden bg-gray-100 relative';
+
+        const img = document.createElement('img');
+        img.src = imagePath;
+        img.alt = altText || 'Generated image';
+        img.className = 'w-full h-full object-cover';
+        img.onerror = function() {
+            console.error('Failed to load image:', imagePath);
+            // Replace with placeholder
+            const placeholder = document.createElement('div');
+            placeholder.className =
+                'w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center';
+            placeholder.innerHTML = '<span class="text-gray-500 text-xs">Image loading...</span>';
+            imageContainer.replaceChild(placeholder, img);
+        };
+
+        imageContainer.appendChild(img);
+
+        const captionDiv = document.createElement('div');
+        captionDiv.className = 'text-xs text-gray-600 mb-2';
+        captionDiv.innerHTML = '<strong>Caption:</strong> ' + (caption || 'No caption');
+
+        const altDiv = document.createElement('div');
+        altDiv.className = 'text-xs text-gray-500 mb-2';
+        altDiv.innerHTML = '<strong>Alt Text:</strong> ' + (altText || 'No alt text');
+
+        const buttonDiv = document.createElement('div');
+        buttonDiv.className = 'flex gap-2';
+
+        const insertBtn = document.createElement('button');
+        insertBtn.className = 'flex-1 bg-green-600 text-white text-xs py-1 px-2 rounded hover:bg-green-700';
+        insertBtn.innerHTML = '<i class="fas fa-plus mr-1"></i>Insert';
+        insertBtn.onclick = function() {
+            insertImageIntoContent(imagePath, altText || 'Generated image');
+        };
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'bg-red-600 text-white text-xs py-1 px-2 rounded hover:bg-red-700';
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.onclick = function() {
+            imageDiv.remove();
+        };
+
+        buttonDiv.appendChild(insertBtn);
+        buttonDiv.appendChild(deleteBtn);
+
+        imageDiv.appendChild(imageContainer);
+        imageDiv.appendChild(captionDiv);
+        imageDiv.appendChild(altDiv);
+        imageDiv.appendChild(buttonDiv);
+
+        gallery.appendChild(imageDiv);
+        document.getElementById('imageGallery').classList.remove('hidden');
+    }
+
+    // Insert image into content
+    window.insertImageIntoContent = function(imagePath, altText) {
+        const contentField = document.getElementById('content');
+        const contentType = document.getElementById('content_type').value;
+
+        let imageMarkdown = '';
+        if (contentType === 'markdown') {
+            imageMarkdown = `![${altText}](${imagePath})`;
+        } else if (contentType === 'html') {
+            imageMarkdown = `<img src="${imagePath}" alt="${altText}" class="w-full rounded-lg">`;
+        } else {
+            imageMarkdown = `Image: ${imagePath} (${altText})`;
             }
 
             const cursorPos = contentField.selectionStart;
@@ -1021,15 +996,18 @@
     </style>
 
     <!-- AI Content Modal -->
-    <div id="aiContentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+    <div id="aiContentModal"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
         <div class="bg-white rounded-lg max-w-4xl w-full mx-4 max-h-[90vh] flex flex-col">
             <div class="flex items-center justify-between p-6 border-b">
                 <h3 class="text-xl font-bold text-gray-900">AI Generated Content</h3>
                 <div class="flex gap-2">
-                    <button onclick="copyAIContent()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                    <button onclick="copyAIContent()"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
                         <i class="fas fa-copy mr-2"></i>Copy Content
                     </button>
-                    <button onclick="closeAIContentModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                    <button onclick="closeAIContentModal()"
+                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -1039,14 +1017,17 @@
             </div>
             <div class="flex items-center justify-between p-6 border-t bg-gray-50">
                 <div class="flex gap-2">
-                    <button onclick="insertAIContent()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    <button onclick="insertAIContent()"
+                        class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                         <i class="fas fa-plus mr-2"></i>Insert into Editor
                     </button>
-                    <button onclick="replaceAIContent()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <button onclick="replaceAIContent()"
+                        class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                         <i class="fas fa-sync mr-2"></i>Replace Content
                     </button>
                 </div>
-                <button onclick="regenerateAIContent()" class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                <button onclick="regenerateAIContent()"
+                    class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
                     <i class="fas fa-redo mr-2"></i>Regenerate
                 </button>
             </div>

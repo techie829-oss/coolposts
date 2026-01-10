@@ -31,7 +31,7 @@ class NewsletterController extends Controller
                 ]);
             }
 
-            return back()->with('success', 'You are already subscribed to our newsletter!');
+            return back()->with('newsletter_success', 'You are already subscribed to our newsletter!');
         }
 
         // Create new subscriber
@@ -41,6 +41,6 @@ class NewsletterController extends Controller
             'is_active' => true,
         ]);
 
-        return back()->with('success', 'Thanks for subscribing! You have been added to our list.');
+        return back()->with('newsletter_success', 'Thanks for subscribing! You have been added to our list.');
     }
 }

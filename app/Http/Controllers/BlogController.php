@@ -102,6 +102,18 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
+        // Convert comma-separated meta_keywords string to array
+        if ($request->has('meta_keywords') && is_string($request->input('meta_keywords'))) {
+            $keywords = array_map('trim', explode(',', $request->input('meta_keywords')));
+            $request->merge(['meta_keywords' => $keywords]);
+        }
+
+        // Convert comma-separated tags string to array
+        if ($request->has('tags') && is_string($request->input('tags'))) {
+            $tags = array_map('trim', explode(',', $request->input('tags')));
+            $request->merge(['tags' => $tags]);
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
@@ -207,7 +219,7 @@ class BlogController extends Controller
             'earning_rate_less_2min' => $request->input('earning_rate_less_2min') ?: $globalSettings->default_blog_earning_rate_less_2min_inr,
             'earning_rate_2_5min' => $request->input('earning_rate_2_5min') ?: $globalSettings->default_blog_earning_rate_2_5min_inr,
             'earning_rate_more_5min' => $request->input('earning_rate_more_5min') ?: $globalSettings->default_blog_earning_rate_more_5min_inr,
-            'ad_frequency' => $request->input('ad_frequency'),
+            'ad_frequency' => $request->input('ad_frequency') ?: ($request->boolean('is_monetized') ? 5 : 0),
             'status' => $request->input('status'),
         ];
 
@@ -219,7 +231,7 @@ class BlogController extends Controller
 
         $post = BlogPost::create($data);
 
-        return redirect()->route('blog.show', $post->slug)
+        return redirect()->route('blog.manage')
             ->with('success', 'Blog post created successfully!');
     }
 
@@ -291,6 +303,18 @@ class BlogController extends Controller
      */
     public function update(Request $request, BlogPost $post)
     {
+        // Convert comma-separated meta_keywords string to array
+        if ($request->has('meta_keywords') && is_string($request->input('meta_keywords'))) {
+            $keywords = array_map('trim', explode(',', $request->input('meta_keywords')));
+            $request->merge(['meta_keywords' => $keywords]);
+        }
+
+        // Convert comma-separated tags string to array
+        if ($request->has('tags') && is_string($request->input('tags'))) {
+            $tags = array_map('trim', explode(',', $request->input('tags')));
+            $request->merge(['tags' => $tags]);
+        }
+
         $this->authorize('update', $post);
 
         $request->validate([
@@ -401,7 +425,7 @@ class BlogController extends Controller
 
         $post->update($data);
 
-        return redirect()->route('blog.show', $post->slug)
+        return redirect()->route('blog.manage')
             ->with('success', 'Blog post updated successfully!');
     }
 
