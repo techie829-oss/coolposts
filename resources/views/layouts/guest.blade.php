@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Google tag (gtag.js) -->
+    @if (!request()->is('admin*'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FBB3YFWDKF"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-FBB3YFWDKF');
+        </script>
+    @endif
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
@@ -19,7 +34,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen flex flex-col relative">
+<body
+    class="font-sans antialiased bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen flex flex-col relative">
     <!-- Animated Background Elements -->
     <div class="fixed inset-0 -z-10">
         <div

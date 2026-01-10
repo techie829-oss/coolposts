@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Google tag (gtag.js) -->
+    @if (!request()->is('admin*'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FBB3YFWDKF"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-FBB3YFWDKF');
+        </script>
+    @endif
+
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="{{ $brandingSettings->primary_color ?? '#8b5cf6' }}">
     <meta name="apple-mobile-web-app-capable" content="yes">
