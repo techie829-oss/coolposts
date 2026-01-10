@@ -33,13 +33,13 @@
         </div>
 
         <!-- Animated Blobs -->
-        <div
+        <div style="will-change: transform;"
             class="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob">
         </div>
-        <div
+        <div style="will-change: transform;"
             class="absolute top-0 -right-4 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000">
         </div>
-        <div
+        <div style="will-change: transform;"
             class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000">
         </div>
 
@@ -69,11 +69,12 @@
                     @php
                         $settings = \App\Models\GlobalSetting::getSettings();
                     @endphp
-                    @if(!$settings->isEarningsEnabled())
+                    @if (!$settings->isEarningsEnabled())
                         <!-- Earnings Coming Soon Banner -->
                         <div
                             class="relative overflow-hidden bg-slate-800/50 backdrop-blur-md rounded-2xl p-1 mb-10 max-w-2xl mx-auto shadow-2xl border border-slate-700/50 group hover:border-slate-600/50 transition-all duration-300">
-                            <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 opacity-50">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 opacity-50">
                             </div>
                             <div class="relative bg-slate-900/80 rounded-xl p-6 sm:p-8">
                                 <div class="flex items-center justify-center mb-4">
@@ -89,7 +90,8 @@
                                 </div>
                                 <p class="text-slate-300 text-sm sm:text-base text-center mb-6 leading-relaxed">
                                     We’re building a fair and transparent monetization system.
-                                    <span class="font-semibold text-white">Earnings and payouts will be enabled once our ad
+                                    <span class="font-semibold text-white">Earnings and payouts will be enabled once our
+                                        ad
                                         network integration is live.</span>
                                 </p>
                                 <div class="flex items-center justify-center space-x-2">
@@ -271,9 +273,10 @@
                             class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
                             <a href="{{ route('blog.show', $post->slug) }}"
                                 class="block group-hover:opacity-90 transition-opacity relative z-10">
-                                @if($post->featured_image)
+                                @if ($post->featured_image)
                                     <div class="aspect-w-16 aspect-h-9">
-                                        <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}"
+                                        <img src="{{ Storage::url($post->featured_image) }}"
+                                            alt="{{ $post->title }}" loading="lazy"
                                             class="w-full h-48 object-cover">
                                     </div>
                                 @else
@@ -318,7 +321,8 @@
                         </div>
                     @empty
                         <div class="col-span-3 text-center py-12">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <div
+                                class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <i class="fas fa-newspaper text-2xl text-gray-400"></i>
                             </div>
                             <h3 class="text-xl font-semibold text-gray-900 mb-2">No Blog Posts Yet</h3>
@@ -332,7 +336,7 @@
                     @endforelse
                 </div>
 
-                @if($featuredPosts->count() > 0)
+                @if ($featuredPosts->count() > 0)
                     <div class="text-center mt-12">
                         <a href="{{ route('blog.index') }}"
                             class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg relative z-10">
