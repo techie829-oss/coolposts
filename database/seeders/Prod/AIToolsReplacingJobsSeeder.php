@@ -23,7 +23,7 @@ class AIToolsReplacingJobsSeeder extends Seeder
                     'title' => 'AI Tools Replacing Jobs: Truth vs Hype',
                     'excerpt' => 'An in-depth analysis of how AI tools are impacting the job market and which roles are most at risk.',
                     'content' => $content,
-                    'type' => 'opinion',
+                    'type' => 'article',
                     'category' => 'Technology',
                     'tags' => ['ai', 'jobs', 'future-of-work', 'technology'],
                     'meta_title' => 'Will AI Replace Your Job? The Truth vs Hype',
