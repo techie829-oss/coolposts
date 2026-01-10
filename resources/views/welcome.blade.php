@@ -33,13 +33,13 @@
         </div>
 
         <!-- Animated Blobs -->
-        <div style="will-change: transform;"
+        <div
             class="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob">
         </div>
-        <div style="will-change: transform;"
+        <div
             class="absolute top-0 -right-4 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000">
         </div>
-        <div style="will-change: transform;"
+        <div
             class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000">
         </div>
 
@@ -276,8 +276,7 @@
                                 @if ($post->featured_image)
                                     <div class="aspect-w-16 aspect-h-9">
                                         <img src="{{ Storage::url($post->featured_image) }}"
-                                            alt="{{ $post->title }}" loading="lazy"
-                                            class="w-full h-48 object-cover">
+                                            alt="{{ $post->title }}" class="w-full h-48 object-cover">
                                     </div>
                                 @else
                                     <div
