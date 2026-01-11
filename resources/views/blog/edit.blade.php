@@ -340,7 +340,7 @@
                                     </label>
                                     @if ($post->featured_image)
                                         <div class="mb-3">
-                                            <img src="{{ Storage::url($post->featured_image) }}"
+                                            <img src="{{ $post->featured_image }}"
                                                 alt="Current featured image"
                                                 class="w-32 h-32 object-cover rounded-lg border">
                                             <p class="text-sm text-gray-600 mt-1">Current featured image</p>
@@ -374,7 +374,7 @@
                                     <div class="mb-3">
                                         <div class="flex flex-wrap gap-2">
                                             @foreach ($post->gallery_images as $image)
-                                                <img src="{{ Storage::url($image) }}" alt="Gallery image"
+                                                <img src="{{ $image }}" alt="Gallery image"
                                                     class="w-16 h-16 object-cover rounded border">
                                             @endforeach
                                         </div>
