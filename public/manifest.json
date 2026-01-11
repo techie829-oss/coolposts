@@ -1,7 +1,7 @@
 {
-    "name": "Link Sharing App",
-    "short_name": "LinkShare",
-    "description": "Professional link sharing and monetization platform with real-time analytics",
+    "name": "CoolPosts",
+    "short_name": "CoolPosts",
+    "description": "Professional blogging platform with monetization and real-time analytics",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
@@ -9,7 +9,11 @@
     "orientation": "portrait-primary",
     "scope": "/",
     "lang": "en",
-    "categories": ["business", "productivity", "utilities"],
+    "categories": [
+        "business",
+        "productivity",
+        "utilities"
+    ],
     "icons": [
         {
             "src": "/icons/icon-72x72.png",
