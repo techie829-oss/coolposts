@@ -109,7 +109,7 @@
                         <!-- Featured Image Section -->
                         @if ($post->featured_image)
                             <div class="relative overflow-hidden">
-                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}"
+                                <img src="{{ $post->featured_image }}" alt="{{ $post->title }}"
                                     class="w-full h-96 object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                             </div>
@@ -205,7 +205,7 @@
                                         @foreach ($post->gallery_images as $image)
                                             <div
                                                 class="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                                                <img src="{{ asset('storage/' . $image) }}" alt="Gallery image"
+                                                <img src="{{ $image }}" alt="Gallery image"
                                                     class="w-full h-full object-cover">
                                             </div>
                                         @endforeach
