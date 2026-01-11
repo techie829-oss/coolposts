@@ -100,7 +100,7 @@
                                         Tags
                                     </label>
                                     <input type="text" name="tags" id="tags"
-                                        value="{{ old('tags', is_array($post->tags) ? implode(', ', $post->tags) : $post->tags) }}"
+                                        value="{{ is_array($tags = old('tags', $post->tags)) ? implode(', ', $tags) : $tags }}"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         placeholder="Enter tags separated by commas (e.g., laravel, php, web-development)">
                                     <p class="mt-1 text-sm text-gray-500">Separate multiple tags with commas</p>
