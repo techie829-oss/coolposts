@@ -347,384 +347,395 @@
                                         </div>
                                     @endif
                                     <input type="file" name="featured_image" id="featured_image" accept="image/*"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <p class="mt-1 text-sm text-gray-500">Recommended: 1200x630px, max 2MB</p>
-                                    @error('featured_image')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
+                                        <div id="featured_image_preview" class="mb-3 hidden">
+                                    <p class="text-sm font-medium text-gray-700 mb-2">Live Preview:</p>
+                                    <div
+                                        class="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+                                        <img src="" alt="Preview" class="w-full h-full object-cover">
+                                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center hidden"
+                                            id="featured_image_info"></div>
+                                    </div>
                                 </div>
+                                <input type="file" name="featured_image" id="featured_image" accept="image/*"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <p class="mt-1 text-sm text-gray-500">Recommended: 1200x630px, max 2MB (Auto-optimized)
+                                </p>
+                                @error('featured_image')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                                <!-- Gallery Images -->
-                                <div>
-                                    <label for="gallery_images" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Gallery Images
-                                    </label>
-                                    @if ($post->gallery_images && count($post->gallery_images) > 0)
-                                        <div class="mb-3">
-                                            <div class="flex flex-wrap gap-2">
-                                                @foreach ($post->gallery_images as $image)
-                                                    <img src="{{ Storage::url($image) }}" alt="Gallery image"
-                                                        class="w-16 h-16 object-cover rounded border">
-                                                @endforeach
-                                            </div>
-                                            <p class="text-sm text-gray-600 mt-1">Current gallery images
-                                                ({{ count($post->gallery_images) }})</p>
+                            <!-- Gallery Images -->
+                            <div>
+                                <label for="gallery_images" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Gallery Images
+                                </label>
+                                @if ($post->gallery_images && count($post->gallery_images) > 0)
+                                    <div class="mb-3">
+                                        <div class="flex flex-wrap gap-2">
+                                            @foreach ($post->gallery_images as $image)
+                                                <img src="{{ Storage::url($image) }}" alt="Gallery image"
+                                                    class="w-16 h-16 object-cover rounded border">
+                                            @endforeach
                                         </div>
-                                    @endif
-                                    <input type="file" name="gallery_images[]" id="gallery_images"
-                                        accept="image/*" multiple
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <p class="mt-1 text-sm text-gray-500">Select multiple images for gallery</p>
-                                    @error('gallery_images')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
+                                        <p class="text-sm text-gray-600 mt-1">Current gallery images
+                                            ({{ count($post->gallery_images) }})</p>
+                                    </div>
+                                @endif
+                                <div id="gallery_preview_container" class="mb-3 hidden">
+                                    <p class="text-sm font-medium text-gray-700 mb-2">New Images Preview:</p>
+                                    <div class="flex flex-wrap gap-2" id="gallery_previews">
+                                        <!-- Previews will be inserted here -->
+                                    </div>
                                 </div>
+                                <input type="file" name="gallery_images[]" id="gallery_images" accept="image/*"
+                                    multiple
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <p class="mt-1 text-sm text-gray-500">Select multiple images for gallery
+                                    (Auto-optimized)</p>
+                                @error('gallery_images')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                                <!-- Attachments -->
-                                <div class="md:col-span-2">
-                                    <label for="attachments" class="block text-sm font-medium text-gray-700 mb-2">
-                                        File Attachments
-                                    </label>
-                                    @if ($post->attachments && count($post->attachments) > 0)
-                                        <div class="mb-3">
-                                            <div class="space-y-2">
-                                                @foreach ($post->attachments as $attachment)
-                                                    <div
-                                                        class="flex items-center justify-between p-2 bg-gray-100 rounded">
-                                                        <div class="flex items-center">
-                                                            <i class="fas fa-file mr-2 text-gray-500"></i>
-                                                            <span class="text-sm">{{ $attachment['name'] }}</span>
-                                                            <span
-                                                                class="text-xs text-gray-500 ml-2">({{ number_format($attachment['size'] / 1024, 1) }}
-                                                                KB)</span>
-                                                        </div>
+                            <!-- Attachments -->
+                            <div class="md:col-span-2">
+                                <label for="attachments" class="block text-sm font-medium text-gray-700 mb-2">
+                                    File Attachments
+                                </label>
+                                @if ($post->attachments && count($post->attachments) > 0)
+                                    <div class="mb-3">
+                                        <div class="space-y-2">
+                                            @foreach ($post->attachments as $attachment)
+                                                <div class="flex items-center justify-between p-2 bg-gray-100 rounded">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-file mr-2 text-gray-500"></i>
+                                                        <span class="text-sm">{{ $attachment['name'] }}</span>
+                                                        <span
+                                                            class="text-xs text-gray-500 ml-2">({{ number_format($attachment['size'] / 1024, 1) }}
+                                                            KB)</span>
                                                     </div>
-                                                @endforeach
-                                            </div>
-                                            <p class="text-sm text-gray-600 mt-1">Current attachments
-                                                ({{ count($post->attachments) }})</p>
-                                        </div>
-                                    @endif
-                                    <input type="file" name="attachments[]" id="attachments" multiple
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <p class="mt-1 text-sm text-gray-500">Upload PDFs, documents, or other files (max
-                                        10MB each)</p>
-                                    @error('attachments')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Monetization Settings -->
-                        <div class="bg-green-50 p-6 rounded-lg border border-green-200">
-                            <h3 class="text-lg font-semibold text-green-900 mb-4">
-                                <i class="fas fa-coins mr-2"></i>Monetization Settings
-                            </h3>
-
-                            @if (Auth::user()->isAdmin())
-                                <!-- Admin Monetization Controls -->
-                                <div class="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-crown text-yellow-600 mr-2"></i>
-                                        <span class="text-sm font-medium text-yellow-800">Admin Controls - Custom
-                                            Monetization</span>
-                                    </div>
-                                    <p class="text-xs text-yellow-700 mt-1">You can override global settings for this
-                                        specific blog post.</p>
-                                </div>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <!-- Enable Monetization -->
-                                    <div class="md:col-span-2">
-                                        <label class="flex items-center">
-                                            <input type="checkbox" name="is_monetized" value="1"
-                                                {{ old('is_monetized', $post->is_monetized) ? 'checked' : '' }}
-                                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                                            <span class="ml-2 text-sm font-medium text-green-900">Enable monetization
-                                                for this post</span>
-                                        </label>
-                                        <p class="mt-1 text-sm text-green-700">Earn money from visitors based on their
-                                            engagement time</p>
-                                    </div>
-
-                                    <!-- Monetization Type -->
-                                    <div>
-                                        <label for="monetization_type"
-                                            class="block text-sm font-medium text-green-700 mb-2">
-                                            Monetization Type <span class="text-red-500">*</span>
-                                        </label>
-                                        <select name="monetization_type" id="monetization_type" required
-                                            class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                            @foreach ($monetizationTypes as $key => $type)
-                                                <option value="{{ $key }}"
-                                                    {{ old('monetization_type', $post->monetization_type) == $key ? 'selected' : '' }}>
-                                                    {{ $type }}
-                                                </option>
+                                                </div>
                                             @endforeach
-                                        </select>
-                                        @error('monetization_type')
-                                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Ad Type -->
-                                    <div>
-                                        <label for="ad_type" class="block text-sm font-medium text-green-700 mb-2">
-                                            Ad Type <span class="text-red-500">*</span>
-                                        </label>
-                                        <select name="ad_type" id="ad_type" required
-                                            class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                            @foreach ($adTypes as $key => $type)
-                                                <option value="{{ $key }}"
-                                                    {{ old('ad_type', $post->ad_type) == $key ? 'selected' : '' }}>
-                                                    {{ $type }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <!-- Ad Frequency -->
-                                        <div>
-                                            <label for="ad_frequency"
-                                                class="block text-sm font-medium text-green-700 mb-2">
-                                                Ad Frequency (Para)
-                                            </label>
-                                            <input type="number" name="ad_frequency" id="ad_frequency"
-                                                value="{{ old('ad_frequency', $post->ad_frequency) }}" min="1"
-                                                max="10"
-                                                class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                                                placeholder="Every X paragraphs">
-                                            <p class="mt-1 text-xs text-green-600">Insert ad after every X paragraphs
-                                                (1-10)</p>
-                                            @error('ad_frequency')
-                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                            @enderror
                                         </div>
+                                        <p class="text-sm text-gray-600 mt-1">Current attachments
+                                            ({{ count($post->attachments) }})</p>
                                     </div>
-
-                                    <!-- Earning Rates -->
-                                    <div class="md:col-span-2">
-                                        <h4 class="text-md font-medium text-green-800 mb-3">Time-Based Earning Rates
-                                            (per visitor)</h4>
-                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                            <div>
-                                                <label for="earning_rate_less_2min"
-                                                    class="block text-sm font-medium text-green-700 mb-1">
-                                                    Less than 2 minutes
-                                                </label>
-                                                <input type="number" name="earning_rate_less_2min"
-                                                    id="earning_rate_less_2min"
-                                                    value="{{ old('earning_rate_less_2min', $post->earning_rate_less_2min) }}"
-                                                    step="0.0001" min="0" max="1" required
-                                                    class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                                <p class="text-xs text-green-600">₹{{ $post->earning_rate_less_2min }}
-                                                    /
-                                                    ${{ $globalSettings->default_blog_earning_rate_less_2min_usd ?? 0.001 }}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <label for="earning_rate_2_5min"
-                                                    class="block text-sm font-medium text-green-700 mb-1">
-                                                    2-5 minutes
-                                                </label>
-                                                <input type="number" name="earning_rate_2_5min"
-                                                    id="earning_rate_2_5min"
-                                                    value="{{ old('earning_rate_2_5min', $post->earning_rate_2_5min) }}"
-                                                    step="0.0001" min="0" max="1" required
-                                                    class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                                <p class="text-xs text-green-600">₹{{ $post->earning_rate_2_5min }} /
-                                                    ${{ $globalSettings->default_blog_earning_rate_2_5min_usd ?? 0.003 }}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <label for="earning_rate_more_5min"
-                                                    class="block text-sm font-medium text-green-700 mb-1">
-                                                    More than 5 minutes
-                                                </label>
-                                                <input type="number" name="earning_rate_more_5min"
-                                                    id="earning_rate_more_5min"
-                                                    value="{{ old('earning_rate_more_5min', $post->earning_rate_more_5min) }}"
-                                                    step="0.0001" min="0" max="1" required
-                                                    class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                                <p class="text-xs text-green-600">₹{{ $post->earning_rate_more_5min }}
-                                                    /
-                                                    ${{ $globalSettings->default_blog_earning_rate_more_5min_usd ?? 0.006 }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                <!-- Regular User - Global Settings Info -->
-                                <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
-                                        <span class="text-sm font-medium text-blue-800">Global Monetization Settings
-                                            Applied</span>
-                                    </div>
-                                    <p class="text-xs text-blue-700 mt-1">
-                                        This blog post uses the global monetization settings configured by
-                                        administrators.
-                                    </p>
-                                    <div class="mt-3 text-xs text-blue-600">
-                                        <p><strong>Type:</strong> {{ $post->monetization_type }}</p>
-                                        <p><strong>Ad Type:</strong> {{ $post->ad_type }}</p>
-                                        <p><strong>Earning Rates:</strong> ₹{{ $post->earning_rate_less_2min }} -
-                                            ₹{{ $post->earning_rate_more_5min }}</p>
-                                    </div>
-                                </div>
-
-                                <!-- Hidden fields for regular users - will use existing post values -->
-                                <input type="hidden" name="is_monetized" value="{{ $post->is_monetized ? 1 : 0 }}">
-                                <input type="hidden" name="monetization_type"
-                                    value="{{ $post->monetization_type }}">
-                                <input type="hidden" name="ad_type" value="{{ $post->ad_type }}">
-                                <input type="hidden" name="earning_rate_less_2min"
-                                    value="{{ $post->earning_rate_less_2min }}">
-                                <input type="hidden" name="earning_rate_2_5min"
-                                    value="{{ $post->earning_rate_2_5min }}">
-                                <input type="hidden" name="earning_rate_more_5min"
-                                    value="{{ $post->earning_rate_more_5min }}">
-                            @endif
-                        </div>
-
-                        <!-- SEO Settings -->
-                        <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
-                            <h3 class="text-lg font-semibold text-blue-900 mb-4">
-                                <i class="fas fa-search mr-2"></i>SEO Settings
-                            </h3>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Meta Title -->
-                                <div>
-                                    <label for="meta_title" class="block text-sm font-medium text-blue-700 mb-2">
-                                        Meta Title
-                                    </label>
-                                    <input type="text" name="meta_title" id="meta_title"
-                                        value="{{ old('meta_title', $post->meta_title) }}"
-                                        class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="SEO title for search engines">
-                                    <p class="mt-1 text-sm text-blue-600">Leave empty to use post title</p>
-                                    @error('meta_title')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Meta Description -->
-                                <div>
-                                    <label for="meta_description"
-                                        class="block text-sm font-medium text-blue-700 mb-2">
-                                        Meta Description
-                                    </label>
-                                    <textarea name="meta_description" id="meta_description" rows="3"
-                                        class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Brief description for search results">{{ old('meta_description', $post->meta_description) }}</textarea>
-                                    <p class="mt-1 text-sm text-blue-600">Leave empty to use post excerpt</p>
-                                    @error('meta_description')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Meta Keywords -->
-                                <div>
-                                    <label for="meta_keywords" class="block text-sm font-medium text-blue-700 mb-2">
-                                        Meta Keywords
-                                    </label>
-                                    @php
-                                        $metaKeywords = old('meta_keywords', $post->meta_keywords);
-                                        if (is_array($metaKeywords)) {
-                                            $metaKeywords = implode(', ', $metaKeywords);
-                                        }
-                                    @endphp
-                                    <input type="text" name="meta_keywords" id="meta_keywords"
-                                        value="{{ $metaKeywords }}"
-                                        class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Keywords separated by commas">
-                                    <p class="mt-1 text-sm text-blue-600">Separate with commas</p>
-                                    @error('meta_keywords')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Canonical URL -->
-                                <div>
-                                    <label for="canonical_url" class="block text-sm font-medium text-blue-700 mb-2">
-                                        Canonical URL
-                                    </label>
-                                    <input type="url" name="canonical_url" id="canonical_url"
-                                        value="{{ old('canonical_url', $post->canonical_url) }}"
-                                        class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="https://example.com/original-post">
-                                    <p class="mt-1 text-sm text-blue-600">If this is a repost</p>
-                                    @error('canonical_url')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                @endif
+                                <input type="file" name="attachments[]" id="attachments" multiple
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDFs, documents, or other files (max
+                                    10MB each)</p>
+                                @error('attachments')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
-
-                        <!-- Publishing Settings -->
-                        <div class="bg-purple-50 p-6 rounded-lg border border-purple-200">
-                            <h3 class="text-lg font-semibold text-purple-900 mb-4">
-                                <i class="fas fa-paper-plane mr-2"></i>Publishing Settings
-                            </h3>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Status -->
-                                <div>
-                                    <label for="status" class="block text-sm font-medium text-purple-700 mb-2">
-                                        Publication Status <span class="text-red-500">*</span>
-                                    </label>
-                                    <select name="status" id="status" required
-                                        class="w-full px-3 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
-                                        <option value="draft"
-                                            {{ old('status', $post->status) == 'draft' ? 'selected' : '' }}>Draft
-                                        </option>
-                                        <option value="published"
-                                            {{ old('status', $post->status) == 'published' ? 'selected' : '' }}>
-                                            Published</option>
-                                        <option value="archived"
-                                            {{ old('status', $post->status) == 'archived' ? 'selected' : '' }}>Archived
-                                        </option>
-                                        <option value="scheduled"
-                                            {{ old('status', $post->status) == 'scheduled' ? 'selected' : '' }}>
-                                            Scheduled</option>
-                                    </select>
-                                    @error('status')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Scheduled Date -->
-                                <div id="scheduled_date_group"
-                                    class="{{ old('status', $post->status) == 'scheduled' ? '' : 'hidden' }}">
-                                    <label for="scheduled_at" class="block text-sm font-medium text-purple-700 mb-2">
-                                        Schedule Date & Time
-                                    </label>
-                                    <input type="datetime-local" name="scheduled_at" id="scheduled_at"
-                                        value="{{ old('scheduled_at', $post->scheduled_at ? $post->scheduled_at->format('Y-m-d\TH:i') : '') }}"
-                                        class="w-full px-3 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
-                                    @error('scheduled_at')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Submit Buttons -->
-                        <div class="flex justify-end space-x-4">
-                            <a href="{{ route('blog.show', $post->slug) }}"
-                                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                                <i class="fas fa-times mr-2"></i>Cancel
-                            </a>
-                            <button type="submit"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                                <i class="fas fa-save mr-2"></i>Update Post
-                            </button>
-                        </div>
-                    </form>
                 </div>
+
+                <!-- Monetization Settings -->
+                <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+                    <h3 class="text-lg font-semibold text-green-900 mb-4">
+                        <i class="fas fa-coins mr-2"></i>Monetization Settings
+                    </h3>
+
+                    @if (Auth::user()->isAdmin())
+                        <!-- Admin Monetization Controls -->
+                        <div class="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-crown text-yellow-600 mr-2"></i>
+                                <span class="text-sm font-medium text-yellow-800">Admin Controls - Custom
+                                    Monetization</span>
+                            </div>
+                            <p class="text-xs text-yellow-700 mt-1">You can override global settings for this
+                                specific blog post.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Enable Monetization -->
+                            <div class="md:col-span-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="is_monetized" value="1"
+                                        {{ old('is_monetized', $post->is_monetized) ? 'checked' : '' }}
+                                        class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                    <span class="ml-2 text-sm font-medium text-green-900">Enable monetization
+                                        for this post</span>
+                                </label>
+                                <p class="mt-1 text-sm text-green-700">Earn money from visitors based on their
+                                    engagement time</p>
+                            </div>
+
+                            <!-- Monetization Type -->
+                            <div>
+                                <label for="monetization_type" class="block text-sm font-medium text-green-700 mb-2">
+                                    Monetization Type <span class="text-red-500">*</span>
+                                </label>
+                                <select name="monetization_type" id="monetization_type" required
+                                    class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    @foreach ($monetizationTypes as $key => $type)
+                                        <option value="{{ $key }}"
+                                            {{ old('monetization_type', $post->monetization_type) == $key ? 'selected' : '' }}>
+                                            {{ $type }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('monetization_type')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Ad Type -->
+                            <div>
+                                <label for="ad_type" class="block text-sm font-medium text-green-700 mb-2">
+                                    Ad Type <span class="text-red-500">*</span>
+                                </label>
+                                <select name="ad_type" id="ad_type" required
+                                    class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    @foreach ($adTypes as $key => $type)
+                                        <option value="{{ $key }}"
+                                            {{ old('ad_type', $post->ad_type) == $key ? 'selected' : '' }}>
+                                            {{ $type }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <!-- Ad Frequency -->
+                                <div>
+                                    <label for="ad_frequency" class="block text-sm font-medium text-green-700 mb-2">
+                                        Ad Frequency (Para)
+                                    </label>
+                                    <input type="number" name="ad_frequency" id="ad_frequency"
+                                        value="{{ old('ad_frequency', $post->ad_frequency) }}" min="1"
+                                        max="10"
+                                        class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                        placeholder="Every X paragraphs">
+                                    <p class="mt-1 text-xs text-green-600">Insert ad after every X paragraphs
+                                        (1-10)</p>
+                                    @error('ad_frequency')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Earning Rates -->
+                            <div class="md:col-span-2">
+                                <h4 class="text-md font-medium text-green-800 mb-3">Time-Based Earning Rates
+                                    (per visitor)</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label for="earning_rate_less_2min"
+                                            class="block text-sm font-medium text-green-700 mb-1">
+                                            Less than 2 minutes
+                                        </label>
+                                        <input type="number" name="earning_rate_less_2min"
+                                            id="earning_rate_less_2min"
+                                            value="{{ old('earning_rate_less_2min', $post->earning_rate_less_2min) }}"
+                                            step="0.0001" min="0" max="1" required
+                                            class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                        <p class="text-xs text-green-600">₹{{ $post->earning_rate_less_2min }}
+                                            /
+                                            ${{ $globalSettings->default_blog_earning_rate_less_2min_usd ?? 0.001 }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label for="earning_rate_2_5min"
+                                            class="block text-sm font-medium text-green-700 mb-1">
+                                            2-5 minutes
+                                        </label>
+                                        <input type="number" name="earning_rate_2_5min" id="earning_rate_2_5min"
+                                            value="{{ old('earning_rate_2_5min', $post->earning_rate_2_5min) }}"
+                                            step="0.0001" min="0" max="1" required
+                                            class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                        <p class="text-xs text-green-600">₹{{ $post->earning_rate_2_5min }} /
+                                            ${{ $globalSettings->default_blog_earning_rate_2_5min_usd ?? 0.003 }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label for="earning_rate_more_5min"
+                                            class="block text-sm font-medium text-green-700 mb-1">
+                                            More than 5 minutes
+                                        </label>
+                                        <input type="number" name="earning_rate_more_5min"
+                                            id="earning_rate_more_5min"
+                                            value="{{ old('earning_rate_more_5min', $post->earning_rate_more_5min) }}"
+                                            step="0.0001" min="0" max="1" required
+                                            class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                        <p class="text-xs text-green-600">₹{{ $post->earning_rate_more_5min }}
+                                            /
+                                            ${{ $globalSettings->default_blog_earning_rate_more_5min_usd ?? 0.006 }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Regular User - Global Settings Info -->
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                                <span class="text-sm font-medium text-blue-800">Global Monetization Settings
+                                    Applied</span>
+                            </div>
+                            <p class="text-xs text-blue-700 mt-1">
+                                This blog post uses the global monetization settings configured by
+                                administrators.
+                            </p>
+                            <div class="mt-3 text-xs text-blue-600">
+                                <p><strong>Type:</strong> {{ $post->monetization_type }}</p>
+                                <p><strong>Ad Type:</strong> {{ $post->ad_type }}</p>
+                                <p><strong>Earning Rates:</strong> ₹{{ $post->earning_rate_less_2min }} -
+                                    ₹{{ $post->earning_rate_more_5min }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Hidden fields for regular users - will use existing post values -->
+                        <input type="hidden" name="is_monetized" value="{{ $post->is_monetized ? 1 : 0 }}">
+                        <input type="hidden" name="monetization_type" value="{{ $post->monetization_type }}">
+                        <input type="hidden" name="ad_type" value="{{ $post->ad_type }}">
+                        <input type="hidden" name="earning_rate_less_2min"
+                            value="{{ $post->earning_rate_less_2min }}">
+                        <input type="hidden" name="earning_rate_2_5min" value="{{ $post->earning_rate_2_5min }}">
+                        <input type="hidden" name="earning_rate_more_5min"
+                            value="{{ $post->earning_rate_more_5min }}">
+                    @endif
+                </div>
+
+                <!-- SEO Settings -->
+                <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-4">
+                        <i class="fas fa-search mr-2"></i>SEO Settings
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Meta Title -->
+                        <div>
+                            <label for="meta_title" class="block text-sm font-medium text-blue-700 mb-2">
+                                Meta Title
+                            </label>
+                            <input type="text" name="meta_title" id="meta_title"
+                                value="{{ old('meta_title', $post->meta_title) }}"
+                                class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="SEO title for search engines">
+                            <p class="mt-1 text-sm text-blue-600">Leave empty to use post title</p>
+                            @error('meta_title')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Meta Description -->
+                        <div>
+                            <label for="meta_description" class="block text-sm font-medium text-blue-700 mb-2">
+                                Meta Description
+                            </label>
+                            <textarea name="meta_description" id="meta_description" rows="3"
+                                class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Brief description for search results">{{ old('meta_description', $post->meta_description) }}</textarea>
+                            <p class="mt-1 text-sm text-blue-600">Leave empty to use post excerpt</p>
+                            @error('meta_description')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Meta Keywords -->
+                        <div>
+                            <label for="meta_keywords" class="block text-sm font-medium text-blue-700 mb-2">
+                                Meta Keywords
+                            </label>
+                            @php
+                                $metaKeywords = old('meta_keywords', $post->meta_keywords);
+                                if (is_array($metaKeywords)) {
+                                    $metaKeywords = implode(', ', $metaKeywords);
+                                }
+                            @endphp
+                            <input type="text" name="meta_keywords" id="meta_keywords"
+                                value="{{ $metaKeywords }}"
+                                class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Keywords separated by commas">
+                            <p class="mt-1 text-sm text-blue-600">Separate with commas</p>
+                            @error('meta_keywords')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Canonical URL -->
+                        <div>
+                            <label for="canonical_url" class="block text-sm font-medium text-blue-700 mb-2">
+                                Canonical URL
+                            </label>
+                            <input type="url" name="canonical_url" id="canonical_url"
+                                value="{{ old('canonical_url', $post->canonical_url) }}"
+                                class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="https://example.com/original-post">
+                            <p class="mt-1 text-sm text-blue-600">If this is a repost</p>
+                            @error('canonical_url')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publishing Settings -->
+                <div class="bg-purple-50 p-6 rounded-lg border border-purple-200">
+                    <h3 class="text-lg font-semibold text-purple-900 mb-4">
+                        <i class="fas fa-paper-plane mr-2"></i>Publishing Settings
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Status -->
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-purple-700 mb-2">
+                                Publication Status <span class="text-red-500">*</span>
+                            </label>
+                            <select name="status" id="status" required
+                                class="w-full px-3 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                <option value="draft"
+                                    {{ old('status', $post->status) == 'draft' ? 'selected' : '' }}>Draft
+                                </option>
+                                <option value="published"
+                                    {{ old('status', $post->status) == 'published' ? 'selected' : '' }}>
+                                    Published</option>
+                                <option value="archived"
+                                    {{ old('status', $post->status) == 'archived' ? 'selected' : '' }}>Archived
+                                </option>
+                                <option value="scheduled"
+                                    {{ old('status', $post->status) == 'scheduled' ? 'selected' : '' }}>
+                                    Scheduled</option>
+                            </select>
+                            @error('status')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Scheduled Date -->
+                        <div id="scheduled_date_group"
+                            class="{{ old('status', $post->status) == 'scheduled' ? '' : 'hidden' }}">
+                            <label for="scheduled_at" class="block text-sm font-medium text-purple-700 mb-2">
+                                Schedule Date & Time
+                            </label>
+                            <input type="datetime-local" name="scheduled_at" id="scheduled_at"
+                                value="{{ old('scheduled_at', $post->scheduled_at ? $post->scheduled_at->format('Y-m-d\TH:i') : '') }}"
+                                class="w-full px-3 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            @error('scheduled_at')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex justify-end space-x-4">
+                    <a href="{{ route('blog.show', $post->slug) }}"
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                        <i class="fas fa-times mr-2"></i>Cancel
+                    </a>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                        <i class="fas fa-save mr-2"></i>Update Post
+                    </button>
+                </div>
+                </form>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -977,6 +988,146 @@
                     }
                 });
             }
+            // Image Upload Engine (Preview & Client-side Compression)
+            document.addEventListener('DOMContentLoaded', function() {
+                const MAX_WIDTH = 1920;
+                const MAX_SIZE_MB = 2;
+
+                // Handle Featured Image
+                const featuredInput = document.getElementById('featured_image');
+                const featuredPreview = document.getElementById('featured_image_preview');
+                const featuredImg = featuredPreview ? featuredPreview.querySelector('img') : null;
+                const featuredInfo = document.getElementById('featured_image_info');
+
+                if (featuredInput && featuredPreview) {
+                    featuredInput.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+                            // Compress
+                            processImage(file, (compressedBlob) => {
+                                // Create new file from blob
+                                const newFile = new File([compressedBlob], file.name, {
+                                    type: 'image/webp',
+                                    lastModified: Date.now()
+                                });
+
+                                // Update input files (requires DataTransfer)
+                                const dataTransfer = new DataTransfer();
+                                dataTransfer.items.add(newFile);
+                                featuredInput.files = dataTransfer.files;
+
+                                // Show preview
+                                showPreview(newFile, featuredPreview, featuredImg, featuredInfo, true);
+                            });
+                        } else {
+                            // Just show preview
+                            showPreview(file, featuredPreview, featuredImg, featuredInfo, false);
+                        }
+                    });
+                }
+
+                // Handle Gallery Images
+                const galleryInput = document.getElementById('gallery_images');
+                const galleryContainer = document.getElementById('gallery_preview_container');
+                const galleryPreviews = document.getElementById('gallery_previews');
+
+                if (galleryInput && galleryContainer) {
+                    galleryInput.addEventListener('change', async function(e) {
+                        const files = Array.from(e.target.files);
+                        if (!files.length) return;
+
+                        galleryPreviews.innerHTML = ''; // Clear previous
+                        galleryContainer.classList.remove('hidden');
+
+                        const dataTransfer = new DataTransfer();
+                        let processedCount = 0;
+
+                        for (const file of files) {
+                            if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+                                // Compress
+                                await new Promise(resolve => {
+                                    processImage(file, (compressedBlob) => {
+                                        const newFile = new File([compressedBlob], file
+                                            .name, {
+                                                type: 'image/webp',
+                                                lastModified: Date.now()
+                                            });
+                                        dataTransfer.items.add(newFile);
+                                        addGalleryPreview(newFile, galleryPreviews, true);
+                                        resolve();
+                                    });
+                                });
+                            } else {
+                                dataTransfer.items.add(file);
+                                addGalleryPreview(file, galleryPreviews, false);
+                            }
+                        }
+
+                        // Update input with optimized files
+                        galleryInput.files = dataTransfer.files;
+                    });
+                }
+
+                function showPreview(file, container, img, infoStr, isOptimized) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        img.src = e.target.result;
+                        container.classList.remove('hidden');
+                        if (infoStr) {
+                            infoStr.textContent = isOptimized ?
+                                `Optimized: ${(file.size / 1024).toFixed(1)} KB (WebP)` :
+                                `Original: ${(file.size / 1024).toFixed(1)} KB`;
+                            infoStr.classList.remove('hidden');
+                        }
+                    }
+                    reader.readAsDataURL(file);
+                }
+
+                function addGalleryPreview(file, container, isOptimized) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'relative w-20 h-20 border rounded overflow-hidden group';
+                        div.innerHTML = `
+                            <img src="${e.target.result}" class="w-full h-full object-cover">
+                            ${isOptimized ? '<div class="absolute bottom-0 inset-x-0 bg-green-500 text-white text-[10px] text-center">Optimized</div>' : ''}
+                        `;
+                        container.appendChild(div);
+                    }
+                    reader.readAsDataURL(file);
+                }
+
+                function processImage(file, callback) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            let width = img.width;
+                            let height = img.height;
+
+                            if (width > MAX_WIDTH) {
+                                height = Math.round(height * (MAX_WIDTH / width));
+                                width = MAX_WIDTH;
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            canvas.toBlob((blob) => {
+                                callback(blob);
+                            }, 'image/webp', 0.8);
+                        }
+                        img.src = event.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
         </script>
     @endpush
 </x-app-layout>

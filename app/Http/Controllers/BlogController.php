@@ -126,8 +126,8 @@ class BlogController extends Controller
             'category' => 'nullable|string|max:100',
             'tags' => 'nullable|array',
             'tags.*' => 'string|max:50',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'attachments.*' => 'nullable|file|max:10240',
             'meta_title' => 'nullable|string|max:60',
             'meta_description' => 'nullable|string|max:160',
@@ -152,7 +152,9 @@ class BlogController extends Controller
             // Optimize image first
             $optimizedPath = $this->imageOptimizer->optimize($request->file('featured_image'));
 
-            $upload = cloudinary()->upload(
+            // Bypass broken Laravel helper - use Cloudinary SDK directly
+            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
+            $upload = $cloudinary->uploadApi()->upload(
                 $optimizedPath,
                 [
                     'folder' => 'coolposts/blog/featured',
@@ -160,7 +162,7 @@ class BlogController extends Controller
                     'fetch_format' => 'auto',
                 ]
             );
-            $featuredImage = $upload->getSecurePath();
+            $featuredImage = $upload['secure_url'];
 
             // Cleanup temp file
             if ($optimizedPath !== $request->file('featured_image')->getRealPath()) {
@@ -171,11 +173,12 @@ class BlogController extends Controller
         // Handle gallery images
         $galleryImages = [];
         if ($request->hasFile('gallery_images')) {
+            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
             foreach ($request->file('gallery_images') as $image) {
                 // Optimize image first
                 $optimizedPath = $this->imageOptimizer->optimize($image);
 
-                $upload = cloudinary()->upload(
+                $upload = $cloudinary->uploadApi()->upload(
                     $optimizedPath,
                     [
                         'folder' => 'coolposts/blog/gallery',
@@ -183,7 +186,7 @@ class BlogController extends Controller
                         'fetch_format' => 'auto',
                     ]
                 );
-                $galleryImages[] = $upload->getSecurePath();
+                $galleryImages[] = $upload['secure_url'];
 
                 // Cleanup temp file
                 if ($optimizedPath !== $image->getRealPath()) {
@@ -195,8 +198,9 @@ class BlogController extends Controller
         // Handle attachments
         $attachments = [];
         if ($request->hasFile('attachments')) {
+            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
             foreach ($request->file('attachments') as $file) {
-                $upload = cloudinary()->upload(
+                $upload = $cloudinary->uploadApi()->upload(
                     $file->getRealPath(),
                     [
                         'folder' => 'coolposts/blog/attachments',
@@ -204,7 +208,7 @@ class BlogController extends Controller
                     ]
                 );
                 $attachments[] = [
-                    'path' => $upload->getSecurePath(),
+                    'path' => $upload['secure_url'],
                     'name' => $file->getClientOriginalName(),
                     'size' => $file->getSize(),
                 ];
@@ -344,8 +348,8 @@ class BlogController extends Controller
             'category' => 'nullable|string|max:100',
             'tags' => 'nullable|array',
             'tags.*' => 'string|max:50',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'attachments.*' => 'nullable|file|max:10240',
             'meta_title' => 'nullable|string|max:60',
             'meta_description' => 'nullable|string|max:160',
@@ -367,8 +371,9 @@ class BlogController extends Controller
             // Optimize image first
             $optimizedPath = $this->imageOptimizer->optimize($request->file('featured_image'));
 
-            // Note: Cloudinary handles replacement automatically when using same public_id
-            $upload = cloudinary()->upload(
+            // Bypass broken Laravel helper - use Cloudinary SDK directly
+            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
+            $upload = $cloudinary->uploadApi()->upload(
                 $optimizedPath,
                 [
                     'folder' => 'coolposts/blog/featured',
@@ -376,7 +381,7 @@ class BlogController extends Controller
                     'fetch_format' => 'auto',
                 ]
             );
-            $post->featured_image = $upload->getSecurePath();
+            $post->featured_image = $upload['secure_url'];
 
             // Cleanup temp file
             if ($optimizedPath !== $request->file('featured_image')->getRealPath()) {
@@ -387,11 +392,12 @@ class BlogController extends Controller
         // Handle gallery images
         if ($request->hasFile('gallery_images')) {
             $galleryImages = [];
+            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
             foreach ($request->file('gallery_images') as $image) {
                 // Optimize image first
                 $optimizedPath = $this->imageOptimizer->optimize($image);
 
-                $upload = cloudinary()->upload(
+                $upload = $cloudinary->uploadApi()->upload(
                     $optimizedPath,
                     [
                         'folder' => 'coolposts/blog/gallery',
@@ -399,7 +405,7 @@ class BlogController extends Controller
                         'fetch_format' => 'auto',
                     ]
                 );
-                $galleryImages[] = $upload->getSecurePath();
+                $galleryImages[] = $upload['secure_url'];
 
                 // Cleanup temp file
                 if ($optimizedPath !== $image->getRealPath()) {
@@ -412,8 +418,9 @@ class BlogController extends Controller
         // Handle attachments
         if ($request->hasFile('attachments')) {
             $attachments = [];
+            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
             foreach ($request->file('attachments') as $file) {
-                $upload = cloudinary()->upload(
+                $upload = $cloudinary->uploadApi()->upload(
                     $file->getRealPath(),
                     [
                         'folder' => 'coolposts/blog/attachments',
@@ -421,7 +428,7 @@ class BlogController extends Controller
                     ]
                 );
                 $attachments[] = [
-                    'path' => $upload->getSecurePath(),
+                    'path' => $upload['secure_url'],
                     'name' => $file->getClientOriginalName(),
                     'size' => $file->getSize(),
                 ];
