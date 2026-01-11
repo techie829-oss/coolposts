@@ -41,7 +41,7 @@ class PerformanceController extends Controller
         return view('admin.performance', compact('metrics', 'cache_stats', 'db_stats'));
     }
 
-        /**
+    /**
      * Optimize database
      */
     public function optimizeDatabase()
@@ -202,19 +202,40 @@ class PerformanceController extends Controller
     /**
      * Get system health
      */
+    /**
+     * Get system health (API endpoint)
+     */
     public function getSystemHealth()
     {
-        $health = [
-            'cache' => $this->cacheService->getHealthStatus(),
-            'database' => $this->getDatabaseHealth(),
-            'application' => $this->getApplicationHealth(),
-            'system' => $this->getSystemHealthStatus(),
-        ];
-
         return response()->json([
             'success' => true,
-            'health' => $health,
+            'health' => $this->gatherSystemHealthData(),
         ]);
+    }
+
+    /**
+     * Gather system health data (Internal helper)
+     */
+    protected function gatherSystemHealthData(): array
+    {
+        $cache = $this->cacheService->getHealthStatus();
+        $db = $this->getDatabaseHealth();
+        $app = $this->getApplicationHealth();
+        $system = $this->getSystemHealthStatus();
+
+        // Determine overall status
+        $status = 'healthy';
+        if (($db['status'] ?? '') !== 'healthy' || ($cache['status'] ?? '') !== 'healthy') {
+            $status = 'warning';
+        }
+
+        return [
+            'cache' => $cache,
+            'database' => $db,
+            'application' => $app,
+            'system' => $system,
+            'overall_status' => $status,
+        ];
     }
 
     /**
@@ -287,7 +308,7 @@ class PerformanceController extends Controller
             $this->cacheService->clearAllCache();
 
             // Rebuild global settings cache
-            $this->cacheService->getGlobalSettings(function() {
+            $this->cacheService->getGlobalSettings(function () {
                 return \App\Models\GlobalSetting::getSettings()->toArray();
             });
             $results['global_settings'] = true;
@@ -295,10 +316,10 @@ class PerformanceController extends Controller
             // Rebuild user analytics cache
             $users = \App\Models\User::take(20)->get();
             foreach ($users as $user) {
-                $this->cacheService->getUserAnalytics($user->id, function() use ($user) {
+                $this->cacheService->getUserAnalytics($user->id, function () use ($user) {
                     return [
                         'total_links' => \App\Models\Link::where('user_id', $user->id)->count(),
-                        'total_clicks' => \App\Models\LinkClick::whereHas('link', function($q) use ($user) {
+                        'total_clicks' => \App\Models\LinkClick::whereHas('link', function ($q) use ($user) {
                             $q->where('user_id', $user->id);
                         })->count(),
                         'total_earnings' => \App\Models\UserEarning::where('user_id', $user->id)->sum('amount'),
@@ -310,7 +331,7 @@ class PerformanceController extends Controller
             // Rebuild link analytics cache
             $links = \App\Models\Link::take(50)->get();
             foreach ($links as $link) {
-                $this->cacheService->getLinkAnalytics($link->id, function() use ($link) {
+                $this->cacheService->getLinkAnalytics($link->id, function () use ($link) {
                     return [
                         'total_clicks' => \App\Models\LinkClick::where('link_id', $link->id)->count(),
                         'unique_clicks' => \App\Models\LinkClick::where('link_id', $link->id)->where('is_unique', true)->count(),
@@ -323,7 +344,7 @@ class PerformanceController extends Controller
             // Rebuild blog analytics cache
             $blogs = \App\Models\BlogPost::take(20)->get();
             foreach ($blogs as $blog) {
-                $this->cacheService->getBlogAnalytics($blog->id, function() use ($blog) {
+                $this->cacheService->getBlogAnalytics($blog->id, function () use ($blog) {
                     return [
                         'total_visitors' => \App\Models\BlogVisitor::where('blog_post_id', $blog->id)->count(),
                         'unique_visitors' => \App\Models\BlogVisitor::where('blog_post_id', $blog->id)->where('is_unique_visit', true)->count(),
@@ -393,14 +414,11 @@ class PerformanceController extends Controller
             'metrics' => $this->performanceService->monitorPerformance(),
             'recommendations' => $this->performanceService->getPerformanceRecommendations(),
             'cache_stats' => $this->cacheService->getCacheStats(),
-            'system_health' => $this->getSystemHealth(),
+            'system_health' => $this->gatherSystemHealthData(),
             'generated_at' => now()->toISOString(),
         ];
 
-        return response()->json([
-            'success' => true,
-            'report' => $report,
-        ]);
+        return view('admin.performance.report', compact('report'));
     }
 
     /**
@@ -433,7 +451,7 @@ class PerformanceController extends Controller
             'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ];
 
-        $callback = function() use ($data) {
+        $callback = function () use ($data) {
             $file = fopen('php://output', 'w');
 
             // Write headers
@@ -465,7 +483,7 @@ class PerformanceController extends Controller
         return \App\Models\RequestLog::getAverageResponseTime(30);
     }
 
-        /**
+    /**
      * Get uptime percentage for dashboard
      */
     protected function getUptimePercentage()
@@ -556,7 +574,7 @@ class PerformanceController extends Controller
         return \App\Models\RequestLog::getPerformanceStats(30);
     }
 
-        /**
+    /**
      * Get cache statistics for dashboard
      */
     protected function getCacheStatsForDashboard()
@@ -638,10 +656,14 @@ class PerformanceController extends Controller
         $value = (int) substr($memoryLimit, 0, -1);
 
         switch ($unit) {
-            case 'k': return $value * 1024;
-            case 'm': return $value * 1024 * 1024;
-            case 'g': return $value * 1024 * 1024 * 1024;
-            default: return $value;
+            case 'k':
+                return $value * 1024;
+            case 'm':
+                return $value * 1024 * 1024;
+            case 'g':
+                return $value * 1024 * 1024 * 1024;
+            default:
+                return $value;
         }
     }
 

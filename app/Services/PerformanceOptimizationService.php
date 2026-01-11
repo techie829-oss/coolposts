@@ -287,7 +287,7 @@ class PerformanceOptimizationService
     {
         try {
             $indexes = DB::select("PRAGMA index_list('{$table}')");
-            return array_map(function($index) {
+            return array_map(function ($index) {
                 return $index->name;
             }, $indexes);
         } catch (\Exception $e) {
@@ -377,7 +377,7 @@ class PerformanceOptimizationService
                 $indexes = DB::select("PRAGMA index_list('{$table}')");
                 $analysis[$table] = [
                     'index_count' => count($indexes),
-                    'indexes' => array_map(function($index) {
+                    'indexes' => array_map(function ($index) {
                         return [
                             'name' => $index->name,
                             'unique' => $index->unique,
@@ -473,7 +473,7 @@ class PerformanceOptimizationService
 
         try {
             // Cache global settings
-            $this->cacheService->getGlobalSettings(function() {
+            $this->cacheService->getGlobalSettings(function () {
                 return \App\Models\GlobalSetting::getSettings()->toArray();
             });
 
@@ -482,7 +482,7 @@ class PerformanceOptimizationService
             // Cache user analytics
             $users = \App\Models\User::take(10)->get();
             foreach ($users as $user) {
-                $this->cacheService->getUserAnalytics($user->id, function() use ($user) {
+                $this->cacheService->getUserAnalytics($user->id, function () use ($user) {
                     return $this->getUserAnalyticsData($user->id);
                 });
             }
@@ -504,7 +504,7 @@ class PerformanceOptimizationService
     {
         return [
             'total_links' => \App\Models\Link::where('user_id', $userId)->count(),
-            'total_clicks' => \App\Models\LinkClick::whereHas('link', function($q) use ($userId) {
+            'total_clicks' => \App\Models\LinkClick::whereHas('link', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })->count(),
             'total_earnings' => \App\Models\UserEarning::where('user_id', $userId)->sum('amount'),
@@ -645,8 +645,8 @@ class PerformanceOptimizationService
         return [
             'memory_usage' => memory_get_usage(true),
             'peak_memory_usage' => memory_get_peak_usage(true),
-            'request_count' => 0, // Would be tracked in production
-            'error_count' => 0, // Would be tracked in production
+            'request_count' => \App\Models\RequestLog::count(), // Real count
+            'error_count' => \App\Models\RequestLog::where('status_code', '>=', 500)->count(), // Real errors
         ];
     }
 
@@ -667,11 +667,15 @@ class PerformanceOptimizationService
      */
     protected function getResponseTimeMetrics(): array
     {
+        $avg = \App\Models\RequestLog::avg('duration') ?? 0;
+        $min = \App\Models\RequestLog::min('duration') ?? 0;
+        $max = \App\Models\RequestLog::max('duration') ?? 0;
+
         return [
-            'average' => 0, // Would be tracked in production
-            'min' => 0,
-            'max' => 0,
-            'p95' => 0,
+            'average' => round($avg, 2),
+            'min' => round($min, 2),
+            'max' => round($max, 2),
+            'p95' => 0, // Would require raw query for percentile
         ];
     }
 
@@ -699,8 +703,12 @@ class PerformanceOptimizationService
      */
     protected function getCpuUsage(): float
     {
-        // Simple CPU usage estimation
-        return 0.0; // Would be calculated in production
+        // specific to *nix systems
+        if (function_exists('sys_getloadavg')) {
+            $load = sys_getloadavg();
+            return $load[0] ?? 0;
+        }
+        return 0.0;
     }
 
     /**

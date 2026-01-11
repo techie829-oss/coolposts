@@ -9,6 +9,10 @@
     <!-- Google tag (gtag.js) -->
 
 
+    <!-- Search Engine Verification -->
+    <meta name="google-site-verification" content="f08c47fec0942fa0" />
+    <meta name="yandex-verification" content="416734e950fff867" />
+
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="{{ $brandingSettings->primary_color ?? '#8b5cf6' }}">
     <meta name="apple-mobile-web-app-capable" content="yes">
