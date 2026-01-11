@@ -275,7 +275,7 @@
                                 class="block group-hover:opacity-90 transition-opacity relative z-10">
                                 @if ($post->featured_image)
                                     <div class="aspect-w-16 aspect-h-9">
-                                        <img src="{{ Storage::url($post->featured_image) }}"
+                                        <img src="{{ $post->featured_image }}"
                                             alt="{{ $post->title }}" class="w-full h-48 object-cover">
                                     </div>
                                 @else

@@ -92,7 +92,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="flex items-center">
                                                     @if($post->featured_image)
-                                                        <img src="{{ Storage::url($post->featured_image) }}"
+                                                        <img src="{{ $post->featured_image }}"
                                                              alt="{{ $post->title }}"
                                                              class="w-12 h-12 object-cover rounded">
                                                     @else

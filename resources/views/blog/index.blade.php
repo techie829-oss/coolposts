@@ -172,7 +172,7 @@
                             <!-- Featured Image -->
                             <div class="relative h-48 overflow-hidden">
                                 @if ($post->featured_image)
-                                    <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}"
+                                    <img src="{{ $post->featured_image }}" alt="{{ $post->title }}"
                                         class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
                                 @else
                                     <div class="w-full h-full bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center group-hover:from-indigo-100 group-hover:to-purple-100 transition-colors duration-300">

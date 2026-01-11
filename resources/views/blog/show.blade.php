@@ -25,7 +25,7 @@
                 'dateModified' => $post->updated_at->toIso8601String(),
                 'image' => [
                     '@type' => 'ImageObject',
-                    'url' => $post->featured_image ? Storage::url($post->featured_image) : asset('images/og-blog.jpg'),
+                    'url' => $post->featured_image ? $post->featured_image : asset('images/og-blog.jpg'),
                 ],
                 'mainEntityOfPage' => [
                     '@type' => 'WebPage',
@@ -63,7 +63,7 @@
         <meta property="og:title" content="{{ $post->title }} - CoolPosts">
         <meta property="og:description" content="{{ $post->excerpt ?: Str::limit(strip_tags($post->content), 160) }}">
         <meta property="og:image"
-            content="{{ $post->featured_image ? Storage::url($post->featured_image) : asset('images/og-blog.jpg') }}">
+            content="{{ $post->featured_image ? $post->featured_image : asset('images/og-blog.jpg') }}">
         <meta property="og:site_name" content="CoolPosts">
         <meta property="og:locale" content="en_US">
         <meta property="article:published_time" content="{{ $post->published_at->toISOString() }}">
@@ -80,7 +80,7 @@
         <meta property="twitter:description"
             content="{{ $post->excerpt ?: Str::limit(strip_tags($post->content), 160) }}">
         <meta property="twitter:image"
-            content="{{ $post->featured_image ? Storage::url($post->featured_image) : asset('images/og-blog.jpg') }}">
+            content="{{ $post->featured_image ? $post->featured_image : asset('images/og-blog.jpg') }}">
         <!-- Article Structured Data -->
         <script type="application/ld+json">
             {!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
