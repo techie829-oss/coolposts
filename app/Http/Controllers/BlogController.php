@@ -153,7 +153,7 @@ class BlogController extends Controller
             $optimizedPath = $this->imageOptimizer->optimize($request->file('featured_image'));
 
             // Bypass broken Laravel helper - use Cloudinary SDK directly
-            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             $upload = $cloudinary->uploadApi()->upload(
                 $optimizedPath,
                 [
@@ -173,7 +173,7 @@ class BlogController extends Controller
         // Handle gallery images
         $galleryImages = [];
         if ($request->hasFile('gallery_images')) {
-            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             foreach ($request->file('gallery_images') as $image) {
                 // Optimize image first
                 $optimizedPath = $this->imageOptimizer->optimize($image);
@@ -198,7 +198,7 @@ class BlogController extends Controller
         // Handle attachments
         $attachments = [];
         if ($request->hasFile('attachments')) {
-            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             foreach ($request->file('attachments') as $file) {
                 $upload = $cloudinary->uploadApi()->upload(
                     $file->getRealPath(),
@@ -372,7 +372,7 @@ class BlogController extends Controller
             $optimizedPath = $this->imageOptimizer->optimize($request->file('featured_image'));
 
             // Bypass broken Laravel helper - use Cloudinary SDK directly
-            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             $upload = $cloudinary->uploadApi()->upload(
                 $optimizedPath,
                 [
@@ -392,7 +392,7 @@ class BlogController extends Controller
         // Handle gallery images
         if ($request->hasFile('gallery_images')) {
             $galleryImages = [];
-            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             foreach ($request->file('gallery_images') as $image) {
                 // Optimize image first
                 $optimizedPath = $this->imageOptimizer->optimize($image);
@@ -418,7 +418,7 @@ class BlogController extends Controller
         // Handle attachments
         if ($request->hasFile('attachments')) {
             $attachments = [];
-            $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             foreach ($request->file('attachments') as $file) {
                 $upload = $cloudinary->uploadApi()->upload(
                     $file->getRealPath(),
