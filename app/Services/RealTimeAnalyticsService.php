@@ -143,7 +143,7 @@ class RealTimeAnalyticsService
     /**
      * Get real-time dashboard data for a user
      */
-        public function getUserDashboardData(int $userId): array
+    public function getUserDashboardData(int $userId): array
     {
         if (!$this->cacheService) {
             return $this->generateUserDashboardData($userId);
@@ -151,7 +151,7 @@ class RealTimeAnalyticsService
 
         $cacheKey = "realtime_dashboard_{$userId}";
 
-        return $this->cacheService->getCachedData($cacheKey, function() use ($userId) {
+        return $this->cacheService->getCachedData($cacheKey, function () use ($userId) {
             return $this->generateUserDashboardData($userId);
         }, 300); // Cache for 5 minutes
     }
@@ -165,7 +165,7 @@ class RealTimeAnalyticsService
             return $this->generateGlobalStatistics();
         }
 
-        return $this->cacheService->getCachedData('realtime_global_stats', function() {
+        return $this->cacheService->getCachedData('realtime_global_stats', function () {
             return $this->generateGlobalStatistics();
         }, 300); // Cache for 5 minutes
     }
@@ -175,9 +175,13 @@ class RealTimeAnalyticsService
      */
     public function getLinkAnalytics(int $linkId): array
     {
+        if (!$this->cacheService) {
+            return $this->generateLinkAnalytics($linkId);
+        }
+
         $cacheKey = "realtime_link_analytics_{$linkId}";
 
-        return $this->cacheService->getCachedData($cacheKey, function() use ($linkId) {
+        return $this->cacheService->getCachedData($cacheKey, function () use ($linkId) {
             return $this->generateLinkAnalytics($linkId);
         }, 300); // Cache for 5 minutes
     }
@@ -187,9 +191,13 @@ class RealTimeAnalyticsService
      */
     public function getBlogAnalytics(int $blogId): array
     {
+        if (!$this->cacheService) {
+            return $this->generateBlogAnalytics($blogId);
+        }
+
         $cacheKey = "realtime_blog_analytics_{$blogId}";
 
-        return $this->cacheService->getCachedData($cacheKey, function() use ($blogId) {
+        return $this->cacheService->getCachedData($cacheKey, function () use ($blogId) {
             return $this->generateBlogAnalytics($blogId);
         }, 300); // Cache for 5 minutes
     }
@@ -199,7 +207,11 @@ class RealTimeAnalyticsService
      */
     public function getLiveVisitorCount(): array
     {
-        return $this->cacheService->getCachedData('live_visitor_count', function() {
+        if (!$this->cacheService) {
+            return $this->generateLiveVisitorCount();
+        }
+
+        return $this->cacheService->getCachedData('live_visitor_count', function () {
             return $this->generateLiveVisitorCount();
         }, 60); // Cache for 1 minute
     }
@@ -209,9 +221,13 @@ class RealTimeAnalyticsService
      */
     public function getRealTimeEarningsSummary(int $userId = null): array
     {
+        if (!$this->cacheService) {
+            return $this->generateEarningsSummary($userId);
+        }
+
         $cacheKey = $userId ? "realtime_earnings_{$userId}" : 'realtime_earnings_global';
 
-        return $this->cacheService->getCachedData($cacheKey, function() use ($userId) {
+        return $this->cacheService->getCachedData($cacheKey, function () use ($userId) {
             return $this->generateEarningsSummary($userId);
         }, 300); // Cache for 5 minutes
     }
@@ -379,9 +395,9 @@ class RealTimeAnalyticsService
         $todayUsers = User::whereDate('created_at', $today)->count();
 
         // Active users (last 24 hours)
-        $activeUsers = User::whereHas('links.clicks', function($query) use ($now) {
+        $activeUsers = User::whereHas('links.clicks', function ($query) use ($now) {
             $query->where('clicked_at', '>=', $now->subDay());
-        })->orWhereHas('blogPosts.visitors', function($query) use ($now) {
+        })->orWhereHas('blogPosts.visitors', function ($query) use ($now) {
             $query->where('visited_at', '>=', $now->subDay());
         })->count();
 
@@ -578,8 +594,8 @@ class RealTimeAnalyticsService
             END as source,
             SUM(amount) as total
         ')
-        ->groupBy('source')
-        ->get();
+            ->groupBy('source')
+            ->get();
 
         return [
             'today' => $todayEarnings,
@@ -596,9 +612,13 @@ class RealTimeAnalyticsService
      */
     public function getUserNotifications(int $userId): array
     {
+        if (!$this->cacheService) {
+            return $this->generateUserNotifications($userId);
+        }
+
         $cacheKey = "realtime_notifications_{$userId}";
 
-        return $this->cacheService->getCachedData($cacheKey, function() use ($userId) {
+        return $this->cacheService->getCachedData($cacheKey, function () use ($userId) {
             return $this->generateUserNotifications($userId);
         }, 600); // Cache for 10 minutes
     }
@@ -619,14 +639,14 @@ class RealTimeAnalyticsService
             ->get();
 
         // Recent high-value clicks
-        $recentHighValueClicks = LinkClick::whereHas('link', function($query) use ($userId) {
+        $recentHighValueClicks = LinkClick::whereHas('link', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })
-        ->where('earnings_generated', '>', 0.01)
-        ->where('clicked_at', '>=', $lastDay)
-        ->orderBy('clicked_at', 'desc')
-        ->take(5)
-        ->get();
+            ->where('earnings_generated', '>', 0.01)
+            ->where('clicked_at', '>=', $lastDay)
+            ->orderBy('clicked_at', 'desc')
+            ->take(5)
+            ->get();
 
         return [
             'recent_earnings' => $recentEarnings,
@@ -651,7 +671,7 @@ class RealTimeAnalyticsService
         return [
             'available' => $this->isAvailable(),
             'pusher_configured' => $this->pusher !== null,
-            'cache_available' => $this->cacheService->isRedisAvailable(),
+            'cache_available' => $this->cacheService && $this->cacheService->isRedisAvailable(),
             'last_check' => now()->toISOString(),
         ];
     }

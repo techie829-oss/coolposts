@@ -185,35 +185,37 @@
                     </div>
                 </a>
 
-        <a href="{{ route('admin.user-management') }}"
-            class="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-orange-500 rounded-md flex items-center justify-center">
-                        <i class="fas fa-user-cog text-white"></i>
+                <a href="{{ route('admin.user-management') }}"
+                    class="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-orange-500 rounded-md flex items-center justify-center">
+                                <i class="fas fa-user-cog text-white"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-medium text-gray-900 group-hover:text-orange-600">User AI Controls
+                            </h3>
+                            <p class="text-sm text-gray-500">Manage AI access per user</p>
+                        </div>
                     </div>
-                </div>
-                <div class="ml-4">
-                    <h3 class="text-lg font-medium text-gray-900 group-hover:text-orange-600">User AI Controls</h3>
-                    <p class="text-sm text-gray-500">Manage AI access per user</p>
-                </div>
-            </div>
-        </a>
+                </a>
 
-        <a href="{{ route('admin.referral-settings') }}"
-            class="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-                        <i class="fas fa-users text-white"></i>
+                <a href="{{ route('admin.referral-settings') }}"
+                    class="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+                                <i class="fas fa-users text-white"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-medium text-gray-900 group-hover:text-green-600">Referral Settings
+                            </h3>
+                            <p class="text-sm text-gray-500">Configure referral system & commissions</p>
+                        </div>
                     </div>
-                </div>
-                <div class="ml-4">
-                    <h3 class="text-lg font-medium text-gray-900 group-hover:text-green-600">Referral Settings</h3>
-                    <p class="text-sm text-gray-500">Configure referral system & commissions</p>
-                </div>
-            </div>
-        </a>
+                </a>
 
                 <a href="{{ route('admin.earnings.index') }}"
                     class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow duration-200">
@@ -368,7 +370,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('admin.realtime.analytics') }}"
+                <a href="{{ route('admin.realtime.index') }}"
                     class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow duration-200">
                     <div class="p-6">
                         <div class="flex items-center">

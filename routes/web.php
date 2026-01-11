@@ -257,10 +257,13 @@ Route::middleware('auth')->group(function () {
 
     // Admin real-time analytics
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/admin/realtime/analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getAdminAnalytics'])->name('admin.realtime.analytics');
+        Route::get('/admin/realtime/analytics/data', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getAdminAnalytics'])->name('admin.realtime.analytics.data');
         Route::get('/admin/realtime/user-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getUserAnalytics'])->name('admin.realtime.user-analytics');
         Route::get('/admin/realtime/link-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getLinkAnalyticsAdmin'])->name('admin.realtime.link-analytics');
         Route::get('/admin/realtime/blog-analytics', [\App\Http\Controllers\RealTimeAnalyticsController::class, 'getBlogAnalyticsAdmin'])->name('admin.realtime.blog-analytics');
+
+        // Admin Dashboard View
+        Route::view('/admin/realtime/analytics', 'admin.realtime.index')->name('admin.realtime.index');
     });
 
     // Real-Time Analytics Dashboard

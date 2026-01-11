@@ -7,19 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google tag (gtag.js) -->
-    @if (app()->environment('production') && !request()->is('admin*'))
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FBB3YFWDKF"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
 
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-
-            gtag('config', 'G-FBB3YFWDKF');
-        </script>
-    @endif
 
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="{{ $brandingSettings->primary_color ?? '#8b5cf6' }}">
@@ -175,7 +163,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css?v=6.5.1" rel="stylesheet" />
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -183,11 +171,6 @@
     <!-- SEO: Noindex for Legal, Auth, and System Pages -->
     @php
         $noIndexRoutes = [
-            'legal.terms',
-            'legal.privacy',
-            'legal.cookies',
-            'legal.refund',
-            'legal.dmca',
             'login',
             'register',
             'password.request',
@@ -824,6 +807,20 @@
             animation-delay: 4s;
         }
     </style>
+    <!-- Google tag (gtag.js) - Deferred -->
+    @if (app()->environment('production') && !request()->is('admin*'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FBB3YFWDKF"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-FBB3YFWDKF');
+        </script>
+    @endif
 </body>
 
 </html>

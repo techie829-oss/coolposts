@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Hash;
 
 class MonetizationController extends Controller
 {
-        protected $recaptchaService;
+    protected $recaptchaService;
     protected $currencyService;
     protected $adService;
     protected $fraudDetectionService;
@@ -50,7 +50,11 @@ class MonetizationController extends Controller
     public function showIntermediate($shortCode)
     {
         try {
-            $link = Link::where('short_code', $shortCode)->firstOrFail();
+            $link = Link::where('short_code', $shortCode)->first();
+
+            if (!$link) {
+                abort(404);
+            }
 
             // Check if link is active
             if (!$link->is_active) {

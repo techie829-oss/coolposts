@@ -455,7 +455,7 @@ class AdminController extends Controller
         $linkPerformance = $this->getLinkPerformanceData();
         $revenueAnalytics = $this->getRevenueAnalytics();
 
-                // Calculate real system health based on actual metrics
+        // Calculate real system health based on actual metrics
         $systemHealth = $this->calculateSystemHealth();
 
         // Get real performance metrics
@@ -662,7 +662,7 @@ class AdminController extends Controller
         ];
     }
 
-        /**
+    /**
      * Get CPU usage percentage
      */
     protected function getCpuUsagePercentage()
@@ -744,7 +744,7 @@ class AdminController extends Controller
         }
 
         // Sort by time and take latest 10
-        usort($activities, function($a, $b) {
+        usort($activities, function ($a, $b) {
             return strtotime($b['time']) - strtotime($a['time']);
         });
 
@@ -1145,7 +1145,7 @@ class AdminController extends Controller
             }
         }
 
-        return response()->json($health);
+        return view('admin.system-health', compact('health'));
     }
 
     /**
