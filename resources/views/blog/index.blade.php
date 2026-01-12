@@ -8,10 +8,10 @@
     </x-slot>
 
     <div
-        class="pt-32 pb-16 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-white to-white min-h-screen">
+        class="pt-24 pb-16 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-white to-white min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Premium Hero Header -->
-            <div class="relative mt-8 mb-12">
+            <div class="relative mt-4 mb-12">
                 <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                     <div class="max-w-2xl">
                         <div class="flex items-center gap-2 mb-4">

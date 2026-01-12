@@ -240,9 +240,14 @@
             if (!document.getElementById('pwa-install-btn')) {
                 const installBtn = document.createElement('button');
                 installBtn.id = 'pwa-install-btn';
-                installBtn.innerHTML = '📱 Install App';
+                installBtn.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="/icons/icon-96x96.png" class="w-8 h-8 rounded-lg shadow-sm" alt="App Icon">
+                        <span class="font-bold pr-1">Install App</span>
+                    </div>
+                `;
                 installBtn.className =
-                    'fixed bottom-4 right-4 bg-purple-600 text-white px-4 py-2 rounded-full shadow-lg z-50 hover:bg-purple-700 transition-colors';
+                    'fixed bottom-6 right-6 bg-white/90 backdrop-blur-md border border-white/20 text-gray-900 px-4 py-3 rounded-2xl shadow-2xl z-50 hover:bg-white transition-all duration-300 hover:-translate-y-1 group border-purple-100 ring-1 ring-purple-100';
                 installBtn.onclick = installPWA;
                 document.body.appendChild(installBtn);
             }
@@ -809,6 +814,7 @@
             gtag('config', 'G-FBB3YFWDKF');
         </script>
     @endif
+    @stack('scripts')
 </body>
 
 </html>

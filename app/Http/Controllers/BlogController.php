@@ -367,6 +367,7 @@ class BlogController extends Controller
         ]);
 
         // Handle featured image
+        $featuredImage = $post->featured_image; // Default to existing
         if ($request->hasFile('featured_image')) {
             // Optimize image first
             $optimizedPath = $this->imageOptimizer->optimize($request->file('featured_image'));
@@ -381,7 +382,7 @@ class BlogController extends Controller
                     'fetch_format' => 'auto',
                 ]
             );
-            $post->featured_image = $upload['secure_url'];
+            $featuredImage = $upload['secure_url'];
 
             // Cleanup temp file
             if ($optimizedPath !== $request->file('featured_image')->getRealPath()) {
@@ -390,6 +391,7 @@ class BlogController extends Controller
         }
 
         // Handle gallery images
+        $galleryImages = $post->gallery_images; // Default to existing
         if ($request->hasFile('gallery_images')) {
             $galleryImages = [];
             $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
@@ -412,10 +414,10 @@ class BlogController extends Controller
                     @unlink($optimizedPath);
                 }
             }
-            $post->gallery_images = $galleryImages;
         }
 
         // Handle attachments
+        $attachments = $post->attachments; // Default to existing
         if ($request->hasFile('attachments')) {
             $attachments = [];
             $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
@@ -433,7 +435,6 @@ class BlogController extends Controller
                     'size' => $file->getSize(),
                 ];
             }
-            $post->attachments = $attachments;
         }
 
         // Prepare data for update
@@ -445,6 +446,9 @@ class BlogController extends Controller
             'type' => $request->input('type'),
             'category' => $request->input('category'),
             'tags' => $request->input('tags'),
+            'featured_image' => $featuredImage,
+            'gallery_images' => $galleryImages,
+            'attachments' => $attachments,
             'meta_title' => $request->input('meta_title'),
             'meta_description' => $request->input('meta_description'),
             'meta_keywords' => $request->input('meta_keywords'),
