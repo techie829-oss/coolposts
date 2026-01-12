@@ -50,4 +50,4 @@ Disallow: /monetize/
 # Block query parameters (SEO best practice)
 Disallow: /*?*
 
-Sitemap: https://{{ $platformName === 'CoolPosts' ? 'www.coolposts.site' : 'coolposts.site' }}/sitemap.xml
+Sitemap: {{ url('sitemap.xml') }}
