@@ -318,127 +318,92 @@
     <nav class="bg-white/80 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Mobile Menu Button (Left Side) -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen"
-                    class="md:hidden p-2 text-gray-600 hover:text-purple-600 focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-
-                <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="{{ route('welcome') }}" class="flex items-center space-x-3">
-                        @if ($brandingSettings->brand_logo)
-                            <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-lg">
+                    <!-- Mobile Menu Button -->
+                    <button @click="mobileMenuOpen = !mobileMenuOpen"
+                        class="md:hidden p-2 text-gray-600 hover:text-indigo-600 focus:outline-none mr-4">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <!-- Logo -->
+                    <a href="{{ route('welcome') }}" class="flex items-center space-x-3 group">
+                        @if ($brandingSettings?->brand_logo)
+                            <div
+                                class="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:rotate-6 transition-transform">
                                 <img src="{{ asset('storage/' . $brandingSettings->brand_logo) }}"
                                     alt="{{ $brandingSettings->brand_name }}" class="w-full h-full object-cover">
                             </div>
                         @else
-                            <div class="w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg"
-                                style="background: linear-gradient(to right, {{ $brandingSettings->gradient_start ?? '#8b5cf6' }}, {{ $brandingSettings->gradient_end ?? '#ec4899' }}, {{ $brandingSettings->gradient_third ?? '#ef4444' }});">
+                            <div
+                                class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-6 transition-transform {{ Auth::check() ? 'bg-indigo-600' : 'bg-slate-800' }}">
                                 <i class="fas fa-link text-white text-lg"></i>
                             </div>
                         @endif
                         <div>
-                            <div class="text-xl font-bold text-gray-900">
-                                {{ $brandingSettings->brand_name ?? 'CoolPosts' }}
+                            <div class="text-xl font-black text-gray-900 tracking-tighter leading-none">
+                                {{ $brandingSettings?->brand_name ?? 'CoolPosts' }}
                             </div>
-                            <div class="hidden md:block text-xs text-gray-600">
-                                {{ $brandingSettings->brand_tagline ?? 'Link Monetization' }}
+                            <div
+                                class="hidden md:block text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">
+                                {{ $brandingSettings?->brand_tagline ?? 'Blogger First' }}
                             </div>
                         </div>
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                @auth
-                    <div class="hidden md:flex items-center space-x-6">
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-1">
+                    @auth
                         <a href="{{ route('dashboard') }}"
-                            class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('dashboard') ? 'text-purple-600 bg-purple-50' : '' }}">
-                            <i class="fas fa-chart-line mr-2"></i>
+                            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 {{ request()->routeIs('dashboard') ? 'text-indigo-600 font-bold bg-indigo-50/50' : '' }}">
                             Dashboard
                         </a>
-                        @if ($globalSettings->isLinkCreationEnabled())
-                            <a href="{{ route('links.index') }}"
-                                class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('links.*') ? 'text-purple-600 bg-purple-50' : '' }}">
-                                <i class="fas fa-link mr-2"></i>
-                                My Links
-                            </a>
-                        @endif
                         <a href="{{ route('blog.index') }}"
-                            class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('blog.*') ? 'text-purple-600 bg-purple-50' : '' }}">
-                            <i class="fas fa-newspaper mr-2"></i>
-                            Blog
+                            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 {{ request()->routeIs('blog.*') ? 'text-indigo-600 font-bold bg-indigo-50/50' : '' }}">
+                            Journal
                         </a>
-                        @if ($globalSettings->isEarningsEnabled())
-                            <a href="{{ route('earnings.index') }}"
-                                class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('earnings.*') ? 'text-purple-600 bg-purple-50' : '' }}">
-                                <i class="fas fa-dollar-sign mr-2"></i>
-                                Earnings
-                            </a>
-                        @endif
-                        @if ($globalSettings->isSubscriptionEnabled())
-                            <a href="{{ route('subscriptions.plans') }}"
-                                class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('subscriptions.*') ? 'text-purple-600 bg-purple-50' : '' }}">
-                                <i class="fas fa-crown mr-2"></i>
-                                Subscriptions
-                            </a>
-                        @endif
-                        @if ($globalSettings->isReferralsEnabled())
-                            <a href="{{ route('referrals.dashboard') }}"
-                                class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('referrals.*') ? 'text-purple-600 bg-purple-50' : '' }}">
-                                <i class="fas fa-users mr-2"></i>
-                                Referrals
-                            </a>
-                        @endif
                         @if (Auth::user()->isAdmin())
                             <a href="{{ route('admin.dashboard') }}"
-                                class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('admin.*') ? 'text-purple-600 bg-purple-50' : '' }}">
-                                <i class="fas fa-crown mr-2"></i>
+                                class="px-4 py-2 rounded-xl text-sm font-medium text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 {{ request()->routeIs('admin.*') ? 'text-indigo-600 font-bold bg-indigo-50/50' : '' }}">
                                 Admin
                             </a>
                         @endif
-                    </div>
-                @else
-                    <div class="hidden md:flex items-center space-x-8">
+                    @else
                         <a href="{{ route('welcome') }}"
-                            class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('welcome') ? 'text-purple-600 bg-purple-50' : '' }}">
-                            <i class="fas fa-home mr-2"></i>
+                            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 {{ request()->routeIs('welcome') ? 'text-indigo-600 font-bold bg-indigo-50/50' : '' }}">
                             Home
                         </a>
                         <a href="{{ route('blog.index') }}"
-                            class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('blog.*') ? 'text-purple-600 bg-purple-50' : '' }}">
-                            <i class="fas fa-newspaper mr-2"></i>
+                            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 {{ request()->routeIs('blog.*') ? 'text-indigo-600 font-bold bg-indigo-50/50' : '' }}">
                             Blog
                         </a>
                         <a href="{{ route('blog.how-we-work') }}"
-                            class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('blog.how-we-work') ? 'text-purple-600 bg-purple-50' : '' }}">
-                            <i class="fas fa-cogs mr-2"></i>
+                            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 {{ request()->routeIs('blog.how-we-work') ? 'text-indigo-600 font-bold bg-indigo-50/50' : '' }}">
                             How We Work
                         </a>
-                    </div>
-                @endauth
+                    @endauth
+                </div>
 
-                <!-- Right Side -->
+                <!-- Actions -->
                 <div class="flex items-center space-x-4">
                     @auth
-                        <!-- Notifications - Desktop Only -->
-                        <button
-                            class="hidden md:flex p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
-                            <i class="fas fa-bell text-lg"></i>
-                        </button>
+                        <!-- Productivity Write Button -->
+                        <a href="{{ route('blog.create') }}"
+                            class="hidden md:flex items-center px-6 py-2.5 rounded-xl text-sm font-black text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-600/30 transition-all duration-300 hover:-translate-y-0.5 active:scale-95 ring-2 ring-indigo-500/20 group">
+                            <i class="fas fa-pen-nib mr-2 text-indigo-200 group-hover:rotate-12 transition-transform"></i>
+                            Write
+                        </a>
 
                         <!-- Profile Dropdown -->
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open"
-                                class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-100 transition-all duration-200 focus:outline-none ring-1 ring-gray-100 shadow-sm bg-white">
                                 <div
-                                    class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                                    class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
                                     <span
-                                        class="text-white text-sm font-semibold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                        class="text-white text-sm font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                                 </div>
-                                <span
-                                    class="hidden md:inline text-sm font-medium text-gray-700">{{ Auth::user()->name }}</span>
-                                <i class="hidden md:inline fas fa-chevron-down text-xs text-gray-400"></i>
+                                <i class="fas fa-chevron-down text-[10px] text-gray-400"></i>
                             </button>
 
                             <!-- Dropdown Menu -->
@@ -449,140 +414,152 @@
                                 x-transition:leave="transition ease-in duration-75"
                                 x-transition:leave-start="transform opacity-100 scale-100"
                                 x-transition:leave-end="transform opacity-0 scale-95"
-                                class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                                class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50 overflow-hidden">
+
+                                <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 mb-2">
+                                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">
+                                        Signed in as</p>
+                                    <p class="text-sm font-black text-gray-900 truncate">{{ Auth::user()->name }}</p>
+                                </div>
 
                                 <a href="{{ route('profile.edit') }}"
-                                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-all duration-200">
-                                    <i class="fas fa-user mr-3 text-gray-400"></i>
-                                    Profile
+                                    class="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-200">
+                                    <i class="fas fa-user-circle mr-3 opacity-50"></i>
+                                    Account Settings
                                 </a>
 
                                 <a href="{{ route('dashboard') }}"
-                                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-all duration-200">
-                                    <i class="fas fa-chart-line mr-3 text-gray-400"></i>
-                                    Dashboard
+                                    class="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-200">
+                                    <i class="fas fa-chart-pie mr-3 opacity-50"></i>
+                                    Performance
                                 </a>
 
-                                <hr class="my-2 border-gray-100">
+                                @if (Auth::user()->isAdmin())
+                                    <a href="{{ route('admin.dashboard') }}"
+                                        class="flex items-center px-4 py-2.5 text-sm text-indigo-600 font-bold hover:bg-indigo-50 transition-all duration-200">
+                                        <i class="fas fa-crown mr-3 text-indigo-400"></i>
+                                        Admin Panel
+                                    </a>
+                                @endif
 
-                                <!-- Logout -->
+                                <div class="h-px bg-gray-100 my-2 mx-4"></div>
+
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit"
-                                        class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-all duration-200">
-                                        <i class="fas fa-sign-out-alt mr-3"></i>
-                                        Log Out
+                                        class="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-all duration-200 font-medium">
+                                        <i class="fas fa-sign-out-alt mr-3 opacity-70"></i>
+                                        Sign Out
                                     </button>
                                 </form>
                             </div>
                         </div>
                     @else
-                        <!-- Guest User Actions -->
-                        <div class="flex items-center space-x-3">
-                            {{-- <a href="{{ route('login') }}"
-                                class="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors duration-200">
-                                Sign In
-                            </a> --}}
+                        <!-- Conversion "Get Started" Button -->
+                        <div class="flex items-center space-x-4">
                             <a href="{{ route('login') }}"
-                                class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 text-sm font-medium rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl">
-                                Get Started
+                                class="hidden sm:block text-sm font-bold text-gray-400 hover:text-indigo-600 transition-colors">Login</a>
+                            <a href="{{ route('register') }}"
+                                class="px-8 py-3 text-[15px] rounded-xl font-black text-white bg-indigo-600 hover:bg-indigo-700 shadow-2xl shadow-indigo-600/30 transition-all duration-300 hover:-translate-y-0.5 active:scale-95">
+                                Start Writing Free
                             </a>
                         </div>
                     @endauth
                 </div>
             </div>
+        </div>
 
-            <!-- Mobile Menu -->
-            <div x-show="mobileMenuOpen" x-transition class="md:hidden border-t border-gray-200 bg-white">
-                <div class="px-2 pt-2 pb-3 space-y-1">
-                    @auth
-                        <a href="{{ route('dashboard') }}"
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-transition class="md:hidden border-t border-gray-200 bg-white">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                @auth
+                    <a href="{{ route('dashboard') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-chart-line mr-2"></i>
+                        Dashboard
+                    </a>
+                    @if ($globalSettings->isLinkCreationEnabled())
+                        <a href="{{ route('links.index') }}"
                             class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                            <i class="fas fa-chart-line mr-2"></i>
-                            Dashboard
+                            <i class="fas fa-link mr-2"></i>
+                            My Links
                         </a>
-                        @if ($globalSettings->isLinkCreationEnabled())
-                            <a href="{{ route('links.index') }}"
-                                class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                                <i class="fas fa-link mr-2"></i>
-                                My Links
-                            </a>
-                        @endif
-                        <a href="{{ route('blog.index') }}"
+                    @endif
+                    <a href="{{ route('blog.index') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-newspaper mr-2"></i>
+                        Blog
+                    </a>
+                    @if ($globalSettings->isEarningsEnabled())
+                        <a href="{{ route('earnings.index') }}"
                             class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                            <i class="fas fa-newspaper mr-2"></i>
-                            Blog
+                            <i class="fas fa-dollar-sign mr-2"></i>
+                            Earnings
                         </a>
-                        @if ($globalSettings->isEarningsEnabled())
-                            <a href="{{ route('earnings.index') }}"
-                                class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                                <i class="fas fa-dollar-sign mr-2"></i>
-                                Earnings
-                            </a>
-                        @endif
-                        @if ($globalSettings->isSubscriptionEnabled())
-                            <a href="{{ route('subscriptions.plans') }}"
-                                class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                                <i class="fas fa-crown mr-2"></i>
-                                Subscriptions
-                            </a>
-                        @endif
-                        @if ($globalSettings->isReferralsEnabled())
-                            <a href="{{ route('referrals.dashboard') }}"
-                                class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                                <i class="fas fa-users mr-2"></i>
-                                Referrals
-                            </a>
-                        @endif
-                        @if (Auth::user()->isAdmin())
-                            <a href="{{ route('admin.dashboard') }}"
-                                class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                                <i class="fas fa-crown mr-2"></i>
-                                Admin
-                            </a>
-                        @endif
-                        <a href="{{ route('profile.edit') }}"
+                    @endif
+                    @if ($globalSettings->isSubscriptionEnabled())
+                        <a href="{{ route('subscriptions.plans') }}"
                             class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                            <i class="fas fa-user mr-2"></i>
-                            Profile
+                            <i class="fas fa-crown mr-2"></i>
+                            Subscriptions
                         </a>
-                        <form method="POST" action="{{ route('logout') }}" class="block">
-                            @csrf
-                            <button type="submit"
-                                class="w-full text-left px-3 py-2 text-base font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200">
-                                <i class="fas fa-sign-out-alt mr-2"></i>
-                                Logout
-                            </button>
-                        </form>
-                    @else
-                        <a href="{{ route('welcome') }}"
+                    @endif
+                    @if ($globalSettings->isReferralsEnabled())
+                        <a href="{{ route('referrals.dashboard') }}"
                             class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                            <i class="fas fa-home mr-2"></i>
-                            Home
+                            <i class="fas fa-users mr-2"></i>
+                            Referrals
                         </a>
-                        <a href="{{ route('blog.index') }}"
+                    @endif
+                    @if (Auth::user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}"
                             class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                            <i class="fas fa-newspaper mr-2"></i>
-                            Blog
+                            <i class="fas fa-crown mr-2"></i>
+                            Admin
                         </a>
-                        <a href="{{ route('blog.how-we-work') }}"
-                            class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                            <i class="fas fa-cogs mr-2"></i>
-                            How We Work
-                        </a>
-                        <a href="{{ route('login') }}"
-                            class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
-                            <i class="fas fa-sign-in-alt mr-2"></i>
-                            Login
-                        </a>
-                        <a href="{{ route('register') }}"
-                            class="block px-3 py-2 text-base font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg transition-all duration-200">
-                            <i class="fas fa-user-plus mr-2"></i>
-                            Get Started
-                        </a>
-                    @endauth
-                </div>
+                    @endif
+                    <a href="{{ route('profile.edit') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-user mr-2"></i>
+                        Profile
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="block">
+                        @csrf
+                        <button type="submit"
+                            class="w-full text-left px-3 py-2 text-base font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            Logout
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('welcome') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-home mr-2"></i>
+                        Home
+                    </a>
+                    <a href="{{ route('blog.index') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-newspaper mr-2"></i>
+                        Blog
+                    </a>
+                    <a href="{{ route('blog.how-we-work') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-cogs mr-2"></i>
+                        How We Work
+                    </a>
+                    <a href="{{ route('login') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Login
+                    </a>
+                    <a href="{{ route('register') }}"
+                        class="block px-3 py-2 text-base font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg transition-all duration-200">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Get Started
+                    </a>
+                @endauth
             </div>
+        </div>
         </div>
     </nav>
 
@@ -642,7 +619,10 @@
                                 <h3 class="text-xl font-bold text-gray-900">
                                     {{ $brandingSettings?->brand_name ?? config('app.name') }}
                                 </h3>
-                                <p class="text-sm text-gray-600">
+                                <p class="text-sm font-medium text-indigo-600 italic">
+                                    "Built for modern creators and independent publishers."
+                                </p>
+                                <p class="text-xs text-gray-400 mt-2">
                                     {{ $brandingSettings?->brand_tagline ?? 'Link Monetization Platform' }}
                                 </p>
                             </div>

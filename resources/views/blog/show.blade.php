@@ -91,105 +91,152 @@
     </x-slot>
 
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ $post->title }}
-            </h2>
-
-
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <nav class="flex mb-2" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3 text-xs font-medium text-gray-500">
+                        <li class="inline-flex items-center">
+                            <a href="{{ route('dashboard') }}" class="hover:text-purple-600 transition-colors">
+                                <i class="fas fa-home mr-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <i class="fas fa-chevron-right text-gray-400 mx-2 text-[10px]"></i>
+                                <a href="{{ route('blog.index') }}"
+                                    class="hover:text-purple-600 transition-colors uppercase tracking-widest font-bold text-[10px]">Blog</a>
+                            </div>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <i class="fas fa-chevron-right text-gray-400 mx-2 text-[10px]"></i>
+                                <span
+                                    class="text-gray-900 truncate max-w-[200px] font-bold text-[10px] uppercase tracking-widest">{{ $post->title }}</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('blog.index') }}"
+                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm uppercase tracking-widest">
+                    <i class="fas fa-arrow-left mr-2 text-gray-400 text-[10px]"></i>
+                    Back to Feed
+                </a>
+                @if (auth()->id() === $post->user_id || (auth()->user() && auth()->user()->isAdmin()))
+                    <a href="{{ route('blog.edit', $post) }}"
+                        class="inline-flex items-center px-6 py-2.5 bg-brand-gradient text-white rounded-xl text-xs font-bold shadow-lg shadow-purple-200 hover:shadow-purple-300 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-widest">
+                        <i class="fas fa-edit mr-2"></i>
+                        Edit Story
+                    </a>
+                @endif
+            </div>
         </div>
     </x-slot>
 
-    <div class="py-12 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-1 gap-6 lg:gap-8">
-                <!-- Main Content Area (75% width) -->
-                <div class="xl:col-span-3 lg:col-span-1">
-                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-2xl border border-white/20">
-                        <!-- Featured Image Section -->
-                        @if ($post->featured_image)
-                            <div class="relative overflow-hidden">
-                                <img src="{{ $post->featured_image }}" alt="{{ $post->title }}"
-                                    class="w-full h-96 object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                            </div>
-                        @else
-                            <div
-                                class="w-full h-96 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                                <i class="fas fa-newspaper text-6xl text-gray-400"></i>
-                            </div>
-                        @endif
+    <div class="py-10 bg-slate-50/50 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Article Header / Hero -->
+            <div class="mb-12">
+                <div
+                    class="relative rounded-[2.5rem] overflow-hidden shadow-2xl shadow-purple-900/10 min-h-[400px] flex flex-col justify-end p-8 md:p-16">
+                    <!-- Featured Image Background -->
+                    @if ($post->featured_image)
+                        <img src="{{ $post->featured_image }}" alt="{{ $post->title }}"
+                            class="absolute inset-0 w-full h-full object-cover">
+                    @else
+                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600">
+                        </div>
+                        <div class="absolute inset-0 bg-[url('/img/grid.svg')] bg-center opacity-20"></div>
+                    @endif
 
-                        <!-- Post Content -->
-                        <div class="p-8">
-                            <!-- Post Header -->
-                            <div class="mb-8">
-                                <!-- Type and Category Pills -->
-                                <div class="flex flex-wrap gap-3 mb-4">
-                                    <span
-                                        class="px-3 py-1 bg-gradient-to-r from-purple-500 to-blue-600 text-white text-sm font-bold rounded-full">
-                                        {{ ucfirst($post->type) }}
-                                    </span>
-                                    @if ($post->category)
-                                        <span
-                                            class="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-semibold rounded-full">
-                                            {{ $post->category }}
-                                        </span>
-                                    @endif
-                                </div>
+                    <!-- Gradient Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
 
-                                <!-- Title -->
-                                <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $post->title }}</h1>
+                    <!-- Content In Hero -->
+                    <div class="relative z-10 max-w-4xl">
+                        <div class="flex flex-wrap gap-3 mb-6">
+                            <span
+                                class="px-4 py-1.5 bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] font-extrabold rounded-full uppercase tracking-wider">
+                                {{ $post->category ?? 'Article' }}
+                            </span>
+                            <span
+                                class="px-4 py-1.5 bg-purple-500/80 backdrop-blur-md border border-purple-400/30 text-white text-[10px] font-extrabold rounded-full uppercase tracking-wider">
+                                {{ $post->type ?? 'Post' }}
+                            </span>
+                        </div>
 
-                                <!-- Excerpt -->
-                                @if ($post->excerpt)
-                                    <p class="text-gray-600 text-lg mb-6">{{ $post->excerpt }}</p>
-                                @endif
+                        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight leading-[1.1]">
+                            {{ $post->title }}
+                        </h1>
 
-                                <!-- Author and Date -->
-                                <div class="border-t border-gray-200 pt-4">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
-                                                <i class="fas fa-user text-white text-sm"></i>
-                                            </div>
-                                            <div>
-                                                <p class="font-semibold text-gray-900">
-                                                    {{ $post->user->name ?? 'Admin User' }}</p>
-                                                <p class="text-xs text-gray-500">
-                                                    {{ $post->published_at ? $post->published_at->diffForHumans() : 'Draft' }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="flex items-center space-x-4">
-                                                <div class="bg-gray-50 px-4 py-2 rounded-full">
-                                                    <div class="text-sm text-gray-500">
-                                                        <i
-                                                            class="fas fa-eye mr-2 text-purple-500"></i>{{ number_format($post->views) }}
-                                                        views
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="flex items-center gap-6">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-400 to-indigo-500 p-0.5 shadow-lg">
+                                    <div
+                                        class="w-full h-full rounded-[0.85rem] bg-gray-900 flex items-center justify-center text-white font-bold text-sm">
+                                        {{ substr($post->user->name, 0, 1) }}
                                     </div>
                                 </div>
+                                <div>
+                                    <p class="text-sm font-bold text-white">{{ $post->user->name }}</p>
+                                    <p
+                                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mt-1">
+                                        Author / Curator</p>
+                                </div>
                             </div>
+                            <div class="h-8 w-px bg-white/20 hidden sm:block"></div>
+                            <div class="hidden sm:block">
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Published
+                                </p>
+                                <p class="text-sm font-bold text-white">
+                                    {{ $post->published_at ? $post->published_at->format('M d, Y') : 'Draft' }}</p>
+                            </div>
+                            <div class="h-8 w-px bg-white/20 hidden sm:block"></div>
+                            <div class="hidden sm:block">
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Views</p>
+                                <p class="text-sm font-bold text-white flex items-center gap-2">
+                                    <i class="fas fa-eye text-purple-400"></i>
+                                    {{ number_format($post->views) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            <!-- Main Content -->
+            <div class="grid grid-cols-1 xl:grid-cols-4 gap-12">
+                <!-- Main Content Area -->
+                <div class="xl:col-span-3">
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-3xl border border-gray-100">
+                        <div class="p-8 md:p-12">
+                            <!-- Excerpt if exists -->
+                            @if ($post->excerpt)
+                                <div
+                                    class="mb-12 p-8 bg-slate-50/50 rounded-3xl border border-slate-100 flex gap-6 italic text-gray-600 text-lg md:text-xl font-medium leading-relaxed">
+                                    <i class="fas fa-quote-left text-purple-200 text-4xl mt-1"></i>
+                                    <p>{{ $post->excerpt }}</p>
+                                </div>
+                            @endif
+
+                            <!-- Article Content - Keeping original classes as requested -->
                             <div class="content-body mb-8">
                                 {!! $post->getFormattedContent() !!}
                             </div>
 
                             <!-- Tags Section -->
                             @if (!empty($post->tags))
-                                <div class="border-t border-gray-200 pt-6">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Tags</h3>
+                                <div class="mt-16 pt-10 border-t border-slate-100">
+                                    <h3
+                                        class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                        <i class="fas fa-tags text-purple-400"></i>
+                                        Exploration Tags
+                                    </h3>
                                     <div class="flex flex-wrap gap-2">
                                         @foreach ($post->tags as $tag)
                                             <span
-                                                class="px-3 py-1 bg-purple-100 text-purple-700 text-sm rounded-full border border-purple-200 hover:bg-purple-200 transition-colors cursor-pointer">
+                                                class="px-5 py-2.5 bg-slate-50 text-slate-600 text-[11px] font-bold rounded-xl border border-slate-100 hover:border-purple-200 hover:text-purple-600 hover:bg-purple-50 transition-all cursor-pointer uppercase tracking-wider">
                                                 #{{ $tag }}
                                             </span>
                                         @endforeach
@@ -199,14 +246,21 @@
 
                             <!-- Gallery Images -->
                             @if ($post->gallery_images && count($post->gallery_images) > 0)
-                                <div class="border-t border-gray-200 pt-6">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Gallery</h3>
-                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                <div class="mt-16 pt-10 border-t border-slate-100">
+                                    <h3
+                                        class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                        <i class="fas fa-images text-purple-400"></i>
+                                        Visual Gallery
+                                    </h3>
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                                         @foreach ($post->gallery_images as $image)
                                             <div
-                                                class="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                                                class="group relative aspect-square rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500">
                                                 <img src="{{ $image }}" alt="Gallery image"
-                                                    class="w-full h-full object-cover">
+                                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                                <div
+                                                    class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                                                </div>
                                             </div>
                                         @endforeach
                                     </div>
@@ -215,24 +269,34 @@
 
                             <!-- Attachments -->
                             @if ($post->attachments && count($post->attachments) > 0)
-                                <div class="border-t border-gray-200 pt-6">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Attachments</h3>
-                                    <div class="space-y-3">
+                                <div class="mt-16 pt-10 border-t border-slate-100">
+                                    <h3
+                                        class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                        <i class="fas fa-paperclip text-purple-400"></i>
+                                        Resource Assets
+                                    </h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         @foreach ($post->attachments as $attachment)
                                             <div
-                                                class="flex items-center justify-between bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors duration-300">
-                                                <div class="flex items-center">
-                                                    <i class="fas fa-file-alt text-gray-500 mr-3"></i>
+                                                class="flex items-center justify-between bg-slate-50/50 p-5 rounded-3xl border border-slate-100 hover:border-purple-200 hover:bg-white transition-all group">
+                                                <div class="flex items-center gap-4">
+                                                    <div
+                                                        class="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-purple-500 transition-colors shadow-sm">
+                                                        <i class="fas fa-file-alt text-lg"></i>
+                                                    </div>
                                                     <div>
-                                                        <p class="text-sm font-medium text-gray-900">
-                                                            {{ $attachment['name'] }}</p>
-                                                        <p class="text-xs text-gray-500">
-                                                            {{ number_format($attachment['size'] / 1024, 1) }} KB</p>
+                                                        <p class="text-sm font-bold text-slate-900 leading-tight mb-1">
+                                                            {{ Str::limit($attachment['name'], 25) }}</p>
+                                                        <p
+                                                            class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                                            {{ number_format($attachment['size'] / 1024, 1) }} KB /
+                                                            ASSET
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <a href="{{ asset('storage/' . $attachment['path']) }}"
-                                                    class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300">
-                                                    <i class="fas fa-download mr-2"></i>Download
+                                                    class="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-brand-gradient hover:text-white hover:border-transparent transition-all shadow-sm active:scale-95">
+                                                    <i class="fas fa-download text-xs"></i>
                                                 </a>
                                             </div>
                                         @endforeach
@@ -243,252 +307,120 @@
                     </div>
                 </div>
 
-                <!-- Right Sidebar (25% width) -->
-                <div class="xl:col-span-1 lg:col-span-1">
-                    <div class="space-y-6">
-                        <!-- Related Posts Widget -->
-                        @if ($relatedPosts->count() > 0)
-                            <div
-                                class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 overflow-hidden">
+                <!-- Right Sidebar -->
+                <div class="xl:col-span-1 space-y-8">
+                    <!-- Related Posts Widget -->
+                    @if ($relatedPosts->count() > 0)
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="p-6 border-b border-slate-50 flex items-center gap-3">
                                 <div
-                                    class="p-5 border-b border-gray-100/50 bg-gradient-to-r from-purple-50/50 to-blue-50/50">
-                                    <h3 class="text-base font-bold text-gray-900 flex items-center">
-                                        <i class="fas fa-link text-purple-600 mr-2 text-sm"></i>
-                                        Related Posts
-                                    </h3>
+                                    class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
+                                    <i class="fas fa-link text-sm"></i>
                                 </div>
-                                <div class="p-4 space-y-3">
-                                    @foreach ($relatedPosts->take(3) as $relatedPost)
-                                        <div
-                                            class="p-3 bg-white rounded-xl hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 border border-gray-50 group">
-                                            <div class="flex items-start space-x-3">
-                                                <div
-                                                    class="w-10 h-10 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                                                    <i class="fas fa-file-alt text-blue-600 text-xs"></i>
-                                                </div>
-                                                <div class="flex-1 min-w-0">
-                                                    <h4 class="font-semibold text-gray-900 text-sm leading-tight mb-1">
-                                                        <a href="{{ route('blog.show', $relatedPost->slug) }}"
-                                                            class="group-hover:text-purple-600 transition-colors">
-                                                            {{ Str::limit($relatedPost->title, 50) }}
-                                                        </a>
-                                                    </h4>
-                                                    <p class="text-xs text-gray-500">
-                                                        {{ $relatedPost->published_at ? $relatedPost->published_at->diffForHumans() : 'Draft' }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
+                                <h3
+                                    class="text-xs font-extrabold text-gray-900 tracking-tight uppercase tracking-widest">
+                                    Similar Stories</h3>
                             </div>
-                        @endif
+                            <div class="p-4 space-y-3">
+                                @foreach ($relatedPosts->take(4) as $relatedPost)
+                                    <a href="{{ route('blog.show', $relatedPost->slug) }}"
+                                        class="group block p-3 bg-slate-50/50 hover:bg-white border border-transparent hover:border-slate-100 rounded-2xl transition-all">
+                                        <h4
+                                            class="text-sm font-bold text-gray-900 leading-tight group-hover:text-purple-600 transition-colors line-clamp-2">
+                                            {{ $relatedPost->title }}
+                                        </h4>
+                                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">
+                                            {{ $relatedPost->published_at ? $relatedPost->published_at->format('M d') : 'Draft' }}
+                                        </p>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
 
-                        <!-- Popular Posts Widget -->
-                        @if ($popularPosts->count() > 0)
-                            <div
-                                class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 overflow-hidden">
+                    <!-- Popular Posts Widget -->
+                    @if ($popularPosts->count() > 0)
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="p-6 border-b border-slate-50 flex items-center gap-3">
                                 <div
-                                    class="p-5 border-b border-gray-100/50 bg-gradient-to-r from-orange-50/50 to-red-50/50">
-                                    <h3 class="text-base font-bold text-gray-900 flex items-center">
-                                        <i class="fas fa-fire text-orange-500 mr-2 text-sm"></i>
-                                        Popular Posts
-                                    </h3>
+                                    class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600">
+                                    <i class="fas fa-fire text-sm"></i>
                                 </div>
-                                <div class="p-4 space-y-3">
-                                    @foreach ($popularPosts->take(4) as $popularPost)
-                                        <div
-                                            class="p-3 bg-white rounded-xl hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 border border-gray-50 group">
-                                            <div class="flex items-start space-x-3">
-                                                <div
-                                                    class="w-10 h-10 bg-gradient-to-br from-orange-100 to-red-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                                                    <i class="fas fa-newspaper text-orange-600 text-sm"></i>
-                                                </div>
-                                                <div class="flex-1 min-w-0">
-                                                    <h4 class="text-sm font-semibold text-gray-900 leading-tight mb-1">
-                                                        <a href="{{ route('blog.show', $popularPost->slug) }}"
-                                                            class="group-hover:text-orange-600 transition-colors">
-                                                            {{ Str::limit($popularPost->title, 40) }}
-                                                        </a>
-                                                    </h4>
-                                                    <p class="text-xs text-gray-500">
-                                                        {{ $popularPost->published_at ? $popularPost->published_at->diffForHumans() : 'Draft' }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
+                                <h3
+                                    class="text-xs font-extrabold text-gray-900 tracking-tight uppercase tracking-widest">
+                                    Hot Right Now</h3>
                             </div>
-                        @endif
+                            <div class="p-4 space-y-3">
+                                @foreach ($popularPosts->take(4) as $popularPost)
+                                    <a href="{{ route('blog.show', $popularPost->slug) }}"
+                                        class="group block p-3 bg-slate-50/50 hover:bg-white border border-transparent hover:border-slate-100 rounded-2xl transition-all">
+                                        <h4
+                                            class="text-sm font-bold text-gray-900 leading-tight group-hover:text-orange-600 transition-colors line-clamp-2">
+                                            {{ $popularPost->title }}
+                                        </h4>
+                                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">
+                                            <i class="fas fa-eye mr-1"></i>{{ number_format($popularPost->views) }}
+                                            Views
+                                        </p>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
 
-                        <!-- Categories Widget -->
-                        @if ($categories->count() > 0)
-                            <div
-                                class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 overflow-hidden">
+                    <!-- Categories Widget -->
+                    @if ($categories->count() > 0)
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="p-6 border-b border-slate-50 flex items-center gap-3">
                                 <div
-                                    class="p-5 border-b border-gray-100/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
-                                    <h3 class="text-base font-bold text-gray-900 flex items-center">
-                                        <i class="fas fa-folder text-blue-500 mr-2 text-sm"></i>
-                                        Categories
-                                    </h3>
+                                    class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-folder text-sm"></i>
                                 </div>
-                                <div class="p-4 space-y-2">
-                                    @foreach ($categories as $category => $count)
-                                        <div
-                                            class="p-2 bg-transparent hover:bg-blue-50 rounded-lg transition-colors duration-200">
-                                            <div class="flex justify-between items-center">
-                                                <a href="{{ route('blog.index', ['category' => $category]) }}"
-                                                    class="text-gray-700 font-medium text-sm hover:text-blue-600 transition-colors flex items-center">
-                                                    <i class="far fa-folder-open mr-2 text-gray-400 text-xs"></i>
-                                                    {{ $category }}
-                                                </a>
-                                                <span
-                                                    class="px-2.5 py-0.5 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full border border-gray-200">{{ $count }}</span>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
+                                <h3
+                                    class="text-xs font-extrabold text-gray-900 tracking-tight uppercase tracking-widest">
+                                    Collections</h3>
                             </div>
-                        @endif
-
-                        <!-- Popular Tags Widget -->
-                        @if (count($popularTags) > 0)
-                            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-                                <div class="p-4 border-b border-gray-100">
-                                    <h3 class="text-base font-bold text-gray-900 flex items-center">
-                                        <i class="fas fa-tags text-green-500 mr-2 text-sm"></i>
-                                        Popular Tags
-                                    </h3>
-                                </div>
-                                <div class="p-4">
-                                    <div class="flex flex-wrap gap-2">
-                                        @foreach ($popularTags as $tag => $count)
-                                            <a href="{{ route('blog.index', ['search' => $tag]) }}"
-                                                class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full border border-green-200 hover:bg-green-200 transition-colors">
-                                                #{{ $tag }}
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                </div>
+                            <div class="p-4 space-y-1">
+                                @foreach ($categories as $category => $count)
+                                    <a href="{{ route('blog.index', ['category' => $category]) }}"
+                                        class="flex justify-between items-center p-2 rounded-xl hover:bg-slate-50 transition-all group">
+                                        <span
+                                            class="text-xs font-bold text-gray-600 group-hover:text-blue-600 transition-colors">{{ $category }}</span>
+                                        <span class="text-[10px] font-bold text-gray-400">{{ $count }}</span>
+                                    </a>
+                                @endforeach
                             </div>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 
+    @push('scripts')
+        <script>
+            // Track unique views
+            document.addEventListener('DOMContentLoaded', function() {
+                const postId = {{ $post->id }};
+                const viewedPosts = JSON.parse(localStorage.getItem('viewed_posts') || '[]');
 
-
-    <!-- Smart Tracking JavaScript -->
-    <script>
-        class SmartTracking {
-            constructor() {
-                this.pageLoadTime = new Date();
-                this.maxScrollDepth = 0;
-                this.scrollMilestones = [25, 50, 75, 100];
-                this.sentMilestones = new Set();
-
-                this.trackingData = {
-                    scroll_depth: 0,
-                    time_spent: 0
-                };
-
-                this.init();
-            }
-
-            init() {
-                this.setupScrollTracking();
-                this.setupPageUnloadTracking();
-            }
-
-            setupScrollTracking() {
-                let scrollTimeout;
-
-                // Track scroll depth with throttling
-                window.addEventListener('scroll', () => {
-                    if (scrollTimeout) return;
-
-                    scrollTimeout = setTimeout(() => {
-                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-                        if (scrollHeight <= 0) return;
-
-                        let scrollPercent = Math.round((scrollTop / scrollHeight) * 100);
-                        if (scrollPercent > 100) scrollPercent = 100;
-
-                        if (scrollPercent > this.maxScrollDepth) {
-                            this.maxScrollDepth = scrollPercent;
-                            this.trackingData.scroll_depth = this.maxScrollDepth;
-                            this.checkMilestones(scrollPercent);
+                if (!viewedPosts.includes(postId)) {
+                    fetch(`/blog/${postId}/view`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
                         }
-
-                        scrollTimeout = null;
-                    }, 500); // Check every 500ms max
-                }, {
-                    passive: true
-                });
-            }
-
-            checkMilestones(percent) {
-                this.scrollMilestones.forEach(milestone => {
-                    if (percent >= milestone && !this.sentMilestones.has(milestone)) {
-                        this.sentMilestones.add(milestone);
-                        // Console log for debug, actual data sent on unload
-                        console.log(`Scroll milestone reached: ${milestone}%`);
-                    }
-                });
-            }
-
-            setupPageUnloadTracking() {
-                // Handle page unload
-                const handleUnload = () => {
-                    this.trackingData.time_spent = this.getTimeSpent();
-                    this.trackingData.scroll_depth = this.maxScrollDepth;
-
-                    // Use sendBeacon for reliable data transmission on page unload
-                    if (navigator.sendBeacon) {
-                        const data = new FormData();
-                        data.append('tracking_data', JSON.stringify(this.trackingData));
-                        data.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content'));
-
-                        const url = '{{ route('blog.track-leave', $post) }}';
-                        navigator.sendBeacon(url, data);
-                    }
-                };
-
-                window.addEventListener('beforeunload', handleUnload);
-
-                // Fallback for mobile/other browsers
-                document.addEventListener('visibilitychange', () => {
-                    if (document.visibilityState === 'hidden') {
-                        handleUnload();
-                    }
-                });
-            }
-
-            getTimeSpent() {
-                const now = new Date();
-                return Math.round((now - this.pageLoadTime) / 1000);
-            }
-        }
-
-        // Initialize smart tracking when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check if this is a self visit (Server-side flag)
-            const isAuthor = @json(auth()->id() === $post->user_id || auth()->user()?->isAdmin());
-
-            if (isAuthor) {
-                console.log('Self visit detected (Author/Admin), tracking disabled');
-                return;
-            }
-
-            // Initialize smart tracking
-            window.smartTracking = new SmartTracking();
-        });
-    </script>
-
+                    }).then(() => {
+                        viewedPosts.push(postId);
+                        localStorage.setItem('viewed_posts', JSON.stringify(viewedPosts));
+                    });
+                }
+            });
+        </script>
+    @endpush
 </x-app-layout>

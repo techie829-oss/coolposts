@@ -1,126 +1,199 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Blog Post') }}: {{ $post->title }}
-        </h2>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <nav class="flex mb-2" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3 text-xs font-medium text-gray-500">
+                        <li class="inline-flex items-center">
+                            <a href="{{ route('dashboard') }}" class="hover:text-purple-600 transition-colors">
+                                <i class="fas fa-home mr-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <i class="fas fa-chevron-right text-gray-400 mx-2 text-[10px]"></i>
+                                <a href="{{ route('blog.manage') }}"
+                                    class="hover:text-purple-600 transition-colors">Manage Posts</a>
+                            </div>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <i class="fas fa-chevron-right text-gray-400 mx-2 text-[10px]"></i>
+                                <span class="text-gray-900 truncate max-w-[200px]">Edit: {{ $post->title }}</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+                <h2 class="font-extrabold text-3xl text-gray-900 leading-tight tracking-tight">
+                    {{ __('Edit Blog Post') }}
+                </h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('blog.manage') }}"
+                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+                    <i class="fas fa-tasks mr-2 text-gray-400 text-xs"></i>
+                    Manage Posts
+                </a>
+                <a href="{{ route('blog.show', $post->slug) }}" target="_blank"
+                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+                    <i class="fas fa-external-link-alt mr-2 text-gray-400 text-xs"></i>
+                    View Live
+                </a>
+                <button type="submit" form="blog-form"
+                    class="inline-flex items-center px-6 py-2.5 bg-brand-gradient text-white rounded-xl text-sm font-bold shadow-lg shadow-purple-200 hover:shadow-purple-300 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    <i class="fas fa-save mr-2"></i>
+                    Update Post
+                </button>
+            </div>
+        </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <form method="POST" action="{{ route('blog.update', $post) }}" enctype="multipart/form-data"
-                        class="space-y-6">
-                        @csrf
-                        @method('PUT')
+    <div class="py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <form method="POST" action="{{ route('blog.update', $post) }}" enctype="multipart/form-data"
+                id="blog-form">
+                @csrf
+                @method('PUT')
 
-                        <!-- Basic Information -->
-                        <div class="bg-gray-50 p-6 rounded-lg">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                                <i class="fas fa-edit mr-2"></i>Basic Information
-                            </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- LEFT COLUMN: Main Content (8 cols) -->
+                    <div class="lg:col-span-8 space-y-8">
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Title -->
-                                <div class="md:col-span-2">
-                                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                        <!-- Main Post Section -->
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="p-6 space-y-6">
+                                <!-- Title Input -->
+                                <div>
+                                    <label for="title"
+                                        class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 px-1">
                                         Post Title <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="title" id="title"
                                         value="{{ old('title', $post->title) }}" required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter your blog post title">
+                                        class="w-full px-4 py-2.5 text-lg font-bold text-gray-900 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all placeholder:text-gray-300"
+                                        placeholder="Enter a captivating title...">
                                     @error('title')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                        <p class="mt-2 text-sm text-red-600 font-medium">{{ $message }}</p>
                                     @enderror
                                 </div>
 
-                                <!-- Type -->
-                                <div>
-                                    <label for="type" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Post Type <span class="text-red-500">*</span>
-                                    </label>
-                                    <select name="type" id="type" required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <option value="">Select Type</option>
-                                        @foreach ($types as $key => $type)
-                                            <option value="{{ $key }}"
-                                                {{ old('type', $post->type) == $key ? 'selected' : '' }}>
-                                                {{ $type }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('type')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <!-- Type -->
+                                    <div class="space-y-3">
+                                        <label for="type"
+                                            class="block text-sm font-bold text-gray-500 uppercase tracking-widest px-1">
+                                            Post Type <span class="text-red-500">*</span>
+                                        </label>
+                                        <div class="relative group">
+                                            <div
+                                                class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-purple-500 transition-colors">
+                                                <i class="fas fa-th-large"></i>
+                                            </div>
+                                            <select name="type" id="type" required
+                                                class="w-full pl-10 pr-4 py-2 bg-gray-50/50 border border-gray-100 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all appearance-none cursor-pointer text-sm">
+                                                <option value="">Select Type</option>
+                                                @foreach ($types as $key => $type)
+                                                    <option value="{{ $key }}"
+                                                        {{ old('type', $post->type) == $key ? 'selected' : '' }}>
+                                                        {{ $type }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div
+                                                class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400">
+                                                <i class="fas fa-chevron-down text-xs"></i>
+                                            </div>
+                                        </div>
+                                        @error('type')
+                                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
 
-                                <!-- Content Type -->
-                                <div>
-                                    <label for="content_type" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Content Format <span class="text-red-500">*</span>
-                                    </label>
-                                    <select name="content_type" id="content_type" required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <option value="">Select Format</option>
-                                        @foreach (\App\Models\BlogPost::CONTENT_TYPES as $type => $label)
-                                            <option value="{{ $type }}"
-                                                {{ old('content_type', $post->content_type ?? 'markdown') == $type ? 'selected' : '' }}>
-                                                {{ $label }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <p class="mt-1 text-sm text-gray-500">
-                                        <strong>Markdown:</strong> Use # for headings, ``` for code blocks<br>
-                                        <strong>HTML:</strong> Write raw HTML code<br>
-                                        <strong>Text:</strong> Plain text with automatic line breaks
-                                    </p>
-                                    @error('content_type')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                    <!-- Content Format -->
+                                    <div class="space-y-3">
+                                        <label for="content_type"
+                                            class="block text-sm font-bold text-gray-500 uppercase tracking-widest px-1">
+                                            Content Format <span class="text-red-500">*</span>
+                                        </label>
+                                        <div class="relative group">
+                                            <div
+                                                class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-purple-500 transition-colors">
+                                                <i class="fas fa-code"></i>
+                                            </div>
+                                            <select name="content_type" id="content_type" required
+                                                class="w-full pl-10 pr-4 py-2 bg-gray-50/50 border border-gray-100 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all appearance-none cursor-pointer text-sm">
+                                                @foreach (\App\Models\BlogPost::CONTENT_TYPES as $type => $label)
+                                                    <option value="{{ $type }}"
+                                                        {{ old('content_type', $post->content_type ?? 'markdown') == $type ? 'selected' : '' }}>
+                                                        {{ $label }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div
+                                                class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400">
+                                                <i class="fas fa-chevron-down text-xs"></i>
+                                            </div>
+                                        </div>
+                                        @error('content_type')
+                                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
 
-                                <!-- Category -->
-                                <div>
-                                    <label for="category" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Category
-                                    </label>
-                                    <input type="text" name="category" id="category"
-                                        value="{{ old('category', $post->category) }}"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="e.g., Technology, Business, Lifestyle">
-                                    @error('category')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                    <!-- Category -->
+                                    <div class="space-y-3">
+                                        <label for="category"
+                                            class="block text-sm font-bold text-gray-500 uppercase tracking-widest px-1">
+                                            Category
+                                        </label>
+                                        <div class="relative group">
+                                            <div
+                                                class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-purple-500 transition-colors">
+                                                <i class="fas fa-tag"></i>
+                                            </div>
+                                            <input type="text" name="category" id="category"
+                                                value="{{ old('category', $post->category) }}"
+                                                class="w-full pl-10 pr-4 py-2 bg-gray-50/50 border border-gray-100 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all text-sm"
+                                                placeholder="e.g., Technology">
+                                        </div>
+                                        @error('category')
+                                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
 
-                                <!-- Tags -->
-                                <div class="md:col-span-2">
-                                    <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Tags
-                                    </label>
-                                    <input type="text" name="tags" id="tags"
-                                        value="{{ is_array($tags = old('tags', $post->tags)) ? implode(', ', $tags) : $tags }}"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter tags separated by commas (e.g., laravel, php, web-development)">
-                                    <p class="mt-1 text-sm text-gray-500">Separate multiple tags with commas</p>
-                                    @error('tags')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
+                                    <!-- Tags -->
+                                    <div class="space-y-3">
+                                        <label for="tags"
+                                            class="block text-sm font-bold text-gray-500 uppercase tracking-widest px-1">
+                                            Tags
+                                        </label>
+                                        <div class="relative group">
+                                            <div
+                                                class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-purple-500 transition-colors">
+                                                <i class="fas fa-hashtag"></i>
+                                            </div>
+                                            <input type="text" name="tags" id="tags"
+                                                value="{{ is_array($tags = old('tags', $post->tags)) ? implode(', ', $tags) : $tags }}"
+                                                class="w-full pl-10 pr-4 py-2 bg-gray-50/50 border border-gray-100 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all text-sm"
+                                                placeholder="laravel, php, web-development">
+                                        </div>
+                                        @error('tags')
+                                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
                                 </div>
 
                                 <!-- Excerpt -->
-                                <div class="md:col-span-2">
-                                    <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Excerpt
+                                <div class="space-y-3 px-1 pt-2">
+                                    <label for="excerpt"
+                                        class="block text-sm font-bold text-gray-500 uppercase tracking-widest">
+                                        Short Excerpt
                                     </label>
                                     <textarea name="excerpt" id="excerpt" rows="3"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Brief summary of your blog post (optional)">{{ old('excerpt', $post->excerpt) }}</textarea>
-                                    <p class="mt-1 text-sm text-gray-500">A short description that will appear in blog
-                                        listings</p>
+                                        class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all resize-none placeholder:text-gray-400 text-sm"
+                                        placeholder="A brief summary of your post for link listings...">{{ old('excerpt', $post->excerpt) }}</textarea>
                                     @error('excerpt')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -131,84 +204,125 @@
                         @php
                             $aiSettings = \App\Models\AiSetting::getSettings();
                             $user = auth()->user();
-                            // User-specific AI access takes precedence over global settings
                             $userCanUseAI = $user->isAdmin() || ($user->canUseAi() && $user->canUseAiBlogGeneration());
                         @endphp
                         @if ($aiSettings->blog_generation_enabled && $userCanUseAI)
-                            <div
-                                class="mb-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6 border border-purple-200">
-                                <div class="flex items-center mb-4">
-                                    <i class="fas fa-magic text-purple-600 text-2xl mr-3"></i>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-900">AI Markdown Assistant</h3>
-                                        <p class="text-xs text-gray-600">Optimize and improve specific sections of your
-                                            content</p>
-                                    </div>
+                            <div class="relative overflow-hidden group">
+                                <!-- Animated Background -->
+                                <div
+                                    class="absolute inset-0 bg-brand-gradient opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-500">
+                                </div>
+                                <div
+                                    class="absolute -right-12 -top-12 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl">
+                                </div>
+                                <div
+                                    class="absolute -left-12 -bottom-12 w-48 h-48 bg-pink-500/10 rounded-full blur-3xl">
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Action</label>
-                                        <select id="ai_action"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm">
-                                            <option value="generate_blog">📖 Generate Full Blog (Markdown)</option>
-                                            <option value="improve">✨ Improve Selected Text</option>
-                                            <option value="optimize">🚀 Optimize & Polish</option>
-                                            <option value="expand">➕ Expand Section</option>
-                                            <option value="simplify">🔧 Simplify Language</option>
-                                            <option value="generate">📝 Generate New Section</option>
-                                        </select>
+                                <div
+                                    class="relative p-6 border border-purple-100 rounded-2xl bg-white/40 backdrop-blur-md shadow-sm">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded-xl bg-brand-gradient flex items-center justify-center shadow-lg shadow-purple-200">
+                                                <i class="fas fa-magic text-white text-lg"></i>
+                                            </div>
+                                            <div>
+                                                <h3 class="text-lg font-extrabold text-gray-900 tracking-tight">AI
+                                                    Assistant</h3>
+                                                <p class="text-[10px] text-gray-500 font-medium">Craft perfect content
+                                                    seamlessly</p>
+                                            </div>
+                                        </div>
+                                        <span
+                                            class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full uppercase tracking-widest">Pro
+                                            Feature</span>
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">AI Model</label>
-                                        <select id="ai_model"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm">
-                                            <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash ⭐ (Recommended)
-                                            </option>
-                                            <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash Exp</option>
-                                        </select>
-                                    </div>
-                                </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Content
-                                            Length</label>
-                                        <select id="ai_length"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm">
-                                            <option value="short">Short (300-500 words)</option>
-                                            <option value="medium" selected>Medium (500-1000 words)</option>
-                                            <option value="long">Long (1000-2000 words)</option>
-                                        </select>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                                        <div class="space-y-2">
+                                            <label
+                                                class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">I
+                                                want to...</label>
+                                            <select id="ai_action"
+                                                class="w-full px-3 py-2 bg-white border border-gray-100 rounded-lg focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs font-semibold transition-all shadow-sm">
+                                                <option value="generate_blog">📖 Generate Blog</option>
+                                                <option value="improve">✨ Improve Selection</option>
+                                                <option value="optimize">🚀 Optimize content</option>
+                                                <option value="expand">➕ Expand section</option>
+                                                <option value="simplify">🔧 Simplify words</option>
+                                                <option value="generate">📝 New section</option>
+                                            </select>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label
+                                                class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Using
+                                                Model</label>
+                                            <select id="ai_model"
+                                                class="w-full px-3 py-2 bg-white border border-gray-100 rounded-lg focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs font-semibold transition-all shadow-sm">
+                                                <option value="gemini-2.5-flash" selected>Gemini 1.5 Pro</option>
+                                                <option value="gemini-2.0-flash-exp">Gemini 2.0 Exp</option>
+                                            </select>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label
+                                                class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Desired
+                                                Length</label>
+                                            <select id="ai_length"
+                                                class="w-full px-3 py-2 bg-white border border-gray-100 rounded-lg focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs font-semibold transition-all shadow-sm">
+                                                <option value="short">Short</option>
+                                                <option value="medium" selected>Medium</option>
+                                                <option value="long">Long</option>
+                                            </select>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label
+                                                class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Writing
+                                                Tone</label>
+                                            <select id="ai_tone"
+                                                class="w-full px-3 py-2 bg-white border border-gray-100 rounded-lg focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs font-semibold transition-all shadow-sm">
+                                                <option value="professional" selected>Professional</option>
+                                                <option value="casual">Casual</option>
+                                                <option value="formal">Formal</option>
+                                                <option value="friendly">Friendly</option>
+                                                <option value="technical">Technical</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Tone</label>
-                                        <select id="ai_tone"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm">
-                                            <option value="professional" selected>Professional</option>
-                                            <option value="casual">Casual</option>
-                                            <option value="formal">Formal</option>
-                                            <option value="friendly">Friendly</option>
-                                            <option value="technical">Technical</option>
-                                        </select>
+
+                                    <div class="mb-4">
+                                        <label
+                                            class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1 mb-2">Instructions
+                                            / Context</label>
+                                        <div class="relative group">
+                                            <textarea id="ai_context" rows="2" placeholder="Tell the AI what to focus on..."
+                                                class="w-full px-4 py-2.5 bg-white border border-gray-100 rounded-xl focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs transition-all shadow-sm resize-none"></textarea>
+                                            <div
+                                                class="absolute right-3 bottom-2.5 text-[9px] text-gray-400 font-bold uppercase tracking-wider">
+                                                Alt + Enter to Generate</div>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Context
-                                        (Optional)</label>
-                                    <textarea id="ai_context" rows="2" placeholder="Describe what you want to improve or generate..."
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"></textarea>
-                                    <p class="text-xs text-gray-500 mt-1">💡 Tip: Select text in the editor and choose
-                                        an action, or describe what you need</p>
-                                </div>
+                                    <button type="button" id="generateAIContent"
+                                        class="w-full bg-brand-gradient hover:shadow-md hover:shadow-purple-100 text-white py-3 px-6 rounded-xl font-bold flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] active:translate-y-0.5 text-sm">
+                                        <i class="fas fa-magic text-xs"></i>
+                                        <span>Magically Generate Content</span>
+                                    </button>
 
-                                <button type="button" id="generateAIContent"
-                                    class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200">
-                                    <i class="fas fa-magic mr-2"></i>Apply AI Enhancement
-                                </button>
-                                <div id="ai_generating" class="hidden mt-3 text-center text-sm text-purple-600">
-                                    <i class="fas fa-spinner fa-spin mr-2"></i>Optimizing content...
+                                    <div id="ai_generating" class="hidden mt-4">
+                                        <div class="flex items-center justify-center gap-3 text-purple-600 font-bold">
+                                            <div class="flex space-x-1">
+                                                <div class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce"
+                                                    style="animation-delay: 0.1s"></div>
+                                                <div class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce"
+                                                    style="animation-delay: 0.2s"></div>
+                                                <div class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce"
+                                                    style="animation-delay: 0.3s"></div>
+                                            </div>
+                                            <span class="text-sm uppercase tracking-widest">Optimizing
+                                                masterpiece...</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @elseif ($aiSettings->blog_generation_enabled && !$userCanUseAI)
@@ -218,7 +332,8 @@
                                 <div class="flex items-center mb-4">
                                     <i class="fas fa-user-shield text-orange-600 text-2xl mr-3"></i>
                                     <div>
-                                        <h3 class="text-lg font-semibold text-gray-900">AI Features Restricted</h3>
+                                        <h3 class="text-lg font-semibold text-gray-900">AI Features Restricted
+                                        </h3>
                                         <p class="text-xs text-gray-600">
                                             @if (!$user->canUseAi())
                                                 Your AI access has been disabled by an administrator.
@@ -234,581 +349,609 @@
                         @endif
 
                         <!-- Content Editor -->
-                        <div class="bg-gray-50 rounded-lg">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4 px-6 pt-6">
-                                <i class="fas fa-file-alt mr-2"></i>Content Editor
-                            </h3>
-
-                            <div class="px-6 pb-6">
-                                <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Post Content <span class="text-red-500">*</span>
-                                </label>
-
-                                <!-- Content Type Toolbar -->
-                                <div id="markdownToolbar"
-                                    class="bg-gray-50 border border-gray-200 rounded-t-lg p-3 flex flex-wrap gap-2">
-                                    <button type="button" onclick="insertMarkdown('**', '**', 'Bold Text')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-bold"></i> Bold</button>
-                                    <button type="button" onclick="insertMarkdown('*', '*', 'Italic Text')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-italic"></i> Italic</button>
-                                    <button type="button" onclick="insertMarkdown('## ', '', 'Heading 2')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-heading"></i> H2</button>
-                                    <button type="button" onclick="insertMarkdown('### ', '', 'Heading 3')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-heading"></i> H3</button>
-                                    <button type="button" onclick="insertMarkdown('- ', '', 'List Item')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-list-ul"></i> List</button>
-                                    <button type="button" onclick="insertMarkdown('1. ', '', 'Numbered Item')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-list-ol"></i> Numbered</button>
-                                    <button type="button" onclick="insertMarkdown('```bash\n', '\n```', 'Bash Code')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-code"></i> Bash</button>
-                                    <button type="button" onclick="insertMarkdown('```html\n', '\n```', 'HTML Code')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-code"></i> HTML</button>
-                                    <button type="button" onclick="insertMarkdown('[', '](url)', 'Link')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-link"></i> Link</button>
-                                    <button type="button" onclick="insertMarkdown('![', '](image-url)', 'Image')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-image"></i> Image</button>
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="px-6 py-4 flex items-center justify-between border-b border-gray-100">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
+                                        <i class="fas fa-file-alt text-base"></i>
+                                    </div>
+                                    <h3 class="text-lg font-extrabold text-gray-900 tracking-tight">Content Editor</h3>
                                 </div>
-
-                                <!-- HTML Toolbar -->
-                                <div id="htmlToolbar"
-                                    class="bg-gray-50 border border-gray-200 rounded-t-lg p-3 flex flex-wrap gap-2 hidden">
-                                    <button type="button" onclick="insertHTML('<strong>', '</strong>', 'Bold Text')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-bold"></i> Bold</button>
-                                    <button type="button" onclick="insertHTML('<em>', '</em>', 'Italic Text')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-italic"></i> Italic</button>
-                                    <button type="button" onclick="insertHTML('<h2>', '</h2>', 'Heading 2')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-heading"></i> H2</button>
-                                    <button type="button" onclick="insertHTML('<a href=\"\">', '</a>', 'Link')"
-                                        class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"><i
-                                            class="fas fa-link"></i> Link</button>
-                                </div>
-
-                                <!-- Text Toolbar -->
-                                <div id="textToolbar"
-                                    class="bg-gray-50 border border-gray-200 rounded-t-lg p-3 flex flex-wrap gap-2 hidden">
-                                    <div class="text-sm text-gray-600"><i class="fas fa-info-circle mr-2"></i>Plain
-                                        text format.</div>
-                                </div>
-
-                                <textarea name="content" id="content" rows="20" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-b-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
-                                    placeholder="Write your blog post content here...">{{ old('content', $post->content) }}</textarea>
-                                @error('content')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-
-                                <!-- Content Preview Toggle -->
-                                <div class="mt-3 flex justify-end">
+                                <div class="flex items-center gap-2">
                                     <button type="button" id="previewToggle"
-                                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                        <i class="fas fa-eye mr-2"></i>Preview Content
+                                        class="inline-flex items-center px-4 py-2 bg-purple-50 text-purple-700 rounded-xl text-sm font-bold hover:bg-purple-100 transition-all">
+                                        <i class="fas fa-eye mr-2"></i>Preview
                                     </button>
                                 </div>
+                            </div>
 
-                                <!-- Content Preview -->
-                                <div id="contentPreview" class="hidden mt-4 p-6 bg-gray-50 rounded-lg border">
-                                    <h4 class="text-lg font-semibold text-gray-900 mb-3">Content Preview</h4>
-                                    <div id="previewContent" class="prose prose-lg max-w-none"></div>
+                            <div class="p-6">
+                                <label for="content"
+                                    class="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-4 px-1">
+                                    Storytelling Area <span class="text-red-500">*</span>
+                                </label>
+
+                                <!-- Toolbars -->
+                                <div class="relative mb-0 z-10">
+                                    <!-- Markdown Toolbar -->
+                                    <div id="markdownToolbar"
+                                        class="flex flex-wrap gap-1.5 p-2 bg-gray-50/80 backdrop-blur-sm border border-gray-100 rounded-t-2xl">
+                                        <button type="button" onclick="insertMarkdown('**', '**', 'Bold')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-bold"></i>
+                                        </button>
+                                        <button type="button" onclick="insertMarkdown('*', '*', 'Italic')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-italic"></i>
+                                        </button>
+                                        <div class="w-px h-6 bg-gray-200 mx-1 my-auto"></div>
+                                        <button type="button" onclick="insertMarkdown('## ', '', 'Heading 2')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-heading"></i>
+                                        </button>
+                                        <button type="button" onclick="insertMarkdown('### ', '', 'Heading 3')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm text-xs">
+                                            <i class="fas fa-heading scale-75"></i>
+                                        </button>
+                                        <div class="w-px h-6 bg-gray-200 mx-1 my-auto"></div>
+                                        <button type="button" onclick="insertMarkdown('- ', '', 'List item')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-list-ul"></i>
+                                        </button>
+                                        <button type="button" onclick="insertMarkdown('1. ', '', 'Numbered item')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-list-ol"></i>
+                                        </button>
+                                        <div class="w-px h-6 bg-gray-200 mx-1 my-auto"></div>
+                                        <button type="button" onclick="insertMarkdown('```bash\n', '\n```', 'code')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-code"></i>
+                                        </button>
+                                        <button type="button" onclick="insertMarkdown('[', '](url)', 'Link')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-link text-xs"></i>
+                                        </button>
+                                        <button type="button"
+                                            onclick="insertMarkdown('![', '](image-url)', 'Alt text')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-image text-xs"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- HTML Toolbar -->
+                                    <div id="htmlToolbar"
+                                        class="flex flex-wrap gap-1.5 p-2 bg-gray-50/80 backdrop-blur-sm border border-gray-100 rounded-t-2xl hidden">
+                                        <button type="button" onclick="insertHTML('<strong>', '</strong>', 'Bold')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-bold"></i>
+                                        </button>
+                                        <button type="button" onclick="insertHTML('<em>', '</em>', 'Italic')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-italic"></i>
+                                        </button>
+                                        <button type="button" onclick="insertHTML('<h2>', '</h2>', 'Heading 2')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-heading"></i>
+                                        </button>
+                                        <button type="button" onclick="insertHTML('<a href=\"\">', '</a>', 'Link')"
+                                            class="w-9 h-9 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all shadow-sm">
+                                            <i class="fas fa-link text-xs"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Text Toolbar -->
+                                    <div id="textToolbar"
+                                        class="p-3 bg-gray-50/80 backdrop-blur-sm border border-gray-100 rounded-t-2xl hidden">
+                                        <div
+                                            class="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                                            <i class="fas fa-info-circle text-purple-500"></i>
+                                            Plain Text Format Enabled
+                                        </div>
+                                    </div>
+
+                                    <textarea name="content" id="content" rows="18" required
+                                        class="w-full px-6 py-6 border-x border-b border-gray-100 rounded-b-xl focus:outline-none focus:ring-8 focus:ring-purple-500/5 focus:border-purple-200 focus:bg-white transition-all font-mono text-xs leading-relaxed text-gray-800 placeholder:text-gray-300 shadow-inner"
+                                        placeholder="Start writing your masterpiece here...">{{ old('content', $post->content) }}</textarea>
+                                </div>
+                                @error('content')
+                                    <p class="mt-2 text-sm text-red-600 font-medium px-1">{{ $message }}</p>
+                                @enderror
+
+                                <!-- Content Preview Area -->
+                                <div id="contentPreview"
+                                    class="hidden mt-8 transition-all animate-in fade-in slide-in-from-top-4 duration-500">
+                                    <div class="flex items-center gap-2 mb-4 px-1">
+                                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Live
+                                            Preview Result</span>
+                                    </div>
+                                    <div class="p-8 bg-gray-50/30 border border-gray-100 rounded-3xl">
+                                        <div id="previewContent" class="prose prose-purple prose-lg max-w-none"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Media Uploads -->
-                        <div class="bg-gray-50 p-6 rounded-lg">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                                <i class="fas fa-images mr-2"></i>Media & Attachments
-                            </h3>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Featured Image -->
-                                <div>
-                                    <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Featured Image
-                                    </label>
-                                    @if ($post->featured_image)
-                                        <div class="mb-3">
-                                            <img src="{{ $post->featured_image }}"
-                                                alt="Current featured image"
-                                                class="w-32 h-32 object-cover rounded-lg border">
-                                            <p class="text-sm text-gray-600 mt-1">Current featured image</p>
-                                        </div>
-                                    @endif
-                                    <input type="file" name="featured_image" id="featured_image" accept="image/*"
-                                        <div id="featured_image_preview" class="mb-3 hidden">
-                                    <p class="text-sm font-medium text-gray-700 mb-2">Live Preview:</p>
+                        <!-- Media & Attachments -->
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="px-6 py-4 flex items-center justify-between border-b border-gray-100">
+                                <div class="flex items-center gap-3">
                                     <div
-                                        class="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
-                                        <img src="" alt="Preview" class="w-full h-full object-cover">
-                                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center hidden"
-                                            id="featured_image_info"></div>
+                                        class="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center text-pink-600">
+                                        <i class="fas fa-photo-video text-base"></i>
                                     </div>
+                                    <h3 class="text-lg font-extrabold text-gray-900 tracking-tight">Media & Assets</h3>
                                 </div>
-                                <input type="file" name="featured_image" id="featured_image" accept="image/*"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <p class="mt-1 text-sm text-gray-500">Recommended: 1200x630px, max 2MB (Auto-optimized)
-                                </p>
-                                @error('featured_image')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
                             </div>
+                            <div class="p-6 space-y-8">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <!-- Featured Image -->
+                                    <div class="space-y-4">
+                                        <label for="featured_image"
+                                            class="block text-sm font-bold text-gray-500 uppercase tracking-widest px-1">
+                                            Cover Image
+                                        </label>
 
-                            <!-- Gallery Images -->
-                            <div>
-                                <label for="gallery_images" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Gallery Images
-                                </label>
-                                @if ($post->gallery_images && count($post->gallery_images) > 0)
-                                    <div class="mb-3">
-                                        <div class="flex flex-wrap gap-2">
-                                            @foreach ($post->gallery_images as $image)
-                                                <img src="{{ $image }}" alt="Gallery image"
-                                                    class="w-16 h-16 object-cover rounded border">
-                                            @endforeach
-                                        </div>
-                                        <p class="text-sm text-gray-600 mt-1">Current gallery images
-                                            ({{ count($post->gallery_images) }})</p>
-                                    </div>
-                                @endif
-                                <div id="gallery_preview_container" class="mb-3 hidden">
-                                    <p class="text-sm font-medium text-gray-700 mb-2">New Images Preview:</p>
-                                    <div class="flex flex-wrap gap-2" id="gallery_previews">
-                                        <!-- Previews will be inserted here -->
-                                    </div>
-                                </div>
-                                <input type="file" name="gallery_images[]" id="gallery_images" accept="image/*"
-                                    multiple
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <p class="mt-1 text-sm text-gray-500">Select multiple images for gallery
-                                    (Auto-optimized)</p>
-                                @error('gallery_images')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <!-- Attachments -->
-                            <div class="md:col-span-2">
-                                <label for="attachments" class="block text-sm font-medium text-gray-700 mb-2">
-                                    File Attachments
-                                </label>
-                                @if ($post->attachments && count($post->attachments) > 0)
-                                    <div class="mb-3">
-                                        <div class="space-y-2">
-                                            @foreach ($post->attachments as $attachment)
-                                                <div class="flex items-center justify-between p-2 bg-gray-100 rounded">
-                                                    <div class="flex items-center">
-                                                        <i class="fas fa-file mr-2 text-gray-500"></i>
-                                                        <span class="text-sm">{{ $attachment['name'] }}</span>
+                                        <div class="relative group">
+                                            @if ($post->featured_image)
+                                                <div
+                                                    class="mb-4 relative rounded-2xl overflow-hidden shadow-lg border-4 border-white">
+                                                    <img src="{{ $post->featured_image }}" alt="Current"
+                                                        class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                                                    <div
+                                                        class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                                         <span
-                                                            class="text-xs text-gray-500 ml-2">({{ number_format($attachment['size'] / 1024, 1) }}
-                                                            KB)</span>
+                                                            class="text-white text-xs font-bold uppercase tracking-widest bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full">Current
+                                                            Image</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+
+                                            <div id="featured_image_preview"
+                                                class="mb-4 hidden animate-in zoom-in duration-300">
+                                                <p
+                                                    class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                                    <i class="fas fa-check-circle"></i> New Selection:
+                                                </p>
+                                                <div
+                                                    class="relative h-48 bg-gray-50 rounded-2xl overflow-hidden border-2 border-dashed border-purple-200 group/item">
+                                                    <img src="" alt="Preview"
+                                                        class="w-full h-full object-cover">
+                                                    <div id="featured_image_info"
+                                                        class="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-md text-[10px] font-bold text-gray-600 px-3 py-2 rounded-xl border border-gray-100 shadow-sm uppercase tracking-tight">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="relative">
+                                                <input type="file" name="featured_image" id="featured_image"
+                                                    accept="image/*"
+                                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                                <div
+                                                    class="flex items-center justify-center px-6 py-6 border-2 border-dashed border-gray-200 rounded-2xl group-hover:border-purple-300 transition-colors bg-gray-50/50 group-hover:bg-purple-50/30">
+                                                    <div class="text-center">
+                                                        <i
+                                                            class="fas fa-cloud-upload-alt text-2xl text-gray-300 group-hover:text-purple-400 mb-2 transition-colors"></i>
+                                                        <p
+                                                            class="text-xs font-bold text-gray-500 group-hover:text-purple-600 uppercase tracking-widest transition-colors">
+                                                            Replace Cover</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest px-1">
+                                            1200x630 (WebP Auto-optimized)</p>
+                                        @error('featured_image')
+                                            <p class="mt-1 text-sm text-red-600 font-medium font-medium">
+                                                {{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Gallery -->
+                                    <div class="space-y-4">
+                                        <label for="gallery_images"
+                                            class="block text-sm font-bold text-gray-500 uppercase tracking-widest px-1">
+                                            Photo Gallery
+                                        </label>
+
+                                        @if ($post->gallery_images && count($post->gallery_images) > 0)
+                                            <div class="flex flex-wrap gap-2 mb-4">
+                                                @foreach ($post->gallery_images as $image)
+                                                    <div
+                                                        class="relative w-14 h-14 rounded-xl overflow-hidden border-2 border-white shadow-sm transition-transform hover:scale-110 hover:z-10 group">
+                                                        <img src="{{ $image }}"
+                                                            class="w-full h-full object-cover">
+                                                    </div>
+                                                @endforeach
+                                                <div
+                                                    class="w-14 h-14 rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center bg-gray-50">
+                                                    <span
+                                                        class="text-[10px] font-bold text-gray-400">{{ count($post->gallery_images) }}+</span>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div id="gallery_preview_container"
+                                            class="hidden mb-4 animate-in fade-in duration-300 px-1">
+                                            <div class="flex flex-wrap gap-2" id="gallery_previews"></div>
+                                        </div>
+
+                                        <div class="relative group">
+                                            <input type="file" name="gallery_images[]" id="gallery_images"
+                                                multiple accept="image/*"
+                                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                            <div
+                                                class="flex items-center justify-center h-24 border-2 border-dashed border-gray-200 rounded-2xl group-hover:border-pink-300 transition-colors bg-gray-50/50 group-hover:bg-pink-50/30">
+                                                <div class="text-center">
+                                                    <i
+                                                        class="fas fa-images text-2xl text-gray-300 group-hover:text-pink-400 mb-1 transition-colors"></i>
+                                                    <p
+                                                        class="text-xs font-bold text-gray-500 group-hover:text-pink-600 uppercase tracking-widest">
+                                                        Add Gallery Photos</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @error('gallery_images')
+                                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <!-- Attachments -->
+                                <div class="pt-4 px-1">
+                                    <label for="attachments"
+                                        class="block text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">
+                                        Resource Attachments
+                                    </label>
+
+                                    @if ($post->attachments && count($post->attachments) > 0)
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                                            @foreach ($post->attachments as $attachment)
+                                                <div
+                                                    class="flex items-center justify-between p-3 bg-gray-50 rounded-2xl border border-gray-100 hover:border-purple-100 transition-all group">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class="w-9 h-9 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-purple-500 transition-colors">
+                                                            <i class="fas fa-file-alt"></i>
+                                                        </div>
+                                                        <div class="truncate">
+                                                            <p
+                                                                class="text-xs font-bold text-gray-700 truncate max-w-[150px]">
+                                                                {{ $attachment['name'] }}</p>
+                                                            <p class="text-[10px] text-gray-400 font-bold uppercase">
+                                                                {{ number_format($attachment['size'] / 1024, 1) }} KB
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </div>
-                                        <p class="text-sm text-gray-600 mt-1">Current attachments
-                                            ({{ count($post->attachments) }})</p>
+                                    @endif
+
+                                    <div class="relative group">
+                                        <input type="file" name="attachments[]" id="attachments" multiple
+                                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                        <div
+                                            class="flex items-center justify-between px-6 py-4 border-2 border-dashed border-gray-200 rounded-2xl group-hover:border-purple-300 transition-all bg-gray-50/30 group-hover:bg-white shadow-sm">
+                                            <div class="flex items-center gap-3">
+                                                <i
+                                                    class="fas fa-paperclip text-gray-300 group-hover:text-purple-400 text-lg transition-colors"></i>
+                                                <span
+                                                    class="text-sm font-bold text-gray-500 group-hover:text-purple-600 uppercase tracking-widest transition-colors">Choose
+                                                    files to attach...</span>
+                                            </div>
+                                            <span
+                                                class="text-[10px] font-bold text-gray-300 uppercase tracking-widest group-hover:text-purple-300 transition-colors">Max
+                                                10MB each</span>
+                                        </div>
                                     </div>
-                                @endif
-                                <input type="file" name="attachments[]" id="attachments" multiple
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <p class="mt-1 text-sm text-gray-500">Upload PDFs, documents, or other files (max
-                                    10MB each)</p>
-                                @error('attachments')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-                </div>
-
-                <!-- Monetization Settings -->
-                <div class="bg-green-50 p-6 rounded-lg border border-green-200">
-                    <h3 class="text-lg font-semibold text-green-900 mb-4">
-                        <i class="fas fa-coins mr-2"></i>Monetization Settings
-                    </h3>
-
-                    @if (Auth::user()->isAdmin())
-                        <!-- Admin Monetization Controls -->
-                        <div class="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                            <div class="flex items-center">
-                                <i class="fas fa-crown text-yellow-600 mr-2"></i>
-                                <span class="text-sm font-medium text-yellow-800">Admin Controls - Custom
-                                    Monetization</span>
-                            </div>
-                            <p class="text-xs text-yellow-700 mt-1">You can override global settings for this
-                                specific blog post.</p>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Enable Monetization -->
-                            <div class="md:col-span-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="is_monetized" value="1"
-                                        {{ old('is_monetized', $post->is_monetized) ? 'checked' : '' }}
-                                        class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                                    <span class="ml-2 text-sm font-medium text-green-900">Enable monetization
-                                        for this post</span>
-                                </label>
-                                <p class="mt-1 text-sm text-green-700">Earn money from visitors based on their
-                                    engagement time</p>
-                            </div>
-
-                            <!-- Monetization Type -->
-                            <div>
-                                <label for="monetization_type" class="block text-sm font-medium text-green-700 mb-2">
-                                    Monetization Type <span class="text-red-500">*</span>
-                                </label>
-                                <select name="monetization_type" id="monetization_type" required
-                                    class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                    @foreach ($monetizationTypes as $key => $type)
-                                        <option value="{{ $key }}"
-                                            {{ old('monetization_type', $post->monetization_type) == $key ? 'selected' : '' }}>
-                                            {{ $type }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('monetization_type')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <!-- Ad Type -->
-                            <div>
-                                <label for="ad_type" class="block text-sm font-medium text-green-700 mb-2">
-                                    Ad Type <span class="text-red-500">*</span>
-                                </label>
-                                <select name="ad_type" id="ad_type" required
-                                    class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                    @foreach ($adTypes as $key => $type)
-                                        <option value="{{ $key }}"
-                                            {{ old('ad_type', $post->ad_type) == $key ? 'selected' : '' }}>
-                                            {{ $type }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <!-- Ad Frequency -->
-                                <div>
-                                    <label for="ad_frequency" class="block text-sm font-medium text-green-700 mb-2">
-                                        Ad Frequency (Para)
-                                    </label>
-                                    <input type="number" name="ad_frequency" id="ad_frequency"
-                                        value="{{ old('ad_frequency', $post->ad_frequency) }}" min="1"
-                                        max="10"
-                                        class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                                        placeholder="Every X paragraphs">
-                                    <p class="mt-1 text-xs text-green-600">Insert ad after every X paragraphs
-                                        (1-10)</p>
-                                    @error('ad_frequency')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @error('attachments')
+                                        <p class="mt-2 text-sm text-red-600 font-medium">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Earning Rates -->
-                            <div class="md:col-span-2">
-                                <h4 class="text-md font-medium text-green-800 mb-3">Time-Based Earning Rates
-                                    (per visitor)</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div>
-                                        <label for="earning_rate_less_2min"
-                                            class="block text-sm font-medium text-green-700 mb-1">
-                                            Less than 2 minutes
-                                        </label>
-                                        <input type="number" name="earning_rate_less_2min"
-                                            id="earning_rate_less_2min"
-                                            value="{{ old('earning_rate_less_2min', $post->earning_rate_less_2min) }}"
-                                            step="0.0001" min="0" max="1" required
-                                            class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                        <p class="text-xs text-green-600">₹{{ $post->earning_rate_less_2min }}
-                                            /
-                                            ${{ $globalSettings->default_blog_earning_rate_less_2min_usd ?? 0.001 }}
-                                        </p>
+                    </div>
+
+                    <!-- END LEFT COLUMN -->
+
+                    <!-- RIGHT SIDEBAR: Settings -->
+                    <div class="lg:col-span-4 space-y-8">
+
+                        <!-- Publishing Panel -->
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="p-5 border-b border-gray-100 flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
+                                    <i class="fas fa-paper-plane text-base"></i>
+                                </div>
+                                <h3 class="text-lg font-extrabold text-gray-900 tracking-tight">Publishing</h3>
+                            </div>
+                            <div class="p-5 space-y-5">
+                                <!-- Status Selection -->
+                                <div class="space-y-3">
+                                    <label for="status"
+                                        class="block text-xs font-bold text-gray-400 uppercase tracking-widest px-1">
+                                        Status <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative group">
+                                        <select name="status" id="status" required
+                                            class="w-full pl-4 pr-10 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all appearance-none cursor-pointer font-semibold text-gray-700">
+                                            <option value="draft"
+                                                {{ old('status', $post->status) == 'draft' ? 'selected' : '' }}>📝
+                                                Draft</option>
+                                            <option value="published"
+                                                {{ old('status', $post->status) == 'published' ? 'selected' : '' }}>✅
+                                                Published</option>
+                                            <option value="archived"
+                                                {{ old('status', $post->status) == 'archived' ? 'selected' : '' }}>📁
+                                                Archived</option>
+                                            <option value="scheduled"
+                                                {{ old('status', $post->status) == 'scheduled' ? 'selected' : '' }}>⏰
+                                                Scheduled</option>
+                                        </select>
+                                        <div
+                                            class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400">
+                                            <i class="fas fa-chevron-down text-xs"></i>
+                                        </div>
                                     </div>
+                                    @error('status')
+                                        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Schedule Date -->
+                                <div id="scheduled_date_group"
+                                    class="space-y-3 transition-all duration-300 {{ old('status', $post->status) == 'scheduled' ? '' : 'hidden' }}">
+                                    <label for="scheduled_at"
+                                        class="block text-xs font-bold text-gray-400 uppercase tracking-widest px-1">
+                                        Release Date
+                                    </label>
+                                    <input type="datetime-local" name="scheduled_at" id="scheduled_at"
+                                        value="{{ old('scheduled_at', $post->scheduled_at ? $post->scheduled_at->format('Y-m-d\TH:i') : '') }}"
+                                        class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 transition-all font-medium text-gray-700">
+                                    @error('scheduled_at')
+                                        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <button type="submit" form="blog-form"
+                                    class="w-full py-3 bg-brand-gradient text-white rounded-xl font-bold shadow-lg shadow-purple-200 hover:shadow-purple-300 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm">
+                                    <i class="fas fa-save text-xs"></i>
+                                    Update Changes
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- SEO & Metadata -->
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="p-5 border-b border-gray-100 flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-search text-base"></i>
+                                </div>
+                                <h3 class="text-lg font-extrabold text-gray-900 tracking-tight">SEO & Search</h3>
+                            </div>
+                            <div class="p-5 space-y-5">
+                                <div class="space-y-4">
                                     <div>
-                                        <label for="earning_rate_2_5min"
-                                            class="block text-sm font-medium text-green-700 mb-1">
-                                            2-5 minutes
-                                        </label>
-                                        <input type="number" name="earning_rate_2_5min" id="earning_rate_2_5min"
-                                            value="{{ old('earning_rate_2_5min', $post->earning_rate_2_5min) }}"
-                                            step="0.0001" min="0" max="1" required
-                                            class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                        <p class="text-xs text-green-600">₹{{ $post->earning_rate_2_5min }} /
-                                            ${{ $globalSettings->default_blog_earning_rate_2_5min_usd ?? 0.003 }}
-                                        </p>
+                                        <label for="meta_title"
+                                            class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">SEO
+                                            Title</label>
+                                        <input type="text" name="meta_title" id="meta_title"
+                                            value="{{ old('meta_title', $post->meta_title) }}"
+                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-sm transition-all"
+                                            placeholder="Leave empty for auto-title">
                                     </div>
+
                                     <div>
-                                        <label for="earning_rate_more_5min"
-                                            class="block text-sm font-medium text-green-700 mb-1">
-                                            More than 5 minutes
-                                        </label>
-                                        <input type="number" name="earning_rate_more_5min"
-                                            id="earning_rate_more_5min"
-                                            value="{{ old('earning_rate_more_5min', $post->earning_rate_more_5min) }}"
-                                            step="0.0001" min="0" max="1" required
-                                            class="w-full px-3 py-2 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                        <p class="text-xs text-green-600">₹{{ $post->earning_rate_more_5min }}
-                                            /
-                                            ${{ $globalSettings->default_blog_earning_rate_more_5min_usd ?? 0.006 }}
-                                        </p>
+                                        <label for="meta_description"
+                                            class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Meta
+                                            Description</label>
+                                        <textarea name="meta_description" id="meta_description" rows="3"
+                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs transition-all resize-none"
+                                            placeholder="Write summary for search engines...">{{ old('meta_description', $post->meta_description) }}</textarea>
+                                    </div>
+
+                                    <div>
+                                        <label for="meta_keywords"
+                                            class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Keywords</label>
+                                        <input type="text" name="meta_keywords" id="meta_keywords"
+                                            value="{{ is_array($k = old('meta_keywords', $post->meta_keywords)) ? implode(', ', $k) : $k }}"
+                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-sm transition-all"
+                                            placeholder="marketing, seo, blog">
+                                    </div>
+
+                                    <div>
+                                        <label for="canonical_url"
+                                            class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Canonical
+                                            Link</label>
+                                        <input type="url" name="canonical_url" id="canonical_url"
+                                            value="{{ old('canonical_url', $post->canonical_url) }}"
+                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-sm transition-all"
+                                            placeholder="https://example.com/source">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @else
-                        <!-- Regular User - Global Settings Info -->
-                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                            <div class="flex items-center">
-                                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
-                                <span class="text-sm font-medium text-blue-800">Global Monetization Settings
-                                    Applied</span>
+
+                        <!-- Revenue & Monetization -->
+                        <div
+                            class="bg-white/70 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="p-5 border-b border-gray-100 flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center text-green-600">
+                                    <i class="fas fa-coins text-base"></i>
+                                </div>
+                                <h3 class="text-lg font-extrabold text-gray-900 tracking-tight">Earning Path</h3>
                             </div>
-                            <p class="text-xs text-blue-700 mt-1">
-                                This blog post uses the global monetization settings configured by
-                                administrators.
-                            </p>
-                            <div class="mt-3 text-xs text-blue-600">
-                                <p><strong>Type:</strong> {{ $post->monetization_type }}</p>
-                                <p><strong>Ad Type:</strong> {{ $post->ad_type }}</p>
-                                <p><strong>Earning Rates:</strong> ₹{{ $post->earning_rate_less_2min }} -
-                                    ₹{{ $post->earning_rate_more_5min }}</p>
+                            <div class="p-5 space-y-5">
+                                @if (Auth::user()->isAdmin())
+                                    <div class="p-4 bg-yellow-50 rounded-2xl border border-yellow-100 space-y-4">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-shield-alt text-yellow-600"></i>
+                                            <span class="text-xs font-bold text-yellow-800 uppercase">Administrator
+                                                Controls</span>
+                                        </div>
+
+                                        <label class="flex items-center group cursor-pointer">
+                                            <div class="relative">
+                                                <input type="checkbox" name="is_monetized" value="1"
+                                                    {{ old('is_monetized', $post->is_monetized) ? 'checked' : '' }}
+                                                    class="sr-only peer">
+                                                <div
+                                                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500 transition-all">
+                                                </div>
+                                            </div>
+                                            <span
+                                                class="ml-3 text-sm font-bold text-gray-600 group-hover:text-green-600 transition-colors">Enable
+                                                Monetization</span>
+                                        </label>
+
+                                        <div class="space-y-4 pt-2">
+                                            <div class="grid grid-cols-2 gap-3">
+                                                <div class="space-y-2">
+                                                    <label
+                                                        class="block text-[10px] font-bold text-gray-400 uppercase">Revenue
+                                                        Model</label>
+                                                    <select name="monetization_type"
+                                                        class="w-full px-3 py-2 bg-white border border-yellow-200 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all">
+                                                        @foreach ($monetizationTypes as $key => $type)
+                                                            <option value="{{ $key }}"
+                                                                {{ old('monetization_type', $post->monetization_type) == $key ? 'selected' : '' }}>
+                                                                {{ $type }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <div class="space-y-2">
+                                                    <label
+                                                        class="block text-[10px] font-bold text-gray-400 uppercase">Ad
+                                                        Strategy</label>
+                                                    <select name="ad_type"
+                                                        class="w-full px-3 py-2 bg-white border border-yellow-200 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all">
+                                                        @foreach ($adTypes as $key => $type)
+                                                            <option value="{{ $key }}"
+                                                                {{ old('ad_type', $post->ad_type) == $key ? 'selected' : '' }}>
+                                                                {{ $type }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="space-y-2">
+                                                <label class="block text-[10px] font-bold text-gray-400 uppercase">Ad
+                                                    Gap (Paragraphs)</label>
+                                                <input type="number" name="ad_frequency"
+                                                    value="{{ old('ad_frequency', $post->ad_frequency) }}"
+                                                    min="1" max="10"
+                                                    class="w-full px-3 py-2 bg-white border border-yellow-200 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all">
+                                            </div>
+
+                                            <div class="pt-2 border-t border-yellow-100 space-y-3">
+                                                <p class="text-[10px] font-bold text-yellow-700 uppercase">Earning
+                                                    Rates (₹)</p>
+                                                <div class="grid grid-cols-3 gap-2">
+                                                    <div class="space-y-1">
+                                                        <label
+                                                            class="text-[9px] text-gray-500 font-bold uppercase">&lt;
+                                                            2m</label>
+                                                        <input type="number" name="earning_rate_less_2min"
+                                                            value="{{ old('earning_rate_less_2min', $post->earning_rate_less_2min) }}"
+                                                            step="0.0001"
+                                                            class="w-full px-2 py-1.5 bg-white border border-yellow-200 rounded text-xs font-bold">
+                                                    </div>
+                                                    <div class="space-y-1">
+                                                        <label
+                                                            class="text-[9px] text-gray-500 font-bold uppercase">2-5m</label>
+                                                        <input type="number" name="earning_rate_2_5min"
+                                                            value="{{ old('earning_rate_2_5min', $post->earning_rate_2_5min) }}"
+                                                            step="0.0001"
+                                                            class="w-full px-2 py-1.5 bg-white border border-yellow-200 rounded text-xs font-bold">
+                                                    </div>
+                                                    <div class="space-y-1">
+                                                        <label
+                                                            class="text-[9px] text-gray-500 font-bold uppercase">&gt;
+                                                            5m</label>
+                                                        <input type="number" name="earning_rate_more_5min"
+                                                            value="{{ old('earning_rate_more_5min', $post->earning_rate_more_5min) }}"
+                                                            step="0.0001"
+                                                            class="w-full px-2 py-1.5 bg-white border border-yellow-200 rounded text-xs font-bold">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="p-4 bg-blue-50/50 rounded-2xl border border-blue-100 border-dashed">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <i class="fas fa-info-circle text-blue-500 text-sm"></i>
+                                            <span
+                                                class="text-xs font-bold text-blue-800 uppercase tracking-tight">Active
+                                                Strategy</span>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex justify-between items-center text-xs">
+                                                <span class="text-gray-500 font-medium text-[10px] uppercase">Revenue
+                                                    Hub:</span>
+                                                <span
+                                                    class="font-bold text-gray-700 capitalize">{{ str_replace('_', ' ', $post->monetization_type) }}</span>
+                                            </div>
+                                            <div class="flex justify-between items-center text-xs">
+                                                <span class="text-gray-500 font-medium text-[10px] uppercase">Ad
+                                                    Placement:</span>
+                                                <span
+                                                    class="font-bold text-gray-700 capitalize">{{ str_replace('_', ' ', $post->ad_type) }}</span>
+                                            </div>
+                                            <div
+                                                class="pt-3 border-t border-blue-100 flex items-center justify-between">
+                                                <span class="text-[10px] font-bold text-blue-600 uppercase">Earning
+                                                    Potential:</span>
+                                                <span
+                                                    class="text-xs font-extrabold text-blue-700">₹{{ $post->earning_rate_more_5min }}
+                                                    / visit</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hidden states for non-admins -->
+                                    <input type="hidden" name="is_monetized"
+                                        value="{{ $post->is_monetized ? 1 : 0 }}">
+                                    <input type="hidden" name="monetization_type"
+                                        value="{{ $post->monetization_type }}">
+                                    <input type="hidden" name="ad_type" value="{{ $post->ad_type }}">
+                                    <input type="hidden" name="earning_rate_less_2min"
+                                        value="{{ $post->earning_rate_less_2min }}">
+                                    <input type="hidden" name="earning_rate_2_5min"
+                                        value="{{ $post->earning_rate_2_5min }}">
+                                    <input type="hidden" name="earning_rate_more_5min"
+                                        value="{{ $post->earning_rate_more_5min }}">
+                                @endif
                             </div>
                         </div>
 
-                        <!-- Hidden fields for regular users - will use existing post values -->
-                        <input type="hidden" name="is_monetized" value="{{ $post->is_monetized ? 1 : 0 }}">
-                        <input type="hidden" name="monetization_type" value="{{ $post->monetization_type }}">
-                        <input type="hidden" name="ad_type" value="{{ $post->ad_type }}">
-                        <input type="hidden" name="earning_rate_less_2min"
-                            value="{{ $post->earning_rate_less_2min }}">
-                        <input type="hidden" name="earning_rate_2_5min" value="{{ $post->earning_rate_2_5min }}">
-                        <input type="hidden" name="earning_rate_more_5min"
-                            value="{{ $post->earning_rate_more_5min }}">
-                    @endif
-                </div>
-
-                <!-- SEO Settings -->
-                <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
-                    <h3 class="text-lg font-semibold text-blue-900 mb-4">
-                        <i class="fas fa-search mr-2"></i>SEO Settings
-                    </h3>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Meta Title -->
-                        <div>
-                            <label for="meta_title" class="block text-sm font-medium text-blue-700 mb-2">
-                                Meta Title
-                            </label>
-                            <input type="text" name="meta_title" id="meta_title"
-                                value="{{ old('meta_title', $post->meta_title) }}"
-                                class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="SEO title for search engines">
-                            <p class="mt-1 text-sm text-blue-600">Leave empty to use post title</p>
-                            @error('meta_title')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Meta Description -->
-                        <div>
-                            <label for="meta_description" class="block text-sm font-medium text-blue-700 mb-2">
-                                Meta Description
-                            </label>
-                            <textarea name="meta_description" id="meta_description" rows="3"
-                                class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Brief description for search results">{{ old('meta_description', $post->meta_description) }}</textarea>
-                            <p class="mt-1 text-sm text-blue-600">Leave empty to use post excerpt</p>
-                            @error('meta_description')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Meta Keywords -->
-                        <div>
-                            <label for="meta_keywords" class="block text-sm font-medium text-blue-700 mb-2">
-                                Meta Keywords
-                            </label>
-                            @php
-                                $metaKeywords = old('meta_keywords', $post->meta_keywords);
-                                if (is_array($metaKeywords)) {
-                                    $metaKeywords = implode(', ', $metaKeywords);
-                                }
-                            @endphp
-                            <input type="text" name="meta_keywords" id="meta_keywords"
-                                value="{{ $metaKeywords }}"
-                                class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Keywords separated by commas">
-                            <p class="mt-1 text-sm text-blue-600">Separate with commas</p>
-                            @error('meta_keywords')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Canonical URL -->
-                        <div>
-                            <label for="canonical_url" class="block text-sm font-medium text-blue-700 mb-2">
-                                Canonical URL
-                            </label>
-                            <input type="url" name="canonical_url" id="canonical_url"
-                                value="{{ old('canonical_url', $post->canonical_url) }}"
-                                class="w-full px-3 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="https://example.com/original-post">
-                            <p class="mt-1 text-sm text-blue-600">If this is a repost</p>
-                            @error('canonical_url')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
                     </div>
+                    <!-- END RIGHT SIDEBAR -->
+
                 </div>
+                <!-- END GRID -->
 
-                <!-- Publishing Settings -->
-                <div class="bg-purple-50 p-6 rounded-lg border border-purple-200">
-                    <h3 class="text-lg font-semibold text-purple-900 mb-4">
-                        <i class="fas fa-paper-plane mr-2"></i>Publishing Settings
-                    </h3>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Status -->
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-purple-700 mb-2">
-                                Publication Status <span class="text-red-500">*</span>
-                            </label>
-                            <select name="status" id="status" required
-                                class="w-full px-3 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
-                                <option value="draft"
-                                    {{ old('status', $post->status) == 'draft' ? 'selected' : '' }}>Draft
-                                </option>
-                                <option value="published"
-                                    {{ old('status', $post->status) == 'published' ? 'selected' : '' }}>
-                                    Published</option>
-                                <option value="archived"
-                                    {{ old('status', $post->status) == 'archived' ? 'selected' : '' }}>Archived
-                                </option>
-                                <option value="scheduled"
-                                    {{ old('status', $post->status) == 'scheduled' ? 'selected' : '' }}>
-                                    Scheduled</option>
-                            </select>
-                            @error('status')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Scheduled Date -->
-                        <div id="scheduled_date_group"
-                            class="{{ old('status', $post->status) == 'scheduled' ? '' : 'hidden' }}">
-                            <label for="scheduled_at" class="block text-sm font-medium text-purple-700 mb-2">
-                                Schedule Date & Time
-                            </label>
-                            <input type="datetime-local" name="scheduled_at" id="scheduled_at"
-                                value="{{ old('scheduled_at', $post->scheduled_at ? $post->scheduled_at->format('Y-m-d\TH:i') : '') }}"
-                                class="w-full px-3 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
-                            @error('scheduled_at')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Submit Buttons -->
-                <div class="flex justify-end space-x-4">
-                    <a href="{{ route('blog.show', $post->slug) }}"
-                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                        <i class="fas fa-times mr-2"></i>Cancel
-                    </a>
-                    <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                        <i class="fas fa-save mr-2"></i>Update Post
-                    </button>
-                </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
-    </div>
 
 
-    <!-- AI Content Modal -->
-    <div id="aiContentModal"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
-        <div class="bg-white rounded-lg max-w-4xl w-full mx-4 max-h-[90vh] flex flex-col">
-            <div class="flex items-center justify-between p-6 border-b">
-                <h3 class="text-xl font-bold text-gray-900">AI Generated Content</h3>
-                <div class="flex gap-2">
-                    <button onclick="copyAIContent()"
-                        class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
-                        <i class="fas fa-copy mr-2"></i>Copy Content
-                    </button>
-                    <button onclick="closeAIContentModal()"
-                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="p-6 overflow-y-auto flex-1">
-                <div id="aiGeneratedContent" class="prose max-w-none whitespace-pre-wrap"></div>
-            </div>
-            <div class="flex items-center justify-between p-6 border-t bg-gray-50">
-                <button onclick="insertAIContent()"
-                    class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                    <i class="fas fa-plus mr-2"></i>Insert into Editor
-                </button>
-                <button onclick="regenerateAIContent()"
-                    class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
-                    <i class="fas fa-redo mr-2"></i>Regenerate
-                </button>
-            </div>
-        </div>
-    </div>
+    @include('blog.partials.ai-modal')
 
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script>
-            // AI Content Modal Functions
-            let aiGeneratedContent = '';
-            let aiGeneratedExcerpt = '';
-            let currentAIAction = '';
-
-            function showAIContentModal(content, excerpt, action) {
-                aiGeneratedContent = content;
-                aiGeneratedExcerpt = excerpt || '';
-                currentAIAction = action;
-                document.getElementById('aiGeneratedContent').textContent = content;
-                document.getElementById('aiContentModal').classList.remove('hidden');
-            }
-
-            function closeAIContentModal() {
-                document.getElementById('aiContentModal').classList.add('hidden');
-            }
-
-            function copyAIContent() {
-                navigator.clipboard.writeText(aiGeneratedContent);
-                alert('Content copied to clipboard');
-            }
-
-            function insertAIContent() {
-                const contentField = document.getElementById('content');
-                const currentContent = contentField.value;
-                contentField.value = currentContent + (currentContent ? '\n\n' : '') + aiGeneratedContent;
-                closeAIContentModal();
-            }
-
-            function regenerateAIContent() {
-                closeAIContentModal();
-                document.getElementById('generateAIContent').click();
-            }
-
             // Markdown insertion functions
             function insertMarkdown(before, after, placeholder) {
                 const textarea = document.getElementById('content');

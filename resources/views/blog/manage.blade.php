@@ -1,20 +1,42 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-900">Manage Blog Posts</h1>
-            <div class="flex space-x-3">
+    <x-slot name="header">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <nav class="flex mb-2" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3 text-xs font-medium text-gray-500">
+                        <li class="inline-flex items-center">
+                            <a href="{{ route('dashboard') }}" class="hover:text-purple-600 transition-colors">
+                                <i class="fas fa-home mr-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <i class="fas fa-chevron-right text-gray-400 mx-2 text-[10px]"></i>
+                                <span class="text-gray-900">Manage Posts</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+                <h2 class="font-extrabold text-3xl text-gray-900 leading-tight tracking-tight">
+                    {{ __('Management Studio') }}
+                </h2>
+            </div>
+            <div class="flex items-center gap-3">
                 <a href="{{ route('blog.templates') }}"
-                    class="flex items-center px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-                    <i class="fas fa-layer-group mr-2"></i>
+                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+                    <i class="fas fa-layer-group mr-2 text-gray-400 text-xs"></i>
                     Templates
                 </a>
                 <a href="{{ route('blog.create') }}"
-                    class="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                    class="inline-flex items-center px-6 py-2.5 bg-brand-gradient text-white rounded-xl text-sm font-bold shadow-lg shadow-purple-200 hover:shadow-purple-300 hover:scale-[1.02] active:scale-[0.98] transition-all">
                     <i class="fas fa-plus mr-2"></i>
-                    Write New Post
+                    Write New Story
                 </a>
             </div>
         </div>
+    </x-slot>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             @if ($posts->count() > 0)
