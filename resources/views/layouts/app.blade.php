@@ -210,9 +210,12 @@
             e.preventDefault();
             deferredPrompt = e;
 
-            // Show install button if not already installed
-            if (!localStorage.getItem('pwa-installed')) {
+            // Show install button if not already running in standalone mode
+            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                console.log('App is not in standalone mode, showing install button');
                 showInstallButton();
+            } else {
+                console.log('App is already in standalone mode');
             }
         });
 
@@ -318,38 +321,38 @@
     <nav class="bg-white/80 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <!-- Mobile Menu Button -->
+                <!-- Mobile Menu Button (Left) -->
+                <div class="flex items-center md:hidden">
                     <button @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="md:hidden p-2 text-gray-600 hover:text-indigo-600 focus:outline-none mr-4">
+                        class="p-2 text-gray-600 hover:text-indigo-600 focus:outline-none -ml-2">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-
-                    <!-- Logo -->
-                    <a href="{{ route('welcome') }}" class="flex items-center space-x-3 group">
-                        @if ($brandingSettings?->brand_logo)
-                            <div
-                                class="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:rotate-6 transition-transform">
-                                <img src="{{ asset('storage/' . $brandingSettings->brand_logo) }}"
-                                    alt="{{ $brandingSettings->brand_name }}" class="w-full h-full object-cover">
-                            </div>
-                        @else
-                            <div
-                                class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-6 transition-transform {{ Auth::check() ? 'bg-indigo-600' : 'bg-slate-800' }}">
-                                <i class="fas fa-link text-white text-lg"></i>
-                            </div>
-                        @endif
-                        <div>
-                            <div class="text-xl font-black text-gray-900 tracking-tighter leading-none">
-                                {{ $brandingSettings?->brand_name ?? 'CoolPosts' }}
-                            </div>
-                            <div
-                                class="hidden md:block text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">
-                                {{ $brandingSettings?->brand_tagline ?? 'Blogger First' }}
-                            </div>
-                        </div>
-                    </a>
                 </div>
+
+                <!-- Logo (Center on Mobile, Left on Desktop) -->
+                <a href="{{ route('welcome') }}" class="flex items-center space-x-3 group">
+                    @if ($brandingSettings?->brand_logo)
+                        <div
+                            class="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:rotate-6 transition-transform">
+                            <img src="{{ asset('storage/' . $brandingSettings->brand_logo) }}"
+                                alt="{{ $brandingSettings->brand_name }}" class="w-full h-full object-cover">
+                        </div>
+                    @else
+                        <div
+                            class="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:rotate-6 transition-transform">
+                            <img src="/icons/icon-192x192.png" alt="CoolPosts" class="w-full h-full object-cover">
+                        </div>
+                    @endif
+                    <div>
+                        <div class="text-xl font-black text-gray-900 tracking-tighter leading-none">
+                            {{ $brandingSettings?->brand_name ?? 'CoolPosts' }}
+                        </div>
+                        <div
+                            class="hidden md:block text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">
+                            {{ $brandingSettings?->brand_tagline ?? 'Blogger First' }}
+                        </div>
+                    </div>
+                </a>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-1">
@@ -460,8 +463,9 @@
                             <a href="{{ route('login') }}"
                                 class="hidden sm:block text-sm font-bold text-gray-400 hover:text-indigo-600 transition-colors">Login</a>
                             <a href="{{ route('register') }}"
-                                class="px-8 py-3 text-[15px] rounded-xl font-black text-white bg-indigo-600 hover:bg-indigo-700 shadow-2xl shadow-indigo-600/30 transition-all duration-300 hover:-translate-y-0.5 active:scale-95">
-                                Start Writing Free
+                                class="px-3 py-2 sm:px-8 text-sm sm:text-[15px] rounded-lg sm:rounded-xl font-bold sm:font-black text-indigo-600 sm:text-white bg-indigo-50 sm:bg-indigo-600 hover:bg-indigo-100 sm:hover:bg-indigo-700 shadow-none sm:shadow-2xl sm:shadow-indigo-600/30 transition-all duration-300 sm:hover:-translate-y-0.5 active:scale-95">
+                                <span class="hidden sm:inline">Start Writing Free</span>
+                                <i class="fas fa-arrow-right sm:hidden"></i>
                             </a>
                         </div>
                     @endauth
