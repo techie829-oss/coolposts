@@ -149,13 +149,10 @@ class BlogController extends Controller
         // Handle featured image
         $featuredImage = null;
         if ($request->hasFile('featured_image')) {
-            // Optimize image first
-            $optimizedPath = $this->imageOptimizer->optimize($request->file('featured_image'));
-
-            // Bypass broken Laravel helper - use Cloudinary SDK directly
+            // Bypass local optimization (GD memory issues) - use Cloudinary SDK directly
             $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             $upload = $cloudinary->uploadApi()->upload(
-                $optimizedPath,
+                $request->file('featured_image')->getRealPath(),
                 [
                     'folder' => 'coolposts/blog/featured',
                     'quality' => 'auto',
@@ -163,11 +160,6 @@ class BlogController extends Controller
                 ]
             );
             $featuredImage = $upload['secure_url'];
-
-            // Cleanup temp file
-            if ($optimizedPath !== $request->file('featured_image')->getRealPath()) {
-                @unlink($optimizedPath);
-            }
         }
 
         // Handle gallery images
@@ -175,11 +167,8 @@ class BlogController extends Controller
         if ($request->hasFile('gallery_images')) {
             $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             foreach ($request->file('gallery_images') as $image) {
-                // Optimize image first
-                $optimizedPath = $this->imageOptimizer->optimize($image);
-
                 $upload = $cloudinary->uploadApi()->upload(
-                    $optimizedPath,
+                    $image->getRealPath(),
                     [
                         'folder' => 'coolposts/blog/gallery',
                         'quality' => 'auto',
@@ -187,11 +176,6 @@ class BlogController extends Controller
                     ]
                 );
                 $galleryImages[] = $upload['secure_url'];
-
-                // Cleanup temp file
-                if ($optimizedPath !== $image->getRealPath()) {
-                    @unlink($optimizedPath);
-                }
             }
         }
 
@@ -369,13 +353,10 @@ class BlogController extends Controller
         // Handle featured image
         $featuredImage = $post->featured_image; // Default to existing
         if ($request->hasFile('featured_image')) {
-            // Optimize image first
-            $optimizedPath = $this->imageOptimizer->optimize($request->file('featured_image'));
-
-            // Bypass broken Laravel helper - use Cloudinary SDK directly
+            // Bypass local optimization (GD memory issues) - use Cloudinary SDK directly
             $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             $upload = $cloudinary->uploadApi()->upload(
-                $optimizedPath,
+                $request->file('featured_image')->getRealPath(),
                 [
                     'folder' => 'coolposts/blog/featured',
                     'quality' => 'auto',
@@ -383,11 +364,6 @@ class BlogController extends Controller
                 ]
             );
             $featuredImage = $upload['secure_url'];
-
-            // Cleanup temp file
-            if ($optimizedPath !== $request->file('featured_image')->getRealPath()) {
-                @unlink($optimizedPath);
-            }
         }
 
         // Handle gallery images
@@ -396,11 +372,8 @@ class BlogController extends Controller
             $galleryImages = [];
             $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             foreach ($request->file('gallery_images') as $image) {
-                // Optimize image first
-                $optimizedPath = $this->imageOptimizer->optimize($image);
-
                 $upload = $cloudinary->uploadApi()->upload(
-                    $optimizedPath,
+                    $image->getRealPath(),
                     [
                         'folder' => 'coolposts/blog/gallery',
                         'quality' => 'auto',
@@ -408,11 +381,6 @@ class BlogController extends Controller
                     ]
                 );
                 $galleryImages[] = $upload['secure_url'];
-
-                // Cleanup temp file
-                if ($optimizedPath !== $image->getRealPath()) {
-                    @unlink($optimizedPath);
-                }
             }
         }
 
