@@ -1,9 +1,10 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <!-- Welcome Header -->
-        <div class="mb-8">
+        <div class="mb-6">
             <div
-                class="bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-3xl p-8 text-white relative overflow-hidden">
+                class="bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-2xl p-6 text-white relative overflow-hidden shadow-lg">
                 <!-- Background Pattern -->
                 <div class="absolute inset-0 bg-black/10"></div>
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16">
@@ -11,49 +12,57 @@
                 <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12">
                 </div>
 
-                <div class="relative z-10">
-                    <h1 class="text-4xl font-bold text-white mb-2">
-                        Welcome to CoolPosts, {{ Auth::user()->name }}! 🎉
-                    </h1>
-                    <p class="text-purple-100 text-lg">
-                        @if ($globalSettings->isEarningsEnabled())
-                            Ready to monetize more links and grow your earnings?
-                        @else
-                            Ready to create more links and grow your audience?
-                        @endif
-                    </p>
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white mb-1">
+                            Welcome, {{ Auth::user()->name }}! 🎉
+                        </h1>
+                        <p class="text-purple-100 text-sm md:text-base">
+                            @if ($globalSettings->isEarningsEnabled())
+                                Ready to monetize?
+                            @else
+                                Ready to create?
+                            @endif
+                        </p>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="{{ route('blog.create') }}"
+                            class="px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/20 rounded-xl text-white text-sm font-bold transition-all flex items-center">
+                            <i class="fas fa-plus mr-2"></i> New Post
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="mb-8">
-            <div class="flex flex-wrap gap-4">
+        <!-- Quick Actions Toolbar -->
+        <div class="mb-6">
+            <div class="flex flex-wrap gap-3">
                 <a href="{{ route('links.create') }}"
-                    class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
-                    <i class="fas fa-plus mr-3 text-purple-600"></i>
+                    class="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 flex items-center shadow-sm text-sm font-medium">
+                    <i class="fas fa-plus mr-2 text-purple-600"></i>
                     New Link
                 </a>
                 <a href="{{ route('links.manage') }}"
-                    class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
-                    <i class="fas fa-list mr-3 text-blue-600"></i>
-                    Manage Links
+                    class="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 flex items-center shadow-sm text-sm font-medium">
+                    <i class="fas fa-list mr-2 text-blue-600"></i>
+                    Links
                 </a>
                 <a href="{{ route('blog.create') }}"
-                    class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
-                    <i class="fas fa-edit mr-3 text-green-600"></i>
-                    Create Blog Post
+                    class="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 flex items-center shadow-sm text-sm font-medium">
+                    <i class="fas fa-edit mr-2 text-green-600"></i>
+                    Post
                 </a>
                 <a href="{{ route('blog.manage') }}"
-                    class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
-                    <i class="fas fa-newspaper mr-3 text-orange-600"></i>
+                    class="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 flex items-center shadow-sm text-sm font-medium">
+                    <i class="fas fa-newspaper mr-2 text-orange-600"></i>
                     Manage Blog
                 </a>
                 @if ($globalSettings->isEarningsEnabled())
                     <a href="{{ route('withdrawals.index') }}"
-                        class="bg-white/80 backdrop-blur-sm border border-white/20 text-gray-700 px-6 py-3 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-200 flex items-center shadow-sm">
-                        <i class="fas fa-dollar-sign mr-3 text-yellow-600"></i>
-                        Withdraw Earnings
+                        class="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 flex items-center shadow-sm text-sm font-medium">
+                        <i class="fas fa-dollar-sign mr-2 text-yellow-600"></i>
+                        Withdraw
                     </a>
                 @endif
             </div>
@@ -68,149 +77,188 @@
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <!-- Total Posts -->
             <div
-                class="group bg-white rounded-lg border border-zinc-200 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all duration-200">
-                <div class="p-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Published Posts</p>
-                            @php
-                                $totalPosts = \App\Models\BlogPost::where('user_id', Auth::id())->count();
-                            @endphp
-                            <h3 class="text-2xl font-bold text-zinc-900 mt-1">{{ $totalPosts }}</h3>
-                        </div>
-                        <div
-                            class="w-8 h-8 rounded-md bg-zinc-50 border border-zinc-100 flex items-center justify-center text-zinc-400 group-hover:text-purple-600 transition-colors">
-                            <i class="fas fa-file-alt text-sm"></i>
-                        </div>
+                class="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-gray-200 transition-all duration-200 p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Posts</p>
+                        @php
+                            $totalPosts = \App\Models\BlogPost::where('user_id', Auth::id())->count();
+                        @endphp
+                        <h3 class="text-xl font-bold text-gray-900 mt-0.5">{{ $totalPosts }}</h3>
+                    </div>
+                    <div
+                        class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i class="fas fa-file-alt text-xs"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Total Views -->
             <div
-                class="group bg-white rounded-lg border border-zinc-200 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all duration-200">
-                <div class="p-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Total Views</p>
-                            <h3 class="text-2xl font-bold text-zinc-900 mt-1">
-                                {{ number_format($stats['total_clicks'] ?? 0) }}
-                            </h3>
-                        </div>
-                        <div
-                            class="w-8 h-8 rounded-md bg-zinc-50 border border-zinc-100 flex items-center justify-center text-zinc-400 group-hover:text-blue-600 transition-colors">
-                            <i class="fas fa-eye text-sm"></i>
-                        </div>
+                class="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-gray-200 transition-all duration-200 p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Views</p>
+                        <h3 class="text-xl font-bold text-gray-900 mt-0.5">
+                            {{ number_format($stats['total_clicks'] ?? 0) }}
+                        </h3>
+                    </div>
+                    <div
+                        class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i class="fas fa-eye text-xs"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Earnings (Coming Soon) -->
             <div
-                class="group bg-zinc-50 rounded-lg border border-zinc-200 shadow-sm relative overflow-hidden opacity-90">
-                <div class="absolute inset-x-0 bottom-0 bg-zinc-100 border-t border-zinc-200 py-1 text-center">
-                    <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Coming Soon</p>
-                </div>
-                <div class="p-4 pb-8">
-                    <div class="flex items-center justify-between opacity-50">
-                        <div>
-                            <p class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Earnings</p>
-                            <h3 class="text-2xl font-bold text-zinc-900 mt-1">
-                                {{ $stats['currency_symbol'] ?? '$' }}0.00
-                            </h3>
-                        </div>
-                        <div
-                            class="w-8 h-8 rounded-md bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-400">
-                            <i class="fas fa-dollar-sign text-sm"></i>
-                        </div>
+                class="group bg-gray-50 rounded-xl border border-gray-100 shadow-sm relative overflow-hidden opacity-90 p-4">
+                <div class="flex items-center justify-between opacity-50">
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Earnings</p>
+                        <h3 class="text-xl font-bold text-gray-900 mt-0.5">
+                            {{ $stats['currency_symbol'] ?? '$' }}0.00
+                        </h3>
                     </div>
+                    <div class="w-8 h-8 rounded-lg bg-gray-200 text-gray-400 flex items-center justify-center">
+                        <i class="fas fa-dollar-sign text-xs"></i>
+                    </div>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[1px]">
+                    <span
+                        class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-widest">Coming
+                        Soon</span>
                 </div>
             </div>
 
             <!-- Pending (Coming Soon) -->
             <div
-                class="group bg-zinc-50 rounded-lg border border-zinc-200 shadow-sm relative overflow-hidden opacity-90">
-                <div class="absolute inset-x-0 bottom-0 bg-zinc-100 border-t border-zinc-200 py-1 text-center">
-                    <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Coming Soon</p>
-                </div>
-                <div class="p-4 pb-8">
-                    <div class="flex items-center justify-between opacity-50">
-                        <div>
-                            <p class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Pending</p>
-                            <h3 class="text-2xl font-bold text-zinc-900 mt-1">
-                                {{ $stats['currency_symbol'] ?? '$' }}0.00
-                            </h3>
-                        </div>
-                        <div
-                            class="w-8 h-8 rounded-md bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-400">
-                            <i class="fas fa-clock text-sm"></i>
-                        </div>
+                class="group bg-gray-50 rounded-xl border border-gray-100 shadow-sm relative overflow-hidden opacity-90 p-4">
+                <div class="flex items-center justify-between opacity-50">
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Pending</p>
+                        <h3 class="text-xl font-bold text-gray-900 mt-0.5">
+                            {{ $stats['currency_symbol'] ?? '$' }}0.00
+                        </h3>
                     </div>
+                    <div class="w-8 h-8 rounded-lg bg-gray-200 text-gray-400 flex items-center justify-center">
+                        <i class="fas fa-clock text-xs"></i>
+                    </div>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[1px]">
+                    <span
+                        class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-widest">Coming
+                        Soon</span>
                 </div>
             </div>
         </div>
 
-        <!-- Action Cards -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Quick Actions -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-white/20 p-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h3>
-                <div class="space-y-4">
-                    <a href="{{ route('blog.create') }}"
-                        class="flex items-center p-4 bg-gradient-to-r from-zinc-50 to-zinc-100 rounded-2xl border border-zinc-200 hover:from-zinc-100 hover:to-zinc-200 transition-all duration-200 group">
-                        <div
-                            class="w-12 h-12 bg-zinc-800 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-200">
-                            <i class="fas fa-pen-fancy text-white text-lg"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-900">Write New Post</h4>
-                            <p class="text-sm text-gray-600">Create and publish content</p>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('blog.manage') }}"
-                        class="flex items-center p-4 bg-gradient-to-r from-zinc-50 to-zinc-100 rounded-2xl border border-zinc-200 hover:from-zinc-100 hover:to-zinc-200 transition-all duration-200 group">
-                        <div
-                            class="w-12 h-12 bg-white border border-zinc-200 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-200">
-                            <i class="fas fa-tasks text-zinc-600 text-lg"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-900">Manage Blog</h4>
-                            <p class="text-sm text-gray-600">Edit and track your posts</p>
-                        </div>
-                    </a>
-
-                    @if ($globalSettings->isLinkCreationEnabled())
-                        <a href="{{ route('links.create') }}"
-                            class="flex items-center p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-2xl border border-purple-200 hover:from-purple-100 hover:to-purple-200 transition-all duration-200 group">
-                            <div
-                                class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-200">
-                                <i class="fas fa-plus text-white text-lg"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900">Create New Link</h4>
-                                <p class="text-sm text-gray-600">Shorten a URL</p>
-                            </div>
-                        </a>
-                    @endif
+        <!-- Charts and Activity Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Analytics Chart -->
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                    Analytics Overview
+                    <span class="ml-auto text-xs font-normal text-gray-500">Last 7 Days</span>
+                </h3>
+                <div class="h-64">
+                    <canvas id="dashboardChart"></canvas>
                 </div>
             </div>
 
             <!-- Recent Activity -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-white/20 p-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h3>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-history text-purple-500 mr-2"></i>
+                    Recent Activity
+                </h3>
                 <div class="space-y-4">
-                    <div class="flex items-center p-4 bg-gray-50 rounded-2xl">
-                        <div class="w-10 h-10 bg-zinc-500 rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-info text-white text-sm"></i>
+                    @forelse($recentActivity as $activity)
+                        <div
+                            class="flex items-center p-3 hover:bg-gray-50 rounded-xl border border-transparent hover:border-gray-100 transition-all">
+                            <div
+                                class="w-8 h-8 rounded-full flex items-center justify-center mr-3
+                                {{ $activity['type'] == 'post' ? 'bg-purple-100 text-purple-600' : 'bg-blue-100 text-blue-600' }}">
+                                <i class="fas {{ $activity['type'] == 'post' ? 'fa-pen' : 'fa-link' }} text-xs"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <a href="{{ $activity['url'] }}"
+                                    class="text-sm font-bold text-gray-900 hover:text-purple-600 truncate block">
+                                    {{ $activity['title'] }}
+                                </a>
+                                <p class="text-xs text-gray-500">
+                                    {{ $activity['type'] == 'post' ? 'Published' : 'Created' }}
+                                    {{ $activity['time']->diffForHumans() }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <p class="font-medium text-gray-900">System Update</p>
-                            <p class="text-sm text-gray-600">Dashboard updated to Blogger-First mode.</p>
+                    @empty
+                        <div class="text-center py-8 text-gray-400">
+                            <p class="text-sm">No recent activity found.</p>
+                            <a href="{{ route('blog.create') }}"
+                                class="text-xs text-purple-600 hover:underline mt-2 inline-block">Start creating!</a>
                         </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Chart.js Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('dashboardChart').getContext('2d');
+
+            // Stats Data passed via controller
+            const labels = {!! json_encode($chartData['labels']) !!};
+            const data = {!! json_encode($chartData['data']) !!};
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Post Views',
+                        data: data,
+                        borderColor: '#8b5cf6', // purple-500
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#8b5cf6',
+                        pointHoverBackgroundColor: '#8b5cf6',
+                        pointHoverBorderColor: '#fff',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f3f4f6',
+                                borderDash: [2, 2]
+                            },
+                            ticks: {
+                                stepSize: 1
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout>

@@ -63,7 +63,47 @@ Route::middleware('auth')->group(function () {
             'total_blog_posts' => $user->blogPosts()->count(),
             'total_blog_views' => $user->blogPosts()->sum('views'),
         ];
-        return view('dashboard', compact('stats'));
+        // Chart Data: 7-Day View History
+        $endDate = now();
+        $startDate = now()->subDays(6);
+        $chartData = [
+            'labels' => [],
+            'data' => []
+        ];
+
+        for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
+            $formattedDate = $date->format('M d');
+            $chartData['labels'][] = $formattedDate;
+            // Count unique visitors for this day across all user's posts
+            $chartData['data'][] = \App\Models\BlogVisitor::whereIn('blog_post_id', $user->blogPosts()->pluck('id'))
+                ->whereDate('visited_at', $date)
+                ->count();
+        }
+
+        // Recent Activity: Recent Posts and Links
+        $recentPosts = $user->blogPosts()->latest()->take(3)->get()->map(function ($post) {
+            return [
+                'type' => 'post',
+                'title' => $post->title,
+                'time' => $post->created_at,
+                'status' => $post->status,
+                'url' => route('blog.show', $post->slug)
+            ];
+        });
+
+        $recentLinks = $user->links()->latest()->take(3)->get()->map(function ($link) {
+            return [
+                'type' => 'link',
+                'title' => $link->title,
+                'time' => $link->created_at,
+                'status' => $link->is_active ? 'Active' : 'Inactive',
+                'url' => $link->original_url
+            ];
+        });
+
+        $recentActivity = $recentPosts->concat($recentLinks)->sortByDesc('time')->take(5);
+
+        return view('dashboard', compact('stats', 'chartData', 'recentActivity'));
     })->name('dashboard');
 
     // Links management

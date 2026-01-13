@@ -122,6 +122,21 @@
                     </div>
                 </a>
 
+                <a href="{{ route('admin.blogs.index') }}"
+                    class="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-indigo-500 rounded-md flex items-center justify-center">
+                                <i class="fas fa-newspaper text-white"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-medium text-gray-900 group-hover:text-indigo-600">Manage Blogs</h3>
+                            <p class="text-sm text-gray-500">Review and manage posts</p>
+                        </div>
+                    </div>
+                </a>
+
                 <a href="{{ route('admin.links.index') }}"
                     class="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
                     <div class="flex items-center">
@@ -404,22 +419,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('admin.blogs.index') }}"
-                    class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow duration-200">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-newspaper text-indigo-600 text-xl"></i>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <div class="text-lg font-medium text-gray-900">Manage Blogs</div>
-                                <div class="text-sm text-gray-500">Review and manage posts</div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+
             </div>
 
             <!-- Recent Activities -->
