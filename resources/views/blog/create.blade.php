@@ -45,6 +45,29 @@
 
     <div class="py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Global Error Summary -->
+            @if ($errors->any())
+                <div class="mb-8 rounded-2xl bg-red-50 p-4 border border-red-100 shadow-sm">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">
+                                Whoops! There were some problems with your input.
+                            </h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <ul role="list" class="list-disc pl-5 space-y-1">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('blog.store') }}" enctype="multipart/form-data" id="blog-form">
                 @csrf
 
@@ -166,7 +189,7 @@
                                                 <i class="fas fa-hashtag"></i>
                                             </div>
                                             <input type="text" name="tags" id="tags"
-                                                value="{{ old('tags') }}"
+                                                value="{{ is_array(old('tags')) ? implode(', ', old('tags')) : old('tags') }}"
                                                 class="w-full pl-10 pr-4 py-2 bg-gray-50/50 border border-gray-100 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all text-sm font-semibold"
                                                 placeholder="laravel, php, web-development">
                                         </div>
