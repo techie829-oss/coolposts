@@ -24,9 +24,15 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- PWA Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <!-- PWA Icons -->
+    @if ($brandingSettings?->favicon)
+        <link rel="icon" href="{{ asset('storage/' . $brandingSettings->favicon) }}">
+        <link rel="apple-touch-icon" href="{{ asset('storage/' . $brandingSettings->favicon) }}">
+    @else
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    @endif
     <link rel="manifest" href="/manifest.json">
 
     <!-- Fonts -->

@@ -190,6 +190,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/ad-networks/recommended-formats', [\App\Http\Controllers\Admin\AdNetworkController::class, 'getRecommendedFormats'])->name('admin.ad-networks.recommended-formats');
         Route::post('/admin/ad-networks/clear-cache', [\App\Http\Controllers\Admin\AdNetworkController::class, 'clearCache'])->name('admin.ad-networks.clear-cache');
         Route::get('/admin/ad-networks/configuration-guide', [\App\Http\Controllers\Admin\AdNetworkController::class, 'getConfigurationGuide'])->name('admin.ad-networks.configuration-guide');
+        Route::get('/admin/ad-networks/configuration-guide', [\App\Http\Controllers\Admin\AdNetworkController::class, 'getConfigurationGuide'])->name('admin.ad-networks.configuration-guide');
+
+        // Blog Management
+        Route::get('/admin/blogs', [\App\Http\Controllers\Admin\BlogController::class, 'index'])->name('admin.blogs.index');
+        Route::get('/admin/blogs/{blogPost}', [\App\Http\Controllers\Admin\BlogController::class, 'show'])->name('admin.blogs.show');
+        Route::patch('/admin/blogs/{blogPost}/status', [\App\Http\Controllers\Admin\BlogController::class, 'updateStatus'])->name('admin.blogs.update-status');
+        Route::delete('/admin/blogs/{blogPost}', [\App\Http\Controllers\Admin\BlogController::class, 'destroy'])->name('admin.blogs.destroy');
     });
 
     // Performance Management
