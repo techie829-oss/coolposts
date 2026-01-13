@@ -249,8 +249,15 @@ class BlogController extends Controller
     {
         $post = BlogPost::with(['user', 'visitors'])
             ->where('slug', $slug)
-            ->published()
             ->firstOrFail();
+
+        // Check if post is published or accessible by current user
+        if ($post->status !== 'published') {
+            $user = Auth::user();
+            if (!$user || ($user->id !== $post->user_id && !$user->isAdmin())) {
+                abort(404);
+            }
+        }
 
         // Track visitor
         $this->trackVisitor($post);

@@ -45,6 +45,7 @@
                         <thead>
                             <tr
                                 class="bg-gray-50 border-b border-gray-100 text-xs uppercase text-gray-500 font-semibold">
+                                <th class="px-6 py-4 w-20">Image</th>
                                 <th class="px-6 py-4">Title</th>
                                 <th class="px-6 py-4 text-center">Status</th>
                                 <th class="px-6 py-4 text-center">Views</th>
@@ -56,6 +57,20 @@
                         <tbody class="divide-y divide-gray-50">
                             @foreach ($posts as $post)
                                 <tr class="hover:bg-gray-50/50 transition">
+                                    <td class="px-6 py-4">
+                                        <div
+                                            class="h-12 w-16 rounded-lg bg-gray-100 overflow-hidden border border-gray-100 relative group">
+                                            @if ($post->featured_image)
+                                                <img src="{{ $post->featured_image }}" alt=""
+                                                    class="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                            @else
+                                                <div
+                                                    class="flex items-center justify-center h-full w-full text-gray-300">
+                                                    <i class="fas fa-image text-lg"></i>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4">
                                         <div class="font-medium text-gray-900 mb-1">
                                             <a href="{{ route('blog.show', $post->slug) }}"
@@ -111,6 +126,11 @@
                                                 class="p-2 text-gray-400 hover:text-blue-600 transition"
                                                 title="Analytics">
                                                 <i class="fas fa-chart-line"></i>
+                                            </a>
+                                            <a href="{{ route('blog.show', $post->slug) }}"
+                                                class="p-2 text-gray-400 hover:text-purple-600 transition"
+                                                title="Preview" target="_blank">
+                                                <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="{{ route('blog.edit', $post) }}"
                                                 class="p-2 text-gray-400 hover:text-green-600 transition"
