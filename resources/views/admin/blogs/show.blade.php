@@ -68,22 +68,30 @@
                                     class="flex items-center ml-2">
                                     @csrf
                                     @method('PATCH')
-                                    <select name="status"
-                                        class="text-xs border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 mr-2"
-                                        required>
-                                        <option value="draft" {{ $blogPost->status === 'draft' ? 'selected' : '' }}>
-                                            Draft</option>
-                                        <option value="published"
-                                            {{ $blogPost->status === 'published' ? 'selected' : '' }}>Published
-                                        </option>
-                                        <option value="scheduled"
-                                            {{ $blogPost->status === 'scheduled' ? 'selected' : '' }}>Scheduled
-                                        </option>
-                                        <option value="archived"
-                                            {{ $blogPost->status === 'archived' ? 'selected' : '' }}>Archived</option>
-                                    </select>
+                                    <div class="relative mr-2">
+                                        <select name="status"
+                                            class="pl-4 pr-10 py-1.5 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all appearance-none cursor-pointer text-xs font-bold uppercase tracking-wider text-gray-700"
+                                            required>
+                                            <option value="draft"
+                                                {{ $blogPost->status === 'draft' ? 'selected' : '' }}>
+                                                Draft</option>
+                                            <option value="published"
+                                                {{ $blogPost->status === 'published' ? 'selected' : '' }}>Published
+                                            </option>
+                                            <option value="scheduled"
+                                                {{ $blogPost->status === 'scheduled' ? 'selected' : '' }}>Scheduled
+                                            </option>
+                                            <option value="archived"
+                                                {{ $blogPost->status === 'archived' ? 'selected' : '' }}>Archived
+                                            </option>
+                                        </select>
+                                        <div
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
+                                            <i class="fas fa-chevron-down text-[10px]"></i>
+                                        </div>
+                                    </div>
                                     <button type="submit"
-                                        class="text-xs px-2 py-1 bg-indigo-50 text-indigo-700 rounded hover:bg-indigo-100">Update</button>
+                                        class="text-xs px-3 py-1.5 bg-purple-50 text-purple-700 font-bold uppercase tracking-wider rounded-lg hover:bg-purple-100 transition-colors">Update</button>
                                 </form>
                             </div>
                         </div>
