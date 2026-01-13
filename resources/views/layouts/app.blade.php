@@ -748,7 +748,7 @@
                             class="flex flex-col sm:flex-row gap-2 w-full">
                             @csrf
                             <input type="email" name="email" placeholder="Enter your email" required
-                                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent min-w-0">
+                                class="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all min-w-0">
                             <button type="submit"
                                 class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 whitespace-nowrap flex-shrink-0">
                                 Subscribe
