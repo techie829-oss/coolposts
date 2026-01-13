@@ -194,9 +194,9 @@ Route::middleware('auth')->group(function () {
 
         // Blog Management
         Route::get('/admin/blogs', [\App\Http\Controllers\Admin\BlogController::class, 'index'])->name('admin.blogs.index');
-        Route::get('/admin/blogs/{blogPost}', [\App\Http\Controllers\Admin\BlogController::class, 'show'])->name('admin.blogs.show');
-        Route::patch('/admin/blogs/{blogPost}/status', [\App\Http\Controllers\Admin\BlogController::class, 'updateStatus'])->name('admin.blogs.update-status');
-        Route::delete('/admin/blogs/{blogPost}', [\App\Http\Controllers\Admin\BlogController::class, 'destroy'])->name('admin.blogs.destroy');
+        Route::get('/admin/blogs/{blogPost:id}', [\App\Http\Controllers\Admin\BlogController::class, 'show'])->name('admin.blogs.show');
+        Route::patch('/admin/blogs/{blogPost:id}/status', [\App\Http\Controllers\Admin\BlogController::class, 'updateStatus'])->name('admin.blogs.update-status');
+        Route::delete('/admin/blogs/{blogPost:id}', [\App\Http\Controllers\Admin\BlogController::class, 'destroy'])->name('admin.blogs.destroy');
     });
 
     // Performance Management
