@@ -117,7 +117,7 @@
                     <div class="space-y-6">
                         @if ($blogPost->featured_image)
                             <div class="w-full h-64 overflow-hidden rounded-lg mb-6">
-                                <img src="{{ asset('storage/' . $blogPost->featured_image) }}" alt="Featured Image"
+                                <img src="{{ $blogPost->featured_image }}" alt="Featured Image"
                                     class="w-full h-full object-cover">
                             </div>
                         @endif

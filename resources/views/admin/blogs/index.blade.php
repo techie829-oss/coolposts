@@ -78,8 +78,7 @@
                                                 @if ($post->featured_image)
                                                     <div class="flex-shrink-0 h-10 w-10">
                                                         <img class="h-10 w-10 rounded-md object-cover"
-                                                            src="{{ asset('storage/' . $post->featured_image) }}"
-                                                            alt="">
+                                                            src="{{ $post->featured_image }}" alt="">
                                                     </div>
                                                 @endif
                                                 <div class="ml-4">
