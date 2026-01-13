@@ -10,6 +10,16 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\SocialAuthController;
+
+Route::get('auth/{provider}', [SocialAuthController::class, 'redirectToProvider'])
+    ->where('provider', 'google|linkedin')
+    ->name('social.login');
+
+Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])
+    ->where('provider', 'google|linkedin')
+    ->name('social.callback');
+
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])

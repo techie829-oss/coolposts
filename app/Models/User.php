@@ -37,6 +37,9 @@ class User extends Authenticatable
         'ai_access_enabled',
         'ai_content_optimization_enabled',
         'ai_access_notes',
+        'google_id',
+        'linkedin_id',
+        'social_avatar',
     ];
 
     /**
