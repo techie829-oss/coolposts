@@ -479,7 +479,11 @@ class BlogController extends Controller
 
         // SMART TRACKING LOGIC - Skip tracking for:
 
+        // SMART TRACKING LOGIC - Skip tracking for:
+
         // 1. Self visits (user visiting their own blog)
+        // Allowing self-visits for now so users can verify counter works
+        /*
         if ($currentUser && $currentUser->id === $post->user_id) {
             Log::info('Self visit detected, skipping tracking', [
                 'user_id' => $currentUser->id,
@@ -488,6 +492,7 @@ class BlogController extends Controller
             ]);
             return;
         }
+        */
 
         // 2. Check if tab is active (will be validated via AJAX)
         $isTabActive = $request->input('tab_active', true);
@@ -515,10 +520,10 @@ class BlogController extends Controller
             }
         }
 
-        // Check if this is a unique visit (same IP, same post, within 24 hours)
+        // Check if this is a unique visit (same IP, same post, within 30 minutes session)
         $existingVisit = $post->visitors()
             ->where('ip_address', $ip)
-            ->where('visited_at', '>=', now()->subDay())
+            ->where('visited_at', '>=', now()->subMinutes(30))
             ->first();
 
         $isUniqueVisit = !$existingVisit;

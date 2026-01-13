@@ -402,25 +402,7 @@
 
     @push('scripts')
         <script>
-            // Track unique views
-            document.addEventListener('DOMContentLoaded', function() {
-                const postId = {{ $post->id }};
-                const viewedPosts = JSON.parse(localStorage.getItem('viewed_posts') || '[]');
-
-                if (!viewedPosts.includes(postId)) {
-                    fetch(`/blog/${postId}/view`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(() => {
-                        viewedPosts.push(postId);
-                        localStorage.setItem('viewed_posts', JSON.stringify(viewedPosts));
-                    });
-                }
-            });
+            // Optional: Add Time-on-page tracking here in future
         </script>
     @endpush
 </x-app-layout>
