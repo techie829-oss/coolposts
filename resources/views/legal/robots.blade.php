@@ -14,9 +14,10 @@ Allow: /refund-policy
 Allow: /dmca
 Allow: /gdpr
 
-# Block authentication pages
-Disallow: /login
-Disallow: /register
+# Note: Auth pages (/login, /register) and /subscriptions are crawlable
+# but use noindex meta tags to prevent indexing
+
+# Block password reset and email verification pages
 Disallow: /forgot-password
 Disallow: /reset-password
 Disallow: /verify-email
@@ -26,7 +27,6 @@ Disallow: /email/verify
 Disallow: /dashboard
 Disallow: /admin
 Disallow: /user/*
-Disallow: /subscriptions
 Disallow: /withdrawals
 Disallow: /analytics
 Disallow: /realtime
