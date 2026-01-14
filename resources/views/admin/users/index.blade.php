@@ -5,10 +5,12 @@
                 {{ __('Manage Users') }}
             </h2>
             <div class="flex gap-3">
-                <a href="{{ route('admin.user-management') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                <a href="{{ route('admin.user-management') }}"
+                    class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                     <i class="fas fa-robot mr-2"></i>AI Features Management
                 </a>
-                <a href="{{ route('admin.dashboard') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                <a href="{{ route('admin.dashboard') }}"
+                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                     <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
                 </a>
             </div>
@@ -23,21 +25,27 @@
                     <form method="GET" action="{{ route('admin.users.index') }}" class="flex flex-wrap gap-4">
                         <div class="flex-1 min-w-64">
                             <input type="text" name="search" value="{{ request('search') }}"
-                                   placeholder="Search by name, email, or role..."
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                placeholder="Search by name, email, or role..."
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div class="flex gap-2">
-                            <select name="role" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <select name="role"
+                                class="w-full sm:w-auto min-w-[120px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 cursor-pointer">
                                 <option value="">All Roles</option>
                                 <option value="user" {{ request('role') === 'user' ? 'selected' : '' }}>User</option>
-                                <option value="admin" {{ request('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="admin" {{ request('role') === 'admin' ? 'selected' : '' }}>Admin
+                                </option>
                             </select>
-                            <select name="status" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <select name="status"
+                                class="w-full sm:w-auto min-w-[120px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 cursor-pointer">
                                 <option value="">All Status</option>
-                                <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active
+                                </option>
+                                <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>
+                                    Inactive</option>
                             </select>
-                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                            <button type="submit"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                                 <i class="fas fa-search mr-2"></i>Search
                             </button>
                         </div>
@@ -48,39 +56,58 @@
             <!-- Users Table -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    @if($users->count() > 0)
+                    @if ($users->count() > 0)
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Currency</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Links</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Earnings</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            User</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Role</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Currency</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Balance</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Links</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Earnings</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Joined</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($users as $user)
+                                    @foreach ($users as $user)
                                         <tr class="hover:bg-gray-50">
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="flex items-center">
                                                     <div class="flex-shrink-0 h-10 w-10">
-                                                        <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                                                        <div
+                                                            class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
                                                             {{ strtoupper(substr($user->name, 0, 1)) }}
                                                         </div>
                                                     </div>
                                                     <div class="ml-4">
-                                                        <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
+                                                        <div class="text-sm font-medium text-gray-900">
+                                                            {{ $user->name }}</div>
                                                         <div class="text-sm text-gray-500">{{ $user->email }}</div>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $user->role === 'admin' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $user->role === 'admin' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
                                                     {{ ucfirst($user->role) }}
                                                 </span>
                                             </td>
@@ -88,7 +115,7 @@
                                                 {{ $user->preferred_currency ?? 'INR' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                @if($user->preferred_currency === 'USD')
+                                                @if ($user->preferred_currency === 'USD')
                                                     ${{ number_format($user->balance_usd, 2) }}
                                                 @else
                                                     ₹{{ number_format($user->balance_inr, 2) }}
@@ -98,7 +125,7 @@
                                                 {{ $user->links_count ?? 0 }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                @if($user->preferred_currency === 'USD')
+                                                @if ($user->preferred_currency === 'USD')
                                                     ${{ number_format($user->total_earnings_usd ?? 0, 2) }}
                                                 @else
                                                     ₹{{ number_format($user->total_earnings_inr ?? 0, 2) }}
@@ -110,16 +137,16 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                 <div class="flex space-x-2">
                                                     <a href="{{ route('admin.users.show', $user) }}"
-                                                       class="text-blue-600 hover:text-blue-900">
+                                                        class="text-blue-600 hover:text-blue-900">
                                                         <i class="fas fa-eye mr-1"></i>View
                                                     </a>
                                                     <button onclick="toggleUserRole({{ $user->id }})"
-                                                            class="text-yellow-600 hover:text-yellow-900">
+                                                        class="text-yellow-600 hover:text-yellow-900">
                                                         <i class="fas fa-user-edit mr-1"></i>Role
                                                     </button>
-                                                    @if($user->id !== auth()->id())
+                                                    @if ($user->id !== auth()->id())
                                                         <button onclick="deleteUser({{ $user->id }})"
-                                                                class="text-red-600 hover:text-red-900">
+                                                            class="text-red-600 hover:text-red-900">
                                                             <i class="fas fa-trash mr-1"></i>Delete
                                                         </button>
                                                     @endif
@@ -157,14 +184,15 @@
                     @method('PATCH')
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">New Role</label>
-                        <select name="role" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <select name="role"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                             <option value="user">User</option>
                             <option value="admin">Admin</option>
                         </select>
                     </div>
                     <div class="flex justify-end space-x-3">
                         <button type="button" onclick="closeRoleModal()"
-                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
                             Cancel
                         </button>
                         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">

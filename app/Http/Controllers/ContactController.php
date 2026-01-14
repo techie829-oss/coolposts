@@ -20,9 +20,11 @@ class ContactController extends Controller
             'message' => 'required|string|max:5000',
         ]);
 
-        // For now, since mail setup might not be configured, we'll log the message
-        // In a real app, you would send an email here.
-        Log::info('Contact Form Submission:', $validated);
+        // Create the contact message in the database
+        \App\Models\ContactMessage::create($validated);
+
+        // Log for redundancy
+        Log::info('Contact Form Submission Saved:', $validated);
 
         // Flash success message
         return back()->with('success', 'Thank you for contacting us! We have received your message and will get back to you shortly.');

@@ -21,8 +21,8 @@
                         'url' => asset('img/logo.png'),
                     ],
                 ],
-                'datePublished' => $post->published_at->toIso8601String(),
-                'dateModified' => $post->updated_at->toIso8601String(),
+                'datePublished' => ($post->published_at ?? $post->created_at)->toIso8601String(),
+                'dateModified' => ($post->updated_at ?? $post->created_at)->toIso8601String(),
                 'image' => [
                     '@type' => 'ImageObject',
                     'url' => $post->featured_image ? $post->featured_image : asset('images/og-blog.jpg'),
@@ -66,7 +66,8 @@
             content="{{ $post->featured_image ? $post->featured_image : asset('images/og-blog.jpg') }}">
         <meta property="og:site_name" content="CoolPosts">
         <meta property="og:locale" content="en_US">
-        <meta property="article:published_time" content="{{ $post->published_at->toISOString() }}">
+        <meta property="article:published_time"
+            content="{{ ($post->published_at ?? $post->created_at)->toIso8601String() }}">
         @if ($post->tags && is_array($post->tags))
             @foreach ($post->tags as $tag)
                 <meta property="article:tag" content="{{ trim($tag) }}">

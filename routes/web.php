@@ -178,6 +178,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/global-settings', [AdminController::class, 'globalSettings'])->name('global-settings');
         Route::post('/global-settings', [AdminController::class, 'updateGlobalSettings'])->name('global-settings.update');
 
+        // Contact Messages
+        Route::get('/admin/contact-messages', [AdminController::class, 'contactMessages'])->name('admin.contact.index');
+        Route::patch('/admin/contact-messages/{message}/status', [AdminController::class, 'updateContactMessageStatus'])->name('admin.contact.update-status');
+
         // Branding Settings
         Route::get('/branding-settings', [AdminController::class, 'brandingSettings'])->name('branding-settings');
         Route::post('/branding-settings', [AdminController::class, 'updateBrandingSettings'])->name('branding-settings.update');

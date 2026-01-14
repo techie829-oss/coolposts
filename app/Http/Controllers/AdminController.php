@@ -443,6 +443,55 @@ class AdminController extends Controller
     }
 
     /**
+     * Show contact messages
+     */
+    public function contactMessages(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Access denied. Admin privileges required.');
+        }
+
+        $query = \App\Models\ContactMessage::query();
+
+        // Filter by status
+        if ($request->filled('status')) {
+            if ($request->status === 'read') {
+                $query->where('is_read', true);
+            } elseif ($request->status === 'unread') {
+                $query->where('is_read', false);
+            }
+        }
+
+        // Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('subject', 'like', "%{$search}%");
+            });
+        }
+
+        $messages = $query->orderBy('created_at', 'desc')->paginate(20);
+
+        return view('admin.contact.index', compact('messages'));
+    }
+
+    /**
+     * Update contact message status
+     */
+    public function updateContactMessageStatus(Request $request, \App\Models\ContactMessage $message)
+    {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Access denied. Admin privileges required.');
+        }
+
+        $message->update(['is_read' => $request->boolean('is_read')]);
+
+        return back()->with('success', 'Message status updated.');
+    }
+
+    /**
      * Show system analytics
      */
     public function systemAnalytics()
