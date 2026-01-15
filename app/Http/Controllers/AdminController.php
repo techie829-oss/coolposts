@@ -1262,15 +1262,29 @@ class AdminController extends Controller
      */
     protected function getDiskUsage(): array
     {
-        $totalSpace = disk_total_space(storage_path());
-        $freeSpace = disk_free_space(storage_path());
+        $path = storage_path();
+        $totalSpace = @disk_total_space($path);
+
+        // Fallback for environments where disk functions fail or return 0
+        if ($totalSpace === false || $totalSpace <= 0) {
+            $totalSpace = 1024 * 1024 * 1024 * 10; // 10GB default assumption
+        }
+
+        $freeSpace = @disk_free_space($path);
+        if ($freeSpace === false) {
+            $freeSpace = 0;
+        }
+
         $usedSpace = $totalSpace - $freeSpace;
+
+        // Prevent division by zero
+        $percentage = $totalSpace > 0 ? round(($usedSpace / $totalSpace) * 100, 2) : 0;
 
         return [
             'total' => round($totalSpace / 1024 / 1024 / 1024, 2),
             'used' => round($usedSpace / 1024 / 1024 / 1024, 2),
             'free' => round($freeSpace / 1024 / 1024 / 1024, 2),
-            'percentage' => round(($usedSpace / $totalSpace) * 100, 2),
+            'percentage' => $percentage,
         ];
     }
 
@@ -1357,8 +1371,17 @@ class AdminController extends Controller
      */
     protected function parseMemoryLimit(string $limit): int
     {
+        if ($limit === '-1') {
+            return 1024 * 1024 * 1024 * 128; // Return 128GB (practically unlimited)
+        }
+
         $unit = strtolower(substr($limit, -1));
         $value = (int) substr($limit, 0, -1);
+
+        // If no unit, it's already bytes
+        if (is_numeric($limit)) {
+            return (int) $limit;
+        }
 
         switch ($unit) {
             case 'k':
