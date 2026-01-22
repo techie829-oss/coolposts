@@ -220,7 +220,7 @@ class BlogController extends Controller
             'meta_description' => $request->input('meta_description'),
             'meta_keywords' => $request->input('meta_keywords'),
             'canonical_url' => $request->input('canonical_url'),
-            'is_monetized' => $request->boolean('is_monetized', true),
+            'is_monetized' => $request->boolean('is_monetized', false),
             'monetization_type' => $request->input('monetization_type') ?: $globalSettings->default_blog_monetization_type,
             'ad_type' => $request->input('ad_type') ?: $globalSettings->default_blog_ad_type,
             'earning_rate_less_2min' => $request->input('earning_rate_less_2min') ?: $globalSettings->default_blog_earning_rate_less_2min_inr,
@@ -331,6 +331,18 @@ class BlogController extends Controller
 
         $this->authorize('update', $post);
 
+        // Check if scheduled_at validation is needed (prevent issues when editing existing scheduled posts)
+        $scheduledRule = 'nullable|date|required_if:status,scheduled';
+
+        // Only enforce after:now if the scheduled time is being changed
+        if ($request->status === 'scheduled') {
+            $newTime = \Carbon\Carbon::parse($request->scheduled_at);
+            // If post was not scheduled before, OR if the time has changed significantly (more than 1 minute diff)
+            if (!$post->scheduled_at || $post->scheduled_at->diffInMinutes($newTime) > 1) {
+                $scheduledRule .= '|after:now';
+            }
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
@@ -354,7 +366,7 @@ class BlogController extends Controller
             'ad_type' => 'nullable|in:' . implode(',', array_keys(BlogPost::AD_TYPES)),
             'ad_frequency' => 'nullable|integer|min:1|max:10',
             'status' => 'required|in:draft,published,archived,scheduled',
-            'scheduled_at' => 'nullable|date|after:now|required_if:status,scheduled',
+            'scheduled_at' => $scheduledRule,
         ]);
 
         // Handle featured image
@@ -428,7 +440,7 @@ class BlogController extends Controller
             'meta_description' => $request->input('meta_description'),
             'meta_keywords' => $request->input('meta_keywords'),
             'canonical_url' => $request->input('canonical_url'),
-            'is_monetized' => $request->boolean('is_monetized', true),
+            'is_monetized' => $request->boolean('is_monetized', false),
             'monetization_type' => $request->input('monetization_type'),
             'earning_rate_less_2min' => $request->input('earning_rate_less_2min'),
             'earning_rate_2_5min' => $request->input('earning_rate_2_5min'),
