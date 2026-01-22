@@ -85,10 +85,15 @@
                                         class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 px-1">
                                         Post Title <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="title" id="title" value="{{ old('title') }}"
-                                        required
-                                        class="w-full px-4 py-2.5 text-lg font-bold text-gray-900 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all placeholder:text-gray-300"
-                                        placeholder="Enter a captivating title...">
+                                    <div class="relative">
+                                        <input type="text" name="title" id="title" value="{{ old('title') }}"
+                                            required maxlength="255"
+                                            class="w-full px-4 py-2.5 text-lg font-bold text-gray-900 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all placeholder:text-gray-300"
+                                            placeholder="Enter a captivating title...">
+                                        <div class="absolute right-2 bottom-2 text-[10px] font-bold text-gray-400">
+                                            <span id="title_count">0</span>/255
+                                        </div>
+                                    </div>
                                     @error('title')
                                         <p class="mt-2 text-sm text-red-600 font-medium">{{ $message }}</p>
                                     @enderror
@@ -205,9 +210,14 @@
                                         class="block text-sm font-bold text-gray-500 uppercase tracking-widest">
                                         Short Excerpt
                                     </label>
-                                    <textarea name="excerpt" id="excerpt" rows="3"
-                                        class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all resize-none placeholder:text-gray-400 text-sm font-medium"
-                                        placeholder="A brief summary of your post for link listings...">{{ old('excerpt') }}</textarea>
+                                    <div class="relative">
+                                        <textarea name="excerpt" id="excerpt" rows="3" maxlength="500"
+                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all resize-none placeholder:text-gray-400 text-sm font-medium"
+                                            placeholder="A brief summary of your post for link listings...">{{ old('excerpt') }}</textarea>
+                                        <div class="absolute right-2 bottom-2 text-[10px] font-bold text-gray-400">
+                                            <span id="excerpt_count">0</span>/500
+                                        </div>
+                                    </div>
                                     @error('excerpt')
                                         <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                     @enderror
@@ -594,18 +604,28 @@
                                         <label for="meta_title"
                                             class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1 font-semibold text-gray-700">SEO
                                             Title</label>
-                                        <input type="text" name="meta_title" id="meta_title"
-                                            value="{{ old('meta_title') }}"
-                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-sm transition-all font-semibold"
-                                            placeholder="Leave empty for auto-title">
+                                        <div class="relative">
+                                            <input type="text" name="meta_title" id="meta_title"
+                                                value="{{ old('meta_title') }}" maxlength="60"
+                                                class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-sm transition-all font-semibold"
+                                                placeholder="Leave empty for auto-title">
+                                            <div class="absolute right-2 bottom-2 text-[10px] font-bold text-gray-400">
+                                                <span id="meta_title_count">0</span>/60
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <label for="meta_description"
                                             class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1 font-semibold text-gray-700">Meta
                                             Description</label>
-                                        <textarea name="meta_description" id="meta_description" rows="3"
-                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs transition-all resize-none font-medium"
-                                            placeholder="Write summary for search engines...">{{ old('meta_description') }}</textarea>
+                                        <div class="relative">
+                                            <textarea name="meta_description" id="meta_description" rows="3" maxlength="160"
+                                                class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs transition-all resize-none font-medium"
+                                                placeholder="Write summary for search engines...">{{ old('meta_description') }}</textarea>
+                                            <div class="absolute right-2 bottom-2 text-[10px] font-bold text-gray-400">
+                                                <span id="meta_description_count">0</span>/160
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -771,6 +791,58 @@
                 }
                 reader.readAsDataURL(file);
             }
+        });
+
+        // Live Character Counters
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = [{
+                    id: 'title',
+                    max: 255
+                },
+                {
+                    id: 'excerpt',
+                    max: 500
+                },
+                {
+                    id: 'meta_title',
+                    max: 60
+                },
+                {
+                    id: 'meta_description',
+                    max: 160
+                }
+            ];
+
+            inputs.forEach(item => {
+                const input = document.getElementById(item.id);
+                const counter = document.getElementById(item.id + '_count');
+
+                if (input && counter) {
+                    const updateCount = () => {
+                        const len = input.value.length;
+                        counter.textContent = len;
+
+                        // Visual highlighting
+                        if (len >= item.max) {
+                            counter.parentElement.classList.remove('text-gray-400', 'text-amber-500');
+                            counter.parentElement.classList.add('text-red-500');
+                            input.classList.add('border-red-300', 'bg-red-50');
+                        } else if (len >= item.max * 0.9) {
+                            counter.parentElement.classList.remove('text-gray-400', 'text-red-500');
+                            counter.parentElement.classList.add('text-amber-500');
+                            input.classList.remove('border-red-300', 'bg-red-50');
+                        } else {
+                            counter.parentElement.classList.remove('text-red-500', 'text-amber-500');
+                            counter.parentElement.classList.add('text-gray-400');
+                            input.classList.remove('border-red-300', 'bg-red-50');
+                        }
+                    };
+
+                    input.addEventListener('input', updateCount);
+                    // Init on load
+                    updateCount();
+                }
+            });
         });
 
         // Preview Content

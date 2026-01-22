@@ -50,6 +50,29 @@
 
     <div class="py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Global Error Summary -->
+            @if ($errors->any())
+                <div class="mb-8 rounded-2xl bg-red-50 p-4 border border-red-100 shadow-sm">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">
+                                Whoops! There were some problems with your input.
+                            </h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <ul role="list" class="list-disc pl-5 space-y-1">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('blog.update', $post) }}" enctype="multipart/form-data"
                 id="blog-form">
                 @csrf
@@ -69,10 +92,15 @@
                                         class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 px-1">
                                         Post Title <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="title" id="title"
-                                        value="{{ old('title', $post->title) }}" required
-                                        class="w-full px-4 py-2.5 text-lg font-bold text-gray-900 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all placeholder:text-gray-300"
-                                        placeholder="Enter a captivating title...">
+                                    <div class="relative">
+                                        <input type="text" name="title" id="title"
+                                            value="{{ old('title', $post->title) }}" required maxlength="255"
+                                            class="w-full px-4 py-2.5 text-lg font-bold text-gray-900 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all placeholder:text-gray-300"
+                                            placeholder="Enter a captivating title...">
+                                        <div class="absolute right-2 bottom-2 text-[10px] font-bold text-gray-400">
+                                            <span id="title_count">0</span>/255
+                                        </div>
+                                    </div>
                                     @error('title')
                                         <p class="mt-2 text-sm text-red-600 font-medium">{{ $message }}</p>
                                     @enderror
@@ -189,9 +217,14 @@
                                         class="block text-sm font-bold text-gray-500 uppercase tracking-widest">
                                         Short Excerpt
                                     </label>
-                                    <textarea name="excerpt" id="excerpt" rows="3"
-                                        class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all resize-none placeholder:text-gray-400 text-sm"
-                                        placeholder="A brief summary of your post for link listings...">{{ old('excerpt', $post->excerpt) }}</textarea>
+                                    <div class="relative">
+                                        <textarea name="excerpt" id="excerpt" rows="3" maxlength="500"
+                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white transition-all resize-none placeholder:text-gray-400 text-sm"
+                                            placeholder="A brief summary of your post for link listings...">{{ old('excerpt', $post->excerpt) }}</textarea>
+                                        <div class="absolute right-2 bottom-2 text-[10px] font-bold text-gray-400">
+                                            <span id="excerpt_count">0</span>/500
+                                        </div>
+                                    </div>
                                     @error('excerpt')
                                         <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                     @enderror
@@ -744,19 +777,29 @@
                                         <label for="meta_title"
                                             class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">SEO
                                             Title</label>
-                                        <input type="text" name="meta_title" id="meta_title"
-                                            value="{{ old('meta_title', $post->meta_title) }}"
-                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-sm transition-all"
-                                            placeholder="Leave empty for auto-title">
+                                        <div class="relative">
+                                            <input type="text" name="meta_title" id="meta_title"
+                                                value="{{ old('meta_title', $post->meta_title) }}" maxlength="60"
+                                                class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-sm transition-all"
+                                                placeholder="Leave empty for auto-title">
+                                            <div class="absolute right-2 bottom-2 text-[10px] font-bold text-gray-400">
+                                                <span id="meta_title_count">0</span>/60
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div>
                                         <label for="meta_description"
                                             class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Meta
                                             Description</label>
-                                        <textarea name="meta_description" id="meta_description" rows="3"
-                                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs transition-all resize-none"
-                                            placeholder="Write summary for search engines...">{{ old('meta_description', $post->meta_description) }}</textarea>
+                                        <div class="relative">
+                                            <textarea name="meta_description" id="meta_description" rows="3" maxlength="160"
+                                                class="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 text-xs transition-all resize-none"
+                                                placeholder="Write summary for search engines...">{{ old('meta_description', $post->meta_description) }}</textarea>
+                                            <div class="absolute right-2 bottom-2 text-[10px] font-bold text-gray-400">
+                                                <span id="meta_description_count">0</span>/160
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div>
@@ -1133,143 +1176,196 @@
             }
             // Image Upload Engine (Preview & Client-side Compression)
             document.addEventListener('DOMContentLoaded', function() {
-                const MAX_WIDTH = 1920;
-                const MAX_SIZE_MB = 2;
+            const MAX_WIDTH = 1920;
+            const MAX_SIZE_MB = 2;
 
-                // Handle Featured Image
-                const featuredInput = document.getElementById('featured_image');
-                const featuredPreview = document.getElementById('featured_image_preview');
-                const featuredImg = featuredPreview ? featuredPreview.querySelector('img') : null;
-                const featuredInfo = document.getElementById('featured_image_info');
+            // Handle Featured Image
+            const featuredInput = document.getElementById('featured_image');
+            const featuredPreview = document.getElementById('featured_image_preview');
+            const featuredImg = featuredPreview ? featuredPreview.querySelector('img') : null;
+            const featuredInfo = document.getElementById('featured_image_info');
 
-                if (featuredInput && featuredPreview) {
-                    featuredInput.addEventListener('change', function(e) {
-                        const file = e.target.files[0];
-                        if (!file) return;
+            if (featuredInput && featuredPreview) {
+                featuredInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
 
+                    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+                        // Compress
+                        processImage(file, (compressedBlob) => {
+                            // Create new file from blob
+                            const newFile = new File([compressedBlob], file.name, {
+                                type: 'image/webp',
+                                lastModified: Date.now()
+                            });
+
+                            // Update input files (requires DataTransfer)
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(newFile);
+                            featuredInput.files = dataTransfer.files;
+
+                            // Show preview
+                            showPreview(newFile, featuredPreview, featuredImg, featuredInfo, true);
+                        });
+                    } else {
+                        // Just show preview
+                        showPreview(file, featuredPreview, featuredImg, featuredInfo, false);
+                    }
+                });
+            }
+
+            // Handle Gallery Images
+            const galleryInput = document.getElementById('gallery_images');
+            const galleryContainer = document.getElementById('gallery_preview_container');
+            const galleryPreviews = document.getElementById('gallery_previews');
+
+            if (galleryInput && galleryContainer) {
+                galleryInput.addEventListener('change', async function(e) {
+                    const files = Array.from(e.target.files);
+                    if (!files.length) return;
+
+                    galleryPreviews.innerHTML = ''; // Clear previous
+                    galleryContainer.classList.remove('hidden');
+
+                    const dataTransfer = new DataTransfer();
+                    let processedCount = 0;
+
+                    for (const file of files) {
                         if (file.size > MAX_SIZE_MB * 1024 * 1024) {
                             // Compress
-                            processImage(file, (compressedBlob) => {
-                                // Create new file from blob
-                                const newFile = new File([compressedBlob], file.name, {
-                                    type: 'image/webp',
-                                    lastModified: Date.now()
+                            await new Promise(resolve => {
+                                processImage(file, (compressedBlob) => {
+                                    const newFile = new File([compressedBlob], file
+                                        .name, {
+                                            type: 'image/webp',
+                                            lastModified: Date.now()
+                                        });
+                                    dataTransfer.items.add(newFile);
+                                    addGalleryPreview(newFile, galleryPreviews, true);
+                                    resolve();
                                 });
-
-                                // Update input files (requires DataTransfer)
-                                const dataTransfer = new DataTransfer();
-                                dataTransfer.items.add(newFile);
-                                featuredInput.files = dataTransfer.files;
-
-                                // Show preview
-                                showPreview(newFile, featuredPreview, featuredImg, featuredInfo, true);
                             });
                         } else {
-                            // Just show preview
-                            showPreview(file, featuredPreview, featuredImg, featuredInfo, false);
-                        }
-                    });
-                }
-
-                // Handle Gallery Images
-                const galleryInput = document.getElementById('gallery_images');
-                const galleryContainer = document.getElementById('gallery_preview_container');
-                const galleryPreviews = document.getElementById('gallery_previews');
-
-                if (galleryInput && galleryContainer) {
-                    galleryInput.addEventListener('change', async function(e) {
-                        const files = Array.from(e.target.files);
-                        if (!files.length) return;
-
-                        galleryPreviews.innerHTML = ''; // Clear previous
-                        galleryContainer.classList.remove('hidden');
-
-                        const dataTransfer = new DataTransfer();
-                        let processedCount = 0;
-
-                        for (const file of files) {
-                            if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-                                // Compress
-                                await new Promise(resolve => {
-                                    processImage(file, (compressedBlob) => {
-                                        const newFile = new File([compressedBlob], file
-                                            .name, {
-                                                type: 'image/webp',
-                                                lastModified: Date.now()
-                                            });
-                                        dataTransfer.items.add(newFile);
-                                        addGalleryPreview(newFile, galleryPreviews, true);
-                                        resolve();
-                                    });
-                                });
-                            } else {
-                                dataTransfer.items.add(file);
-                                addGalleryPreview(file, galleryPreviews, false);
-                            }
-                        }
-
-                        // Update input with optimized files
-                        galleryInput.files = dataTransfer.files;
-                    });
-                }
-
-                function showPreview(file, container, img, infoStr, isOptimized) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        img.src = e.target.result;
-                        container.classList.remove('hidden');
-                        if (infoStr) {
-                            infoStr.textContent = isOptimized ?
-                                `Optimized: ${(file.size / 1024).toFixed(1)} KB (WebP)` :
-                                `Original: ${(file.size / 1024).toFixed(1)} KB`;
-                            infoStr.classList.remove('hidden');
+                            dataTransfer.items.add(file);
+                            addGalleryPreview(file, galleryPreviews, false);
                         }
                     }
-                    reader.readAsDataURL(file);
-                }
 
-                function addGalleryPreview(file, container, isOptimized) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const div = document.createElement('div');
-                        div.className = 'relative w-20 h-20 border rounded overflow-hidden group';
-                        div.innerHTML = `
+                    // Update input with optimized files
+                    galleryInput.files = dataTransfer.files;
+                });
+            }
+
+            function showPreview(file, container, img, infoStr, isOptimized) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    container.classList.remove('hidden');
+                    if (infoStr) {
+                        infoStr.textContent = isOptimized ?
+                            `Optimized: ${(file.size / 1024).toFixed(1)} KB (WebP)` :
+                            `Original: ${(file.size / 1024).toFixed(1)} KB`;
+                        infoStr.classList.remove('hidden');
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+
+            function addGalleryPreview(file, container, isOptimized) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'relative w-20 h-20 border rounded overflow-hidden group';
+                    div.innerHTML = `
                             <img src="${e.target.result}" class="w-full h-full object-cover">
                             ${isOptimized ? '<div class="absolute bottom-0 inset-x-0 bg-green-500 text-white text-[10px] text-center">Optimized</div>' : ''}
                         `;
-                        container.appendChild(div);
-                    }
-                    reader.readAsDataURL(file);
+                    container.appendChild(div);
                 }
+                reader.readAsDataURL(file);
+            }
 
-                function processImage(file, callback) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const img = new Image();
-                        img.onload = function() {
-                            const canvas = document.createElement('canvas');
-                            let width = img.width;
-                            let height = img.height;
+            function processImage(file, callback) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
 
-                            if (width > MAX_WIDTH) {
-                                height = Math.round(height * (MAX_WIDTH / width));
-                                width = MAX_WIDTH;
-                            }
-
-                            canvas.width = width;
-                            canvas.height = height;
-
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, width, height);
-
-                            canvas.toBlob((blob) => {
-                                callback(blob);
-                            }, 'image/webp', 0.8);
+                        if (width > MAX_WIDTH) {
+                            height = Math.round(height * (MAX_WIDTH / width));
+                            width = MAX_WIDTH;
                         }
-                        img.src = event.target.result;
+
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob((blob) => {
+                            callback(blob);
+                        }, 'image/webp', 0.8);
                     }
-                    reader.readAsDataURL(file);
+                    img.src = event.target.result;
                 }
+                reader.readAsDataURL(file);
+            }
+            });
+            });
+
+            // Live Character Counters
+            document.addEventListener('DOMContentLoaded', function() {
+                const inputs = [{
+                        id: 'title',
+                        max: 255
+                    },
+                    {
+                        id: 'excerpt',
+                        max: 500
+                    },
+                    {
+                        id: 'meta_title',
+                        max: 60
+                    },
+                    {
+                        id: 'meta_description',
+                        max: 160
+                    }
+                ];
+
+                inputs.forEach(item => {
+                    const input = document.getElementById(item.id);
+                    const counter = document.getElementById(item.id + '_count');
+
+                    if (input && counter) {
+                        const updateCount = () => {
+                            const len = input.value.length;
+                            counter.textContent = len;
+
+                            // Visual highlighting
+                            if (len >= item.max) {
+                                counter.parentElement.classList.remove('text-gray-400', 'text-amber-500');
+                                counter.parentElement.classList.add('text-red-500');
+                                input.classList.add('border-red-300', 'bg-red-50');
+                            } else if (len >= item.max * 0.9) {
+                                counter.parentElement.classList.remove('text-gray-400', 'text-red-500');
+                                counter.parentElement.classList.add('text-amber-500');
+                                input.classList.remove('border-red-300', 'bg-red-50');
+                            } else {
+                                counter.parentElement.classList.remove('text-red-500', 'text-amber-500');
+                                counter.parentElement.classList.add('text-gray-400');
+                                input.classList.remove('border-red-300', 'bg-red-50');
+                            }
+                        };
+
+                        input.addEventListener('input', updateCount);
+                        // Init on load
+                        updateCount();
+                    }
+                });
             });
         </script>
     @endpush
